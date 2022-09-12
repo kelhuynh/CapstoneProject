@@ -1,6 +1,13 @@
 # Project Name
 
 Developer Names:
+    
+    Robert Zhu
+    Zifan Meng
+    Fred Zhu
+    Nafi Hasan
+    Emily Chen
+    Kelvin Huynh
 
 Date of project start:
 
