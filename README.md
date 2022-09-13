@@ -5,7 +5,7 @@ Developer Names:
     Robert Zhu
     Zifan Meng
     Fred Zhu
-    Nafi Hasan
+    Mirza Nafi Hasan
     Emily Chen
     Kelvin Huynh
 
