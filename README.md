@@ -6,7 +6,7 @@ Developer Names:
     Zifan Meng
     Fred Zhu
     Mirza Nafi Hasan
-    Emily Chen
+    Jiahui Chen
     Kelvin Huynh
 
 Date of project start:
