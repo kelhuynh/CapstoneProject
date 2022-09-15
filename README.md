@@ -9,8 +9,6 @@ Developer Names:
     Jiahui Chen
     Kelvin Huynh
 
-testing commit
-
 Date of project start:
 
 This project is ...
