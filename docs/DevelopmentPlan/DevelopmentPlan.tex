@@ -55,18 +55,19 @@ you will be able to overcome this risk?
 
 \section{Technology}
 
-\begin{itemize}
-\item Specific programming language
-\item Specific linter tool (if appropriate)
-\item Specific unit testing framework
-\item Investigation of code coverage measuring tools
-\item Specific plans for Continuous Integration (CI), or an explanation that CI
-  is not being done
-\item Specific performance measuring tools (like Valgrind), if
-  appropriate
-\item Libraries you will likely be using?
-\item Tools you will likely be using?
-\end{itemize}
+The coding for the project will be done in Python3 utilizing Flake8 as the linter 
+to ensure error-free and idiomatic code. Unit testing for the Python code will be done 
+through the use of the Pytest framework where various tests can be defined based on the 
+intended code functionality. The same framework of which can and will be used to generate 
+a measure of code coverage through the pytest-cov plugin. Continuous integration (CI) is 
+planned to be used to ensure that coding errors and bugs are detected within a reasonable 
+amount of time, however the specifics are to be determined as the group is unfamiliar with 
+implementing the concept at this time. Libraries that are currently planned for use include 
+OpenCV, Tensorflow, and Pyserial for serial communication with an Arduino board. Performance 
+measuring tools will be used appropriately as the need arises, but some examples would include 
+OpenCV\textquotesingle s getTickCount() and getTickFrequency() functions as well as Python\textquotesingle 
+s time.perf\textunderscore counter() function to track execution time of code. Additional tools 
+may be declared as the need arises.
 
 \section{Coding Standard}
 
