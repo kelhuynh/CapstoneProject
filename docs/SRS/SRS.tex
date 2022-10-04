@@ -17,7 +17,7 @@
 \usepackage{pdflscape}
 \usepackage{afterpage}
 \usepackage[none]{hyphenat}
-
+\usepackage[document]{ragged2e}
 \usepackage[round]{natbib}
 
 %\usepackage{refcheck}
@@ -130,7 +130,7 @@
 \title{Software Requirements Specification for \progname: subtitle describing software} 
 \author{Author Name(s)}
 \date{\today}
-	
+
 \maketitle
 
 ~\newpage
@@ -174,7 +174,7 @@ Term & Description\\
 \subsection{Purpose of Document}
 
 \subsection{Scope} 
-\subsubsection{In-Scope}
+\subsubsection{In-Scope} \label{sec_inScope}
 
 \subsubsection{Out-of-Scope}
 
@@ -261,7 +261,66 @@ habits and allow for manual correction for the future\\
 \section{Functional Requirement Change Likelihood}
 \subsection{Camera Functional Requirements}
 
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.15\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}}
+\toprule
+\textbf{Identifier} & \textbf{Likelihood of Change} & \textbf{Rationale} & \textbf{What May Be Changed}\\
+\midrule
+CFR1 
+& Unlikely
+& Input component of the system
+& Input may be changed to sensor instead of a camera\\
+\hline
+CFR2
+& Very unlikely
+& Enables testing and validation for the system
+& N/A\\
+\bottomrule
+\end{tabularx}
+
 \subsection{Machine Learning Functional Requirements}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.15\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}}
+\toprule
+\textbf{Identifier} & \textbf{Likelihood of Change} & \textbf{Rationale} & \textbf{What May Be Changed}\\
+\midrule
+MLFR1 
+& Very unlikely
+& Key processing component of the system
+& N/A\\
+\hline
+MLFR2 
+& Very unlikely
+& Enables testing and validation for the system
+& N/A\\
+\hline
+MLFR3 
+& Unlikely
+& Subject to time constraint. ML model accuracy may be sub-par for two hand input
+& Tracking might only be possible with one hand\\
+\hline
+MLFR4 
+& Unlikely
+& Subject to time constraint. Refer to \ref{sec_inScope}
+& Data processing in real-time may be difficult and delays might have to be used to ensure translation is as accurate is possible\\
+\hline
+MLFR5 
+& Very unlikely
+& Key processing component of the system
+& N/A\\
+\hline
+MLFR6 
+& Unlikely
+& Key implementation aspect. Refer to \ref{sec_inScope}
+& Dependent on the processing speed of the program. The speed at which a user can input sign language might be reduced consequently\\
+\hline
+MLFR7 
+& Likely
+& Key implementation aspect. But expandability of the program is subject to time constraint and memory required
+& The ML model may only accommodate a subset of ASL for the sake of time constraint and space saving\\
+\bottomrule
+\end{tabularx}
 
 \section{Non-functional Requirements}
 \subsection{Accuracy Requirement}
