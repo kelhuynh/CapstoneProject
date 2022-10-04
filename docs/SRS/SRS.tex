@@ -16,6 +16,7 @@
 \usepackage{caption}
 \usepackage{pdflscape}
 \usepackage{afterpage}
+\usepackage[none]{hyphenat}
 
 \usepackage[round]{natbib}
 
@@ -157,13 +158,13 @@ Date 2 & 1.1 & Notes\\
 \subsection{Terms, Abbreviations, and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{c|c}
+\noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|X}
 \toprule
 \textbf{Term, Abbreviation, or Acronym} & \textbf{Description}\\
 \midrule
 Term & Description\\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 
 \newpage
 
@@ -196,7 +197,66 @@ Term & Description\\
 \section{Functional Requirements}
 \subsection{Camera Functional Requirements}
 
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.4\linewidth}|p{0.4\linewidth}}
+\toprule
+\textbf{Identifier} & \textbf{Requirement} & \textbf{Rationale}\\
+\midrule
+CFR1 
+& User hand gestures should be recognized and converted into input for the system 
+& This is the primary and only way that the end user engages with the system. This is to ensure that 
+their signing is picked up by the camera within a certain degree of accuracy\\
+\hline
+CFR2
+& The camera must be able to relay its vision back to the program
+& This enables validation and testing on the development end. In addition to understanding what needs 
+to be corrected to ensure accurate user input\\
+\bottomrule
+\end{tabularx}
+
 \subsection{Machine Learning Functional Requirements}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.4\linewidth}|p{0.4\linewidth}}
+\toprule
+\textbf{Identifier} & \textbf{Requirement} & \textbf{Rationale}\\
+\midrule
+MLFR1 
+& The program should be able to recognize user hand joints
+& This enables the ML model to compare and match user hand gestures to ASL\\
+\hline
+MLFR2 
+& The program should output the x, y, and z coordinates of each joint relative to the camera
+& This will enable system calibration and aid in enhancing predictive accuracy as the training 
+data set will be primarily static images in contrast to the dynamic input from the end product\\
+\hline
+MLFR3 
+& The program should recognize up to two hands in the input
+& The complexity of sign language calls for two hands to enable effective communication. 
+Tracking one hand should also be considered as there are words in sign language that require the 
+use of a single hand\\
+\hline
+MLFR4 
+& The program should be able to process data in real-time
+& The translator should relay the relevant translation within a reasonable amount of time to ensure 
+conversation fluidity\\
+\hline
+MLFR5 
+& The program must be able to calibrate the camera
+& This is to ensure that the image being processed is undistorted and recognizable to the program 
+to prevent inaccuracies and incorrect output from the ML model\\
+\hline
+MLFR6 
+& The program should be calibrated to match the speed of the signer
+& The translator should be able to keep up with the user or the likelihood of a mistranslation will increase\\
+\hline
+MLFR7 
+& The ML model should be easily trainable
+& This is how the ML model should learn sign language to use in processing. Making it easily trainable should 
+enable expandability as well. In addition, this will enable the program to adapt to users\textquotesingle \ specific signing 
+habits and allow for manual correction for the future\\
+\bottomrule
+\end{tabularx}
 
 \section{Functional Requirement Change Likelihood}
 \subsection{Camera Functional Requirements}
