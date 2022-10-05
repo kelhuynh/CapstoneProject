@@ -146,7 +146,7 @@
 \begin{tabularx}{\textwidth}{p{4cm}p{2cm}X}
 \toprule {\bf Date  } & {\bf Version} & {\bf Notes}\\
 \midrule
-October 05, 2022 & 1.0 & Everyone\\
+October 05, 2022 & 1.0 & Everyone -> Initial SRS Draft\\
 
 \bottomrule
 \end{tabularx}
@@ -551,7 +551,7 @@ NFR5
 \midrule
 NFR6
 & The size of the ASL translator should be portable
-& SSince the ASL translator is used to support the daily communication of people who are hard of hearing, it should be carried easily by the users\\
+& Since the ASL translator is used to support the daily communication of people who are hard of hearing, it should be carried easily by the users\\
 \bottomrule
 \end{tabularx}
 
@@ -564,7 +564,9 @@ NFR6
 \midrule
 NFR7
 & Cultural requirement
-& As with language there are a variety of different forms of sign language that start from a common language, but over time different groups of people adapt to fit into their culture through variations of common English words. While it is unlikely to create a data set for every distinct variety of ASL for example, the machine learning function MLFR7 allows for easability in training for future updates to properly include differences in grammar and phonology\\
+& As with language there are a variety of different forms of sign language that start from a common language, but over time different groups of people 
+adapt to fit into their culture through variations of common English words. While it is unlikely to create a data set for every distinct variety of ASL for 
+example, the machine learning function MLFR7 allows for easability in training for future updates to properly include differences in grammar and phonology\\
 \bottomrule
 \end{tabularx}
 
@@ -626,10 +628,26 @@ have dabbled or work with TensorFlow regularly, this way you can figure out the 
 optimization techniques. The most ideal outcome would be to combine the use of these two approaches such that it is more applicable to the project.\\
 
 \textbf{Jiahui will be responsible for learning mediapipe (the framework for incorporating OpenCV to machine learning):}\\
-
 For the project, the ASL translator should be able to use the camera to detect the motion of the hands and translate 
 them into corresponding sentences, and technologies such as OpenCV and machine learning need to be involved to achieve 
 the goals.  Since the translator involves processing of video, which is time-series data, the framework Mediapipe will be 
-used for building machine learning pipelines to meet the needs. One of the advantages about the Mediapipe is that it can work on various platforms such as Desktop/Server, Android, iOS, Raspberry Pi etc. In particular Mediapipe Hands, which is a high-fidelity tracking solution for hand and finger will be adopted in the project. One of the approaches to acquire the knowledge of Mediapipe and machine learning is using the github website for Mediapipe, the website contains detailed information about the introduction, solution and tools for users who are new to Mediapipem and it is useful for beginners. In addition, many tutorial videos can also be found online to help learn the knowledge. Another approach to acquiring knowledge about machine learning is to ask professors who have a machine learning background. Online learning should be the main approach for learning Mediapipe, since it is difficult to find people who are professional in Mediapipe, and online tutorials are very detailed which can help solve most of the problems, and the study time can be flexible. Therefore, the online learning approach will be pursued for this project.
+used for building machine learning pipelines to meet the needs. One of the advantages about the Mediapipe is that it can work on various platforms such as Desktop/Server, 
+Android, iOS, Raspberry Pi etc. In particular Mediapipe Hands, which is a high-fidelity tracking solution for hand and finger will be adopted in the project. One of the 
+approaches to acquire the knowledge of Mediapipe and machine learning is using the github website for Mediapipe, the website contains detailed information about the 
+introduction, solution and tools for users who are new to Mediapipem and it is useful for beginners. In addition, many tutorial videos can also be found online to help 
+learn the knowledge. Another approach to acquiring knowledge about machine learning is to ask professors who have a machine learning background. Online learning should 
+be the main approach for learning Mediapipe, since it is difficult to find people who are professional in Mediapipe, and online tutorials are very detailed which can help 
+solve most of the problems, and the study time can be flexible. Therefore, the online learning approach will be pursued for this project.\\
+
+\textbf{Nafi will be responsible for learning Raspberry Pi:}\\
+For our project, we will be using a Raspberry Pi to translate the hand gestures into actual words using text to speech. Eventually, we
+would like to have our entire project on a Raspberry Pi for portability, but as a first step, we will be looking to connect our OpenCV 
+program to the Raspberry Pi. This will be the primary hardware component for our project. Combining software, and hardware components to 
+create something is a core principle of mechatronics engineering. Learning how to work with a Raspberry Pi will help us learn about both 
+hardware and software design and how both components interact and work with each other. One practical way to learn about Raspberry Pi would
+be to find tutorials online. Raspberry Pi has numerous tutorials for all sorts of projects online that may help with our project, or at least
+teach us more about how the board works. Another practical way to learn could be to ask people who have worked with or know about Raspberry 
+Pi boards. The main method will likely be online tutorials, mainly because it is the simplest way to learn. It may be difficult to find people
+who know how to help us with our specific project.\\
 
 \end{document}
