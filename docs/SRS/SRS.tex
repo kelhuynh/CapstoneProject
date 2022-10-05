@@ -327,6 +327,18 @@ The project is constrained by the following:
 
 \subsection{Assumptions}
 
+\subsection{Undesired Event Handling}
+In the case of any undesired event, the device should alert the user of the failure or error 
+that occurs. This will be crucial during testing as we will need it to ensure our project functions
+the way we would like it to. Some potential undesired events could include.
+\begin{itemize}
+    \item Camera error
+    \item Text-to-Speech failure
+    \item Faulty training models
+\end{itemize}
+More undesired events will be added as development continues
+
+
 \section{Context Diagrams}
 
 \begin{figure}[H] 
@@ -527,7 +539,7 @@ NFR6
 \bottomrule
 \end{tabularx}
 
-\subsection{Phase-in Plan}
+\section{Phase-in Plan}
 
 \renewcommand{\arraystretch}{1.2}
 \noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}}
