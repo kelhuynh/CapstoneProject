@@ -311,7 +311,7 @@ The project is constrained by the following:
   \begin{itemize}
     \item Training a machine learning model to encompass the entire ASL would be very time-inefficient for the time constraint of the project
   \end{itemize}
-  \item The project expenses cannot exceed \$750 CAD
+    \item The project expenses cannot exceed \$750 CAD
   \begin{itemize}
     \item Additionally the project cannot be an off-the-shelf solution and be cost-efficient to attain our goal of affordability
   \end{itemize}
@@ -321,11 +321,33 @@ The project is constrained by the following:
   \end{itemize}
   \item The area of detection is limited
   \begin{itemize}
-    \item Since there is only a specific field of view that can be detected by the camera, the users have to stand at the specific location to ensure the hand motion can be detected by the camera
+    \item Since there is only a specific field of view that can be detected by the camera, the users have to stand at the specific location 
+    to ensure the hand motion can be detected by the camera
   \end{itemize}
 \end{itemize}
 
 \subsection{Assumptions}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.4\linewidth}|p{0.4\linewidth}}
+\toprule
+\textbf{Identifier} & \textbf{Assumption} & \textbf{Rationale}\\
+\midrule
+A1 
+& Lighting will be sufficient enough for hand joint detection by camera 
+& The CV system will require a camera to detect motion. That camera must be able to see the user clearly, 
+which will require adequate lighting conditions\\
+\hline
+A2
+& The user is signing ASL and not any other sign language
+& The translator will only be able to recognize ASL and for such reasons will not recognize any other sign language 
+which could result in a mistranslation or inaccuracy\\
+\hline
+A3
+& The camera or the device containing the camera is portable
+& Since the ASL is invented to help daily activities, the camera that is used to detect the hand motion should be compact and light\\
+\bottomrule
+\end{tabularx}
 
 \subsection{Undesired Event Handling}
 In the case of any undesired event, the device should alert the user of the failure or error 
@@ -496,7 +518,6 @@ NFR1
 NFR2
 &The hand gestures of the users should be clear
 &In order for accurate translation by the ASL translator, the users should perform the sign language standardly and clearly\\
-
 \bottomrule
 \end{tabularx}
 
@@ -509,18 +530,15 @@ NFR2
 \midrule
 NFR3
 & Ease of use 
-& SThe device should be easy-to-use by the users, they should be able to use the translator directly since everything is preset.
-\\
+& SThe device should be easy-to-use by the users, they should be able to use the translator directly since everything is preset.\\
 \hline
 NFR4
 & Understandability
-& The instructions of the ASL translator should be clear and understandable by all the users.
- \\
+& The instructions of the ASL translator should be clear and understandable by all the users\\
 \hline
 NFR5
 & Update the database timely and easily
-& Since new English words appear every year, the database should be updated yearly within half an hour.\\
-
+& Since new English words appear every year, the database should be updated yearly within half an hour\\
 \bottomrule
 \end{tabularx}
 
@@ -533,9 +551,7 @@ NFR5
 \midrule
 NFR6
 & The size of the ASL translator should be portable
-& SSince the ASL translator is used to support the daily communication of people who are hard of hearing, it should be carried easily by the users.
-\\
-
+& SSince the ASL translator is used to support the daily communication of people who are hard of hearing, it should be carried easily by the users\\
 \bottomrule
 \end{tabularx}
 
@@ -544,7 +560,7 @@ NFR6
 \renewcommand{\arraystretch}{1.2}
 \noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}}
 \toprule
-\textbf{Identifier} & \textbf{Date to be Completed by} & \textbf{Objective} & \textbf{Description}\\
+\textbf{Date to be Completed by} & \textbf{Objective} & \textbf{Description}\\
 \midrule
 Oct, 31, 2022
 & Get OpenCV to recognize Hands
@@ -574,7 +590,6 @@ Feb, 28, 2023
 Raspberry Pi
 & We can begin to try and make the entire system portable 
 by moving it entirely to the Raspberry Pi\\
-
 \bottomrule
 \end{tabularx}
 
