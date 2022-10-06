@@ -31,8 +31,8 @@
     urlcolor=cyan           % color of external links
 }
 
-\input{../Comments}
-\input{../Common}
+\input{Comments}
+\input{Common}
 
 % For easy change of table widths
 \newcommand{\colZwidth}{1.0\textwidth}
@@ -448,6 +448,8 @@ More undesired events will be added as development continues
 &Tip of the little finger\\
 \bottomrule
 \end{tabularx}
+~\\
+Variables above are monitor variables for the left hand, monitor variables for the right hand are similar, the only difference is variable names have \_R at the end. For example, CMC joint of the thumb for the right hand is THUMB\_JOINT\_0\_R.
 
 \begin{figure}[H] 
 \centering
@@ -455,6 +457,24 @@ More undesired events will be added as development continues
 \caption{Hand Variables} 
 \label{Fig.Monitor_Variables} 
 \end{figure}
+
+\subsubsection{Controlled Variables}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.4\linewidth}|p{0.4\linewidth}}
+\toprule
+\textbf{Variable} & \textbf{Description}\\
+\midrule
+WRIST\_CAL 
+& Calibration point for wrist on the camera screen. The x, y, z location of this point must align with the x, y, z location of variable "WRIST" for successful calibration\\
+\hline
+INDEX\_JOINT\_0\_CAL
+& Calibration point for MCP joint of the index finger on the camera screen. The x, y, z location of this point must align with the x, y, z location of variable "INDEX\_JOINT\_0" for successful calibration\\
+\hline
+LITTLE\_JOINT\_0\_CAL
+& Calibration point for MCP joint of the little finger on the camera screen. The x, y, z location of this point must align with the x, y, z location of variable "LITTLE\_JOINT\_0" for successful calibration\\
+\bottomrule
+\end{tabularx}
 
 \section{Functional Requirements}
 \subsection{Camera Functional Requirements}
