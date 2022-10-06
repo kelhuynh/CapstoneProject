@@ -10,7 +10,7 @@
 \usepackage{longtable}
 \usepackage{xfrac}
 \usepackage{tabularx}
-\usepackage{float}
+\usepackage{appendix,float}
 \usepackage{siunitx}
 \usepackage{booktabs}
 \usepackage{caption}
@@ -31,8 +31,8 @@
     urlcolor=cyan           % color of external links
 }
 
-\input{Comments}
-\input{Common}
+\input{../Comments}
+\input{../Common}
 
 % For easy change of table widths
 \newcommand{\colZwidth}{1.0\textwidth}
@@ -367,7 +367,7 @@ More undesired events will be added as development continues
 
 \begin{figure}[H] 
 \centering
-\includegraphics[width=1\textwidth]{Context Diagram} 
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{Context Diagram} 
 \caption{Context Diagram} 
 \label{Fig.Context_Diagram} 
 \end{figure}
@@ -375,11 +375,12 @@ More undesired events will be added as development continues
 \section{Functional Decomposition}
 \subsection{Data Flow Model}
 
+\newpage
 \subsection{Monitor and Controlled Variables}
 
 \begin{figure}[H] 
 \centering
-\includegraphics[width=1\textwidth]{Hand.jpg} 
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{Hand.jpg} 
 \caption{Hand Variables} 
 \label{Fig.Hand_Variables} 
 \end{figure}
@@ -659,17 +660,23 @@ be the main approach for learning Mediapipe, since it is difficult to find peopl
 solve most of the problems, and the study time can be flexible. Therefore, the online learning approach will be pursued for this project.\\
 ~\\
 \textbf{Nafi will be responsible for learning Raspberry Pi:}\\
-For our project, we will be using a Raspberry Pi to translate the hand gestures into actual words using text to speech. Eventually, we
-would like to have our entire project on a Raspberry Pi for portability, but as a first step, we will be looking to connect our OpenCV 
-program to the Raspberry Pi. This will be the primary hardware component for our project. Combining software, and hardware components to 
-create something is a core principle of mechatronics engineering. Learning how to work with a Raspberry Pi will help us learn about both 
+For our project, we will be using a Raspberry Pi to translate the hand gestures into actual words using text to speech.Eventually, we
+would like to have our entire project on a Raspberry Pi for portability, but as a first step, we will be looking to connect our OpenCV
+program to the Raspberry Pi. This will be the primary hardware component for our project. Combining software, and hardware components to
+create something is a core principle of mechatronics engineering. Learning how to work with a Raspberry Pi will help us learn about both
 hardware and software design and how both components interact and work with each other. One practical way to learn about Raspberry Pi would
 be to find tutorials online. Raspberry Pi has numerous tutorials for all sorts of projects online that may help with our project, or at least
-teach us more about how the board works. Another practical way to learn could be to ask people who have worked with or know about Raspberry 
+teach us more about how the board works. Another practical way to learn could be to ask people who have worked with or know about Raspberry
 Pi boards. The main method will likely be online tutorials, mainly because it is the simplest way to learn. It may be difficult to find people
 who know how to help us with our specific project.\\
 ~\\
 \textbf{Zifan will be responsible for learning OpenCV:}\\
-The main function of this project is to use computer vision to process and recognize ASL, in order to use machine learning framework and build models, it is important to understand how OpenCV works. OpenCV is a cross-platform computer vision and machine learning software library, it consists of a series of C functions and a small number of C++ classes, it provides interfaces in languages ​​such as Python, Ruby, and MATLAB, and it can implement many general algorithms in image processing and computer vision. Some knowledge about image processing needs to be learned for understanding OpenCV, this involves the basics of linear algebra. digital image processing, signal processing, Fourier transform, wave function, etc. After that, one approach to learn OpenCV is to find online courses and tutorials, since OpenCV is an open source library and it is widely used, there are numerous resources about it, from theories to applications. Another approach can be communicating with people who are familiar with OpenCV, most people that work on CV use OpenCV, so it is not hard to find a professional. Both approaches will be used for this project, so that we can learn OpenCV efficiently.\\
+The main function of this project is to use computer vision to process and recognize ASL, in order to use machine learning framework and build models, it is important to 
+understand how OpenCV works. OpenCV is a cross-platform computer vision and machine learning software library, it consists of a series of C functions and a small number of
+C++ classes, it provides interfaces in languages such as Python, Ruby, and MATLAB, and it can implement many general algorithms in image processing and computer vision. 
+Some knowledge about image processing needs to be learned for understanding OpenCV, this involves the basics of linear algebra. digital image processing, signal processing, 
+Fourier transform, wave function, etc. After that, one approach to learn OpenCV is to find online courses and tutorials, since OpenCV is an open source library and it is
+widely used, there are numerous resources about it, from theories to applications. Another approach can be communicating with people who are familiar with OpenCV, most 
+people that work on CV use OpenCV, so it is not hard to find a professional. Both approaches will be used for this project, so that we can learn OpenCV efficiently.\\
 
 \end{document}
