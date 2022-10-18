@@ -98,6 +98,11 @@ Below is the FMEA table for the project.\\
 \hline
 \multicolumn{1}{|c|}{Component} & \multicolumn{1}{c|}{Failure Modes}          & \multicolumn{1}{c|}{Effects of Failure}          & \multicolumn{1}{c|}{Causes of Failure} & \multicolumn{1}{c|}{Recommended Action} & \multicolumn{1}{c|}{SR} & \multicolumn{1}{c|}{Ref.} \\
 \hline \endhead
+\hline
+\multicolumn{7}{r}{Continued on next page} \\
+\hline \endfoot
+\hline \endlastfoot
+
 \multirow[t]{5}{=}{Raspberry Pi}& Fail to output translated results           & The output is not properly displayed             & a. Code execution failure due to improper flashing to board & a. Reboot the board and ensure that the correct software and dependencies are loaded & & H1-1 \\ \cline{2-7}
                                 & \multirow[t]{4}{=}{Hardware failure (board)}& \multirow[t]{4}{=}{Raspberry Pi cannot function} & a. The board is not powered due to faulty power supply & a. Ensure that the board is properly plugged in. Use another power cable to verify that the board itself is not faulty. The raspberry pi is equipped with a polyfuse to prevent over-current. If the board does not power on after 24 hours, the fuse should be replaced. & a. HR1 & \multirow[t]{4}{=}{H1-2}\\ \cline{4-6}
                                 &                                             &                                                  & b. The software is corrupted & b. Remove the microSD card and ensure that the card is not corrupted using a computer. If it is corrupted, attempt to reformat the microSD card and write the software onto it again. & b. HR1 & \\ \cline{4-6}
