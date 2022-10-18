@@ -2,6 +2,13 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage[none]{hyphenat}
+\usepackage[document]{ragged2e}
+\usepackage{fullpage}
+\usepackage{tabu}
 
 \input{../Comments}
 \input{../Common}
@@ -36,6 +43,7 @@ Date2 & Name(s) & Description of changes\\
 \end{table}
 
 \newpage
+\textheight 9in
 
 \section{Introduction}
 
@@ -52,7 +60,7 @@ operation, hazard mitigation, and their respective safety requirements.\\
 
 \section{Definition of Hazard}
 
-The definition of a hazard is based on the definition from Nancy Leveson’s work. A hazard is a property or condition in the system along with a condition in the
+The definition of a hazard is based on the definition from Nancy Leveson\textquotesingle s work. A hazard is a property or condition in the system along with a condition in the
 environment that results in a loss. A hazard is anything that can cause our system to function incorrectly, or not function at all. In the ASL Translator, there
 exists only hazards that affect safety during operation.\\
 
@@ -61,9 +69,40 @@ exists only hazards that affect safety during operation.\\
 
 \section{Failure Modes and Effects Analysis}
 
+The hazard analysis tool being used is the Failure Modes and Effects Analysis (FMEA). This will enable hazard identification and analysis such that additional safety requirements can 
+be created and considered in the implementation of the project.\\
+
 \subsection{Hazards Out of Scope}
 
+The out of scope hazards for our project is primarily based on the user\textquotesingle s decision. This is because we do not have control over the following:\\
+\begin{itemize}
+    \item The camera that is to be used in conjunction with the system
+    \item The Raspberry Pi model and microSD card capacity being used
+\end{itemize}
+
+Both components listed above are essential to the functionality of the system. However, there is no enforcement on these aspects as the user may prefer something 
+less costly or more costly. The user\textquotesingle s decision towards these components may vary and can affect the overall performance of the system. Steps will be taken to minimize 
+the impact of the user\textquotesingle s choice in these categories such as ensuring backwards compatibility is possible with our implementation of code on the Raspberry Pi and camera 
+calibration methods.\\
+
 \subsection{Failure Modes and Effects Analysis Table}
+
+Below is the FMEA table for the project.\\
+
+\renewcommand{\arraystretch}{2}
+\hspace*{-1cm}\begin{longtabu} to \textwidth {|p{0.1\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.05\linewidth}|p{0.08\linewidth}|}\firsthline
+\toprule
+\multicolumn{1}{|c|}{Component} & \multicolumn{1}{c|}{Failure Modes}          & \multicolumn{1}{c|}{Effects of Failure}          & \multicolumn{1}{c|}{Causes of Failure} & \multicolumn{1}{c|}{Recommended Action} & \multicolumn{1}{c|}{SR} & \multicolumn{1}{c|}{Ref.} \\
+\hline \endfirsthead
+\toprule
+\multicolumn{1}{|c|}{Component} & \multicolumn{1}{c|}{Failure Modes}          & \multicolumn{1}{c|}{Effects of Failure}          & \multicolumn{1}{c|}{Causes of Failure} & \multicolumn{1}{c|}{Recommended Action} & \multicolumn{1}{c|}{SR} & \multicolumn{1}{c|}{Ref.} \\
+\hline \endhead
+\multirow[t]{3}{=}{Raspberry Pi}& Fail to output translated results           &                                                  &                                       &                                        &                        &                          \\ \cline{2-7}
+                                & \multirow[t]{2}{=}{Hardware failure (board)}& \multirow[t]{2}{=}{Raspberry Pi cannot function} & a. The board is not powered due to faulty power supply & a. Ensure that the board is properly plugged in. Use another power cable to verify that the board itself is not faulty. The raspberry pi is equipped with a polyfuse to prevent over-current. If the board does not power on after 24 hours, the fuse should be replaced. & a. HR1 & \multirow[t]{2}{=}{H1-2}\\ \cline{4-6}
+                                &                                             &                                                  & b. The software is corrupted & b. Remove the microSD card and ensure that the card is not corrupted using a computer. If it is corrupted, attempt to reformat the microSD card and write the software onto it again. & b. HR1 & \\ \hline
+\multirow[t]{2}{=}{Raspberry Pi}& \multirow[t]{2}{=}{Hardware failure (board)}& \multirow[t]{2}{=}{Raspberry Pi cannot function} & c. The board is faulty or defective & c. Attempt to run the software on an identical model using the same cables, microSD card, and peripherals. If the software works, then the existing board is faulty and should be replaced. Otherwise, test using the newer components until the problem is isolated. & c. HR1 & \multirow[t]{2}{=}{H1-2}\\ \cline{4-6}
+                                &                                             &                                                  & d. The microSD card cannot be read & d. Same as H1-2b & d. HR1                       & \\ \hline                       
+\end{longtabu}\hspace*{-1cm}
 
 \section{Safety Requirements}
 \subsection{Requirement Category 1}
