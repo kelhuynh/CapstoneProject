@@ -54,9 +54,19 @@ sign language in an educational setting.\\
 \section{Scope and Purpose}
 
 The purpose of this document is to identify hazards that may occur when using the ASL Translator specifically in the components, their causes and consequences on user 
-operation, hazard mitigation, and their respective safety requirements.\\
+operation, hazard mitigation, and their respective requirements.\\
 
 \section{System Boundaries}
+
+The device being referred to in the hazard analysis consists of the following components:
+
+1. A Raspberry Pi\\
+2. A camera\\
+3. A machine learning model for ASL\\
+4. A hand tracking script\\
+
+The system boundaries include the raspberry pi, its machine learning model and hand tracking script, and the camera. Despite the choice of raspberry pi model and camera model being influenced by the user and out of control of the developers, it is important to include these components as they are core to the system’s operation. Therefore, a hazard analysis on these components will still be included.
+
 
 \section{Definition of Hazard}
 
