@@ -72,10 +72,11 @@ The system boundaries include the raspberry pi, its machine learning model and h
 
 The definition of a hazard is based on the definition from Nancy Leveson\textquotesingle s work. A hazard is a property or condition in the system along with a condition in the
 environment that results in a loss. A hazard is anything that can cause our system to function incorrectly, or not function at all. In the ASL Translator, there
-exists only hazards that affect safety during operation.\\
+exists only hazards that affect the proper and intended operation of the device.\\
 
 
 \section{Critical Assumptions}
+At this time, there are no critical assumptions to be made.
 
 \section{Failure Modes and Effects Analysis}
 
@@ -118,7 +119,7 @@ Below is the FMEA table for the project.\\
                                 &                                             &                                                  & b. The software is corrupted & b. Remove the microSD card and ensure that the card is not corrupted using a computer. If it is corrupted, attempt to reformat the microSD card and write the software onto it again. & b. HR1 & \\ \cline{4-6}
                                 &                                             &                                                  & c. The board is faulty or defective & c. Attempt to run the software on an identical model using the same cables, microSD card, and peripherals. If the software works, then the existing board is faulty and should be replaced. Otherwise, test using the newer components until the problem is isolated. & c. HR1 & \\ \cline{4-6}
                                 &                                             &                                                  & d. The microSD card cannot be read & d. Same as H1-2b & d. HR1                       & \\ \hline
-\multirow[t]{1}{=}{Camera}      & \multirow[t]{1}{=}{Failing to detect motion}& \multirow[t]{1}{=}{Device is unable to detect or translate sign language} & a. Poor lighting conditions & a. Ensure the lighting condition in the working environment is sufficient. This will enable the camera to get sufficient light exposure to recognize hand motions. &              & \multirow[t]{1}{=}{H2-1}\\ \hline
+\multirow[t]{1}{=}{Camera}      & \multirow[t]{1}{=}{Failing to detect motion}& \multirow[t]{1}{=}{Device is unable to detect or translate sign language} & a. Poor lighting conditions & a. Ensure the lighting condition in the working environment is sufficient. This will enable the camera to get sufficient light exposure to recognize hand motions. & ER1 & \multirow[t]{1}{=}{H2-1}\\ \hline
 \multirow[t]{3}{=}{Camera}      & \multirow[t]{1}{=}{Failing to detect motion}& \multirow[t]{1}{=}{Device is unable to detect or translate sign language} & b. Unclear hand gestures by the user & b. The user should make a slightly bigger hand gesture to ensure that the camera is picking the motion. If the problem persists, refer to H2-2a &            & \multirow[t]{1}{=}{H2-1}\\ \cline{2-7}
                                 & \multirow[t]{2}{=}{Hardware failure}        & \multirow[t]{2}{=}{Device is unable to detect or translate sign language} & a. Issues with the lenses & a. Ensure that the camera lenses are not clouded by debris and recalibrate the camera. If the problem persists, replace the lenses. & a. HR2 & \multirow[t]{2}{=}{H2-2}\\\cline{4-6}
                                 &                                             &                                                  & b. Electrical power issues & b. Make sure that the camera is properly plugged into the system. Test the camera on another device such as a PC, and if the camera is functional. Test the power supply of the board. Refer to H1-2a for power supply testing. & b. HR2 & \\ \hline
@@ -134,6 +135,8 @@ Below is the FMEA table for the project.\\
 \subsection{Hardware Requirement}
 HR1: The Raspberry Pi board should be checked and tested before using it in the project.\\
 HR2: The camera should be checked before each use to ensure the lenses are clean and working properly.
+\subsection{Environment Requirement}
+ER1: Ensure there is adequate lighting so the camera can detect and translate the hand motions.
 \subsection{Machine Learning Requirement}
 MLR1: Dataset should be properly chosen and verified, sufficient amount of data should be included in the dataset. Preprocessing should be done on the dataset for standardization and normalization.\\
 MLR2: ML model should be properly chosen and tested, parameters optimization should be done for balanced results and optimized performance.
