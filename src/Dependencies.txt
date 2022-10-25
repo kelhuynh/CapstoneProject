@@ -1,0 +1,17 @@
+This txt file will contain information on the required dependencies to run the following scripts:
+
+Python 3 is required.
+
+1. HandTrack.py
+
+    Requires OpenCV and mediapipe to be installed. These libraries can be installed by running the following commands in console.
+
+    pip install mediapipe
+    pip install cv2
+
+2. ML_Model.py
+
+    Requires Tensorflow and Tensorflow GPU. These libraries can be installed by running the following commands in console.
+
+    pip install tensorflow
+    pip install tensorflow_gpu
