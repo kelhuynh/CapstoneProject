@@ -1,4 +1,4 @@
-# Project Name Source Code
+# OpenASL source code
 
 The folders and files for this project are as follows:
 
