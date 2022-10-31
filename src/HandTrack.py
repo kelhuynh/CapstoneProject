@@ -1,5 +1,7 @@
 import cv2
 import mediapipe as mp
+import os
+import numpy as np
 
 
 class Track:
@@ -89,3 +91,80 @@ class Track:
                     continue
                 for hand_world_landmarks in results.multi_hand_world_landmarks:
                     self.mp_drawing.plot_landmarks(hand_world_landmarks, self.mp_hands.HAND_CONNECTIONS, azimuth=5)
+
+    def imageProcess(self, path):
+        img = cv2.imread(path)
+        img_To_RGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img_Flip = cv2.flip(img_To_RGB, 1)
+
+        with self.mp_hands(
+                static_image_mode=True,
+                max_num_hands=2,
+                min_detection_confidence=0.7) as hands:
+
+            output = hands.process(img_Flip)
+
+            hands.close()
+
+        try:
+            data = output.multi_hand_landmarks[0]
+            data = str(data)
+            data = data.strip().split('\n')
+
+            garbage = ['Landmark {', ' visibility: 0.0', ' presence: 0.0', '}']
+            no_garbage = []
+
+            for i in data:
+                if i not in garbage:
+                    no_garbage.append(i)
+
+            clean = []
+
+            for i in no_garbage:
+                i = i.strip()
+                clean.append(i[2:])
+
+            for i in range(0, len(clean)):
+                clean[i] = float(clean[i])
+
+            return ([clean])
+
+        except Exception as ex:
+            print("Exception in imageProcess: ", ex)
+            return (np.zeros([1, 63], dtype=int)[0])
+
+    def makeCSV(self, path):
+        file_name = open('dataset.csv', 'a')
+
+        for folder in os.listdir(path):
+            if '._' in folder:
+                pass
+            else:
+                for number in os.listdir(path + '/' + folder):
+                    if '._' in number:
+                        pass
+                    else:
+                        label = folder
+                        file_location = path + '/' + folder + '/' + number
+
+                        data = self.imageProcess(file_location)
+
+                        try:
+                            for i in data:
+                                file_name.write(str(i))
+                                file_name.write(',')
+
+                            file_name.write(label)
+                            file_name.write('\n')
+
+                        except Exception as ex:
+                            print("Exception in makeCSV: ", ex)
+
+                            file_name.write('0')
+                            file_name.write(',')
+
+                            file_name.write('None')
+                            file_name.write('\n')
+
+        file_name.close()
+        print('Data added to csv')
