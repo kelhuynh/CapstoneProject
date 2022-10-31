@@ -34,13 +34,19 @@ class Track:
                 image.flags.writeable = True
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                 if results.multi_hand_landmarks:
-                    for hand_landmarks in results.multi_hand_landmarks:
+                    for hand_no, hand_landmarks in enumerate(results.multi_hand_landmarks):
                         self.mp_drawing.draw_landmarks(
                             image,
                             hand_landmarks,
                             self.mp_hands.HAND_CONNECTIONS,
                             self.mp_drawing_styles.get_default_hand_landmarks_style(),
                             self.mp_drawing_styles.get_default_hand_connections_style())
+                        print(f'HAND NO.: {hand_no+1}')
+                        print("----------------------")
+                        for point in self.mp_hands.HandLandmark:  # Gives normalized coordinates for hand landmark
+                            normalized_landmark = hand_landmarks.landmark[point]
+                            print(point)
+                            print(normalized_landmark)
 
                 cv2.imshow('Hand Tracking', cv2.flip(image, 1))
                 if cv2.waitKey(5) & 0xFF == 27:  # Continuous feed until esc is pressed
@@ -64,13 +70,13 @@ class Track:
                     continue
                 image_height, image_width, _ = image.shape
                 annotated_image = image.copy()
-                for hand_landmarks in results.multi_hand_landmarks:
-                    print("Landmarks:", hand_landmarks)
-                    print(
-                        'Index finger tip coordinates: (',
-                        f'{hand_landmarks.landmark[self.mp_hands.HandLandmark.INDEX_FINGER_TIP].x * image_width}, '
-                        f'{hand_landmarks.landmark[self.mp_hands.HandLandmark.INDEX_FINGER_TIP].y * image_height})'
-                    )
+                for hand_no, hand_landmarks in enumerate(results.multi_hand_landmarks):  # TODO export normalized coordinates to .csv for dataset
+                    print(f'HAND NO.: {hand_no+1}')
+                    print("----------------------")
+                    for point in self.mp_hands.HandLandmark:
+                        normalized_landmark = hand_landmarks.landmark[point]
+                        print(normalized_landmark)
+
                 self.mp_drawing.draw_landmarks(
                     annotated_image,
                     hand_landmarks,
