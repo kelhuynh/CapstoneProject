@@ -1,23 +1,30 @@
 import cv2
 import mediapipe as mp
+import numpy as np
 import copy
 import itertools
 import csv
 from collections import deque
+from model import KeyPointClassifier
 
 
 class Track:
 
-    def __init__(self):
+    def __init__(self, use_brect):
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
         self.mp_hands = mp.solutions.hands
         self.IMAGE_FILES = []
+        self.use_brect = use_brect
         history_len = 16
         self.point_history = deque(maxlen=history_len)
         self.landmark_list = []
         self.num = 0
         self.mode = 0
+        self.keypoint_classifier = KeyPointClassifier()
+        with open('model/keypoint_classifier/keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
+            self.keypoint_classifier_labels = csv.reader(f)
+            self.keypoint_classifier_labels = [row[0] for row in self.keypoint_classifier_labels]
 
     def motionTrack(self):
         cap = cv2.VideoCapture(0)
@@ -54,8 +61,9 @@ class Track:
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
                 if results.multi_hand_landmarks:
-                    for hand_landmarks, handedness in zip(results.multi_hand_landmarks, results.multihandedness):
+                    for hand_landmarks, handedness in zip(results.multi_hand_landmarks, results.multi_handedness):
 
+                        brect = self.__calc_bounding_rect(debug_image, hand_landmarks)
                         # Normalize Joint Coordinates
                         self.landmark_list = self.__calc_landmark_list(image, hand_landmarks)
                         pre_processed_landmark_list = self.__pre_process_landmark(self.landmark_list)
@@ -64,11 +72,22 @@ class Track:
                         # Dataset Generation
                         self.__makeCSV(self.num, self.mode, pre_processed_landmark_list, pre_processed_point_history_list)
 
+                        # Draw joints
+                        hand_sign_id = self.keypoint_classifier(pre_processed_landmark_list)
+
+                        debug_image = self.__draw_bounding_rect(self.use_brect, debug_image, brect)
+                        debug_image = self.__draw_landmarks(debug_image, self.landmark_list)
+                        debug_image = self.__draw_info_text(debug_image, brect, handedness, self.keypoint_classifier_labels[hand_sign_id])
+
+                else:
+                    self.point_history.append([0, 0])
+
                 cv2.imshow('Hand Tracking', debug_image)
 
         cap.release()
+        cv2.destroyAllWindows()
 
-    def __sel_mode(key, mode):
+    def __sel_mode(self, key, mode):
         num = -1
         if 48 <= key <= 57:  # 0 ~ 9
             num = key - 48
@@ -79,6 +98,23 @@ class Track:
         if key == 104:  # h
             mode = 2
         return num, mode
+
+    def __calc_bounding_rect(self, image, landmarks):
+        image_width, image_height = image.shape[1], image.shape[0]
+
+        landmark_array = np.empty((0, 2), int)
+
+        for _, landmark in enumerate(landmarks.landmark):
+            landmark_x = min(int(landmark.x * image_width), image_width - 1)
+            landmark_y = min(int(landmark.y * image_height), image_height - 1)
+
+            landmark_point = [np.array((landmark_x, landmark_y))]
+
+            landmark_array = np.append(landmark_array, landmark_point, axis=0)
+
+        x, y, w, h = cv2.boundingRect(landmark_array)
+
+        return [x, y, x + w, y + h]
 
     def __calc_landmark_list(self, image, landmarks):
         image_width, image_height = image.shape[1], image.shape[0]
@@ -141,7 +177,7 @@ class Track:
 
         return temp_point_history
 
-    def __makeCSV(number, mode, landmark_list, point_history_list):
+    def __makeCSV(self, number, mode, landmark_list, point_history_list):
         if mode == 0:
             pass
         if mode == 1 and (0 <= number <= 9):
@@ -155,3 +191,145 @@ class Track:
                 writer = csv.writer(f)
                 writer.writerow([number, *point_history_list])
         return
+
+    def __draw_bounding_rect(self, use_brect, image, brect):
+        if use_brect:
+            # Outer rectangle
+            cv2.rectangle(image, (brect[0], brect[1]), (brect[2], brect[3]), (0, 0, 0), 1)
+
+        return image
+
+    def __draw_landmarks(self, image, landmark_point):
+        if len(landmark_point) > 0:
+            # Thumb
+            cv2.line(image, tuple(landmark_point[2]), tuple(landmark_point[3]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[2]), tuple(landmark_point[3]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[3]), tuple(landmark_point[4]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[3]), tuple(landmark_point[4]), (255, 0, 0), 2)
+
+            # Index finger
+            cv2.line(image, tuple(landmark_point[5]), tuple(landmark_point[6]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[5]), tuple(landmark_point[6]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[6]), tuple(landmark_point[7]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[6]), tuple(landmark_point[7]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[7]), tuple(landmark_point[8]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[7]), tuple(landmark_point[8]), (255, 0, 0), 2)
+
+            # Middle finger
+            cv2.line(image, tuple(landmark_point[9]), tuple(landmark_point[10]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[9]), tuple(landmark_point[10]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[10]), tuple(landmark_point[11]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[10]), tuple(landmark_point[11]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[11]), tuple(landmark_point[12]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[11]), tuple(landmark_point[12]), (255, 0, 0), 2)
+
+            # Ring finger
+            cv2.line(image, tuple(landmark_point[13]), tuple(landmark_point[14]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[13]), tuple(landmark_point[14]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[14]), tuple(landmark_point[15]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[14]), tuple(landmark_point[15]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[15]), tuple(landmark_point[16]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[15]), tuple(landmark_point[16]), (255, 0, 0), 2)
+
+            # Pinky
+            cv2.line(image, tuple(landmark_point[17]), tuple(landmark_point[18]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[17]), tuple(landmark_point[18]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[18]), tuple(landmark_point[19]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[18]), tuple(landmark_point[19]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[19]), tuple(landmark_point[20]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[19]), tuple(landmark_point[20]), (255, 0, 0), 2)
+
+            # Palm
+            cv2.line(image, tuple(landmark_point[0]), tuple(landmark_point[1]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[0]), tuple(landmark_point[1]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[1]), tuple(landmark_point[2]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[1]), tuple(landmark_point[2]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[2]), tuple(landmark_point[5]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[2]), tuple(landmark_point[5]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[5]), tuple(landmark_point[9]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[5]), tuple(landmark_point[9]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[9]), tuple(landmark_point[13]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[9]), tuple(landmark_point[13]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[13]), tuple(landmark_point[17]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[13]), tuple(landmark_point[17]), (255, 0, 0), 2)
+            cv2.line(image, tuple(landmark_point[17]), tuple(landmark_point[0]), (0, 0, 0), 6)
+            cv2.line(image, tuple(landmark_point[17]), tuple(landmark_point[0]), (255, 0, 0), 2)
+
+        # Key Points
+        for index, landmark in enumerate(landmark_point):
+            if index == 0:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 1:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 2:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 3:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 4:
+                cv2.circle(image, (landmark[0], landmark[1]), 8, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 8, (0, 0, 0), 1)
+            if index == 5:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 6:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 7:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 8:
+                cv2.circle(image, (landmark[0], landmark[1]), 8, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 8, (0, 0, 0), 1)
+            if index == 9:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 10:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 11:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 12:
+                cv2.circle(image, (landmark[0], landmark[1]), 8, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 8, (0, 0, 0), 1)
+            if index == 13:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 14:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 15:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 16:
+                cv2.circle(image, (landmark[0], landmark[1]), 8, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 8, (0, 0, 0), 1)
+            if index == 17:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 18:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 19:
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+            if index == 20:
+                cv2.circle(image, (landmark[0], landmark[1]), 8, (255, 255, 0), -1)
+                cv2.circle(image, (landmark[0], landmark[1]), 8, (0, 0, 0), 1)
+
+        return image
+
+    def __draw_info_text(self, image, brect, handedness, hand_sign_text):
+        cv2.rectangle(image, (brect[0], brect[1]), (brect[2], brect[1] - 22), (0, 0, 0), -1)
+
+        info_text = handedness.classification[0].label[0:]
+
+        if hand_sign_text != "":
+            info_text = info_text + ':' + hand_sign_text
+        cv2.putText(image, info_text, (brect[0] + 5, brect[1] - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+
+        return image

@@ -1,5 +1,5 @@
 from HandTrack import Track
 
 
-handTrack = Track()
+handTrack = Track(True)
 handTrack.motionTrack()
