@@ -1,5 +1,9 @@
 import cv2
 import mediapipe as mp
+import copy
+import itertools
+import csv
+from collections import deque
 
 
 class Track:
@@ -9,6 +13,11 @@ class Track:
         self.mp_drawing_styles = mp.solutions.drawing_styles
         self.mp_hands = mp.solutions.hands
         self.IMAGE_FILES = []
+        history_len = 16
+        self.point_history = deque(maxlen=history_len)
+        self.landmark_list = []
+        self.num = 0
+        self.mode = 0
 
     def motionTrack(self):
         cap = cv2.VideoCapture(0)
@@ -18,74 +27,131 @@ class Track:
                 min_tracking_confidence=0.5) as hands:
 
             while cap.isOpened():
+
+                key = cv2.waitKey(10)
+                if key == 27:
+                    break
+                self.num, self.mode = self.__sel_mode(key, self.mode)
+
                 success, image = cap.read()  # Success = feed established
                 if not success:
                     print("Empty camera frame")
                     continue
 
                 # Performance Optimization
+                image = cv2.flip(image, 1)
+                debug_image = copy.deepcopy(image)
+
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
                 image.flags.writeable = False
-                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
                 results = hands.process(image)
 
                 # Draw Hand joints
 
                 image.flags.writeable = True
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-                if results.multi_hand_landmarks:
-                    for hand_no, hand_landmarks in enumerate(results.multi_hand_landmarks):
-                        self.mp_drawing.draw_landmarks(
-                            image,
-                            hand_landmarks,
-                            self.mp_hands.HAND_CONNECTIONS,
-                            self.mp_drawing_styles.get_default_hand_landmarks_style(),
-                            self.mp_drawing_styles.get_default_hand_connections_style())
-                        print(f'HAND NO.: {hand_no+1}')
-                        print("----------------------")
-                        for point in self.mp_hands.HandLandmark:  # Gives normalized coordinates for hand landmark
-                            normalized_landmark = hand_landmarks.landmark[point]
-                            print(point)
-                            print(normalized_landmark)
 
-                cv2.imshow('Hand Tracking', cv2.flip(image, 1))
-                if cv2.waitKey(5) & 0xFF == 27:  # Continuous feed until esc is pressed
-                    break
+                if results.multi_hand_landmarks:
+                    for hand_landmarks, handedness in zip(results.multi_hand_landmarks, results.multihandedness):
+
+                        # Normalize Joint Coordinates
+                        self.landmark_list = self.__calc_landmark_list(image, hand_landmarks)
+                        pre_processed_landmark_list = self.__pre_process_landmark(self.landmark_list)
+                        pre_processed_point_history_list = self.__pre_process_point_history(debug_image, self.point_history)
+
+                        # Dataset Generation
+                        self.__makeCSV(self.num, self.mode, pre_processed_landmark_list, pre_processed_point_history_list)
+
+                cv2.imshow('Hand Tracking', debug_image)
 
         cap.release()
 
-    def imageDraw(self, image_files):  # To be used for dataset creation
-        self.IMAGE_FILES = image_files
-        with self.mp_hands.Hands(
-                static_image_mode=True,
-                max_num_hands=2,
-                min_detection_confidence=0.5) as hands:
+    def __sel_mode(key, mode):
+        num = -1
+        if 48 <= key <= 57:  # 0 ~ 9
+            num = key - 48
+        if key == 110:  # n
+            mode = 0
+        if key == 107:  # k
+            mode = 1
+        if key == 104:  # h
+            mode = 2
+        return num, mode
 
-            for index, file in enumerate(self.IMAGE_FILES):
-                image = cv2.flip(cv2.imread(file), 1)  # Flip image to match correct handedness
-                results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+    def __calc_landmark_list(self, image, landmarks):
+        image_width, image_height = image.shape[1], image.shape[0]
 
-                print("Handedness:", results.multi_handedness)
-                if not results.multi_hand_landmarks:
-                    continue
-                image_height, image_width, _ = image.shape
-                annotated_image = image.copy()
-                for hand_no, hand_landmarks in enumerate(results.multi_hand_landmarks):  # TODO export normalized coordinates to .csv for dataset
-                    print(f'HAND NO.: {hand_no+1}')
-                    print("----------------------")
-                    for point in self.mp_hands.HandLandmark:
-                        normalized_landmark = hand_landmarks.landmark[point]
-                        print(normalized_landmark)
+        landmark_point = []
 
-                self.mp_drawing.draw_landmarks(
-                    annotated_image,
-                    hand_landmarks,
-                    self.mp_hands.HAND_CONNECTIONS,
-                    self.mp_drawing_styles.get_default_hand_landmarks_style(),
-                    self.mp_drawing_styles.get_default_hand_connections_style())
-                cv2.imwrite('/tmp/annotated_image' + str(index) + '.png', cv2.flip(annotated_image, 1))
+        # Keypoint
+        for _, landmark in enumerate(landmarks.landmark):
+            landmark_x = min(int(landmark.x * image_width), image_width - 1)
+            landmark_y = min(int(landmark.y * image_height), image_height - 1)
+            # landmark_z = landmark.z
 
-                if not results.multi_hand_world_landmarks:
-                    continue
-                for hand_world_landmarks in results.multi_hand_world_landmarks:
-                    self.mp_drawing.plot_landmarks(hand_world_landmarks, self.mp_hands.HAND_CONNECTIONS, azimuth=5)
+            landmark_point.append([landmark_x, landmark_y])
+
+        return landmark_point
+
+    def __pre_process_landmark(self, landmark_list):
+        temp_landmark_list = copy.deepcopy(landmark_list)
+
+        # Convert to relative coordinates
+        base_x, base_y = 0, 0
+        for index, landmark_point in enumerate(temp_landmark_list):
+            if index == 0:
+                base_x, base_y = landmark_point[0], landmark_point[1]
+
+            temp_landmark_list[index][0] = temp_landmark_list[index][0] - base_x
+            temp_landmark_list[index][1] = temp_landmark_list[index][1] - base_y
+
+        # Convert to a one-dimensional list
+        temp_landmark_list = list(
+            itertools.chain.from_iterable(temp_landmark_list))
+
+        # Normalization
+        max_value = max(list(map(abs, temp_landmark_list)))
+
+        def normalize_(n):
+            return n / max_value
+
+        temp_landmark_list = list(map(normalize_, temp_landmark_list))
+
+        return temp_landmark_list
+
+    def __pre_process_point_history(self, image, point_history):
+        image_width, image_height = image.shape[1], image.shape[0]
+
+        temp_point_history = copy.deepcopy(point_history)
+
+        # Convert to relative coordinates
+        base_x, base_y = 0, 0
+        for index, point in enumerate(temp_point_history):
+            if index == 0:
+                base_x, base_y = point[0], point[1]
+
+            temp_point_history[index][0] = (temp_point_history[index][0] - base_x) / image_width
+            temp_point_history[index][1] = (temp_point_history[index][1] - base_y) / image_height
+
+        # Convert to a one-dimensional list
+        temp_point_history = list(
+            itertools.chain.from_iterable(temp_point_history))
+
+        return temp_point_history
+
+    def __makeCSV(number, mode, landmark_list, point_history_list):
+        if mode == 0:
+            pass
+        if mode == 1 and (0 <= number <= 9):
+            csv_path = 'model/keypoint_classifier/keypoint.csv'
+            with open(csv_path, 'a', newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow([number, *landmark_list])
+        if mode == 2 and (0 <= number <= 9):
+            csv_path = 'model/point_history_classifier/point_history.csv'
+            with open(csv_path, 'a', newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow([number, *point_history_list])
+        return
