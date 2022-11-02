@@ -195,50 +195,137 @@ The software will be validated through blackbox and white box  testing. The whit
 \wss{Include a blurb here to explain why the subsections below
   cover the requirements.  References to the SRS would be good.}
 
-\subsubsection{Area of Testing1}
-
-\wss{It would be nice to have a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good.  If a section
-  covers tests for input constraints, you should reference the data constraints
-  table in the SRS.}
+\subsubsection{Camera}
 		
-\paragraph{Title for Test}
-
+%\paragraph{Title for Test}
+  
 \begin{enumerate}
-
-\item{test-id1\\}
-
-Control: Manual versus Automatic
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Control: Manual versus Automatic
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-How test will be performed: 
-
+  
+\item{TC-CFR1: Camera Detection\\}
+  
+Control: Manual, Dynamic, Functional
+            
+Initial State: Camera is placed in front of the user
+            
+Input: User performs hand gestures
+            
+Output: Send the image to the algorithm and it is recognized.
+  
+Test Case Derivation: The image will be processed and translated into its corresponding hand gesture
+            
+How test will be performed: The tester uses a variety of different gestures in sequence that the algorithm has learned
+  
 \end{enumerate}
-
-\subsubsection{Area of Testing2}
-
-...
+  
+\subsubsection{Machine Learning}
+  
+\begin{enumerate}
+  
+\item{TC-MLFR1: Joint recognition\\}
+  
+Control: Manual, Dynamic, Functional
+              
+Initial State: Camera is placed in front of the user
+              
+Input: User performs hand gestures
+              
+Output: User\textquotesingle \s hand gesture with joint lines overlaid on top
+    
+Test Case Derivation: The system is able to capture the camera\textquotesingle \s vision by recognizing the joints on the user\textquotesingle \s hand 
+    
+How test will be performed: The tester will raise their hand to the camera in any orientation following ASL phrases/words
+  
+\item{TC-MLFR2: Display coordinates in space\\}
+  
+Control: Manual, Dynamic, Functional
+              
+Initial State: Camera is placed in front of the user
+              
+Input: User performs hand gestures
+              
+Output: Displays the x,y,z coordinates of each joint relative to the camera
+    
+Test Case Derivation: These system uses these coordinates to calibrate and enhance predictive accuracy
+    
+How test will be performed: The tester will use any type of hand motion with both hands and compare the results of each joint to the displayed coordinates over each iteration of the algorithm
+  
+\item{TC-MLFR3: Detecting multiple pairs of hands\\}
+  
+Control: Manual, Dynamic, Functional
+              
+Initial State: Camera is placed in front of the user
+              
+Input: User will place two hands in front of the camera
+              
+Output: Both hands will have joints overlaid on top and following movement
+    
+Test Case Derivation: These system uses these coordinates to calibrate and enhance predictive accuracy
+    
+How test will be performed: The user/tester will raise both their hands in front of the camera
+  
+\item{TC-MLFR4: Detecting multiple pairs of hands\\}
+  
+Control: Manual, Dynamic, Functional
+              
+Initial State: Multiple users are standing in front of the camera
+              
+Input: Multiple pairs of hands will be placed for detection
+              
+Output: The system will tell the user that it is detecting more than one pair of hands and stop tracking
+    
+   Case Derivation: The system is created for a single user, thus multiple users are not supported for translation at the same time
+    
+How test will be performed: More than 2 hands will perform multiple signs at the same time in front of the camera performing any type of gesture
+  
+\item{TC-MLFR5: Trainable Model\\}
+  
+Control: Manual, Dynamic, Functional
+              
+Initial State: User input is labeled incorrectly
+              
+Input: User will press a key to enter learning mode, a second key to identify the classifier to be retrained, a third key repeatedly while changing hand positions to store the coordinates of the correct gesture into the dataset, and a fourth key to exit learning mode and start the model retraining process with the new data points
+              
+Output: When the user signs in front of the camera again, the model should be updated and classify the previously unknown sign correctly
+    
+Test Case Derivation: The system should be enabled for expandability to increase its vocabulary and adapt to users\textquotesingle \ habits
+    
+How test will be performed: Sign a word that is not in the dataset to create a new classifier
+  
+\end{enumerate}
+  
+\subsubsection{Real-time Data Processing}
+  
+\begin{enumerate}
+  
+\item{TC-RDP1: Process data in real-time\\}
+  
+Control: Manual, Dynamic, Performance
+                
+Initial State: Nothing displayed on graphic output
+                
+Input: User will perform a gesture that the system recognizes
+                
+Output: ML model will classify the gesture based on training data used and label the gesture accordingly
+      
+Test Case Derivation: The system should react within proper reason and provide a label within an acceptable time frame
+      
+How test will be performed: Users will perform multiple signs in front of the camera to simulate the changing of input in real-time
+  
+\item{TC-RDP2: Text-to-Speech in real-time\\}
+  
+Control: Manual, Dynamic, Performance
+                
+Initial State: Nothing displayed on graphic output
+                
+Input: User will perform a gesture that the system recognizes
+                
+Output: ML model will classify the gesture and label it. Then the system will put that label through a text-to-speech system to say the word out loud
+      
+Test Case Derivation: The system should say the respective word associated to the gesture within an acceptable time frame
+      
+How test will be performed: Users will perform signs in front of the camera to simulate the changing of input in real-time
+  
+\end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
 
