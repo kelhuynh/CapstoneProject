@@ -256,39 +256,84 @@ How test will be performed:
 \wss{Tests related to usability could include conducting a usability test and
   survey.}
 
-\subsubsection{Area of Testing1}
-		
-\paragraph{Title for Test}
+\subsubsection{Accuracy Requirement}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{TC-NFR1: Translation Accuracy\\}
 
-Type: 
+Type: Manual
 					
-Initial State: 
+Initial State: Camera is placed in front of the user
 					
-Input/Condition: 
+Input/Condition: A sequence of user’s hand gestures
 					
-Output/Result: 
+Output/Result: The screen displays words/phrases/sentences corresponding to the user's hand gestures, results should have acceptable accuracy.
 					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
+How test will be performed: Users will sign in front of the device for a short period of time. After that, users will look at the screen and verify that the results are accurate enough for people to understand.
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
+\subsubsection{Usability Requirement}
+
+\begin{enumerate}
+
+\item{TC-NFR4: Understandability\\}
+
+Type: Manual
+					
+Initial State: Users do not know how to use the device
+					
+Input/Condition: Users will read through instructions
+					
+Output/Result: Users will understand how to use the device
+					
+How test will be performed: Users will read the instructions before using the device. They will then try all functions of the device, rate the understandability of the instructions on a scale of 1 to 10 and provide feedback through a survey.
+
+\item{TC-NFR3: Ease of use\\}
+
+Type: Manual
+					
+Initial State: User is working with the device for the first time
+					
+Input/Condition: Users will read the instructions and learn how to use the device
+					
+Output/Result: Users will learn to work with the translator on their own without any difficulties.
+How the test will be performed: Multiple new users will be given the device along with its instructions, and we will compare how long it takes each user to learn the device and use its main functionalities.
+					
+How test will be performed:
+
+\end{enumerate}
+
+\subsubsection{Portability Requirement}
+
+\begin{enumerate}
+
+\item{TC-NFR6: Portability\\}
+
+Type: Manual
+					
+How test will be performed: Users will carry the device and perform some everyday activities. Users can then rate the experience on a scale of 1 to 10 and provide feedback on the portability of the device through a survey.
+
+\end{enumerate}
+
+\subsubsection{Cultural Requirements (Future Implementation)}
+
+\begin{enumerate}
+
+\item{TC-NFR7: Cultural Requirement\\}
+
+Type: Manual
+
+Initial State: Users are working with the ASL translator
+					
+Input/Condition: Users perform different styles of sign language 
+					
+Output/Result: The translator will output the translation in English
+					
+How test will be performed: The test will be performed by letting users perform different forms of sign languages (other than ASL) in front of the camera, and check if the corresponding output is the correct translation.
+
+\end{enumerate}
 
 ...
 
