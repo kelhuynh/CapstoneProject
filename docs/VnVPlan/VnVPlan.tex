@@ -6,6 +6,7 @@
 \usepackage{caption}
 \usepackage{appendix,float}
 \usepackage{fullpage}
+\usepackage{outlines}
 \usepackage[none]{hyphenat}
 \usepackage[document]{ragged2e}
 \usepackage[round]{natbib}
@@ -16,6 +17,10 @@
     linkcolor=red,
     urlcolor=blue
 }
+
+\usepackage{enumitem}
+\setlist[enumerate,2]{label=\roman*)}
+\setlist[enumerate,3]{label=\alph*)}
 
 \input{../Comments}
 \input{../Common}
@@ -409,15 +414,13 @@ How test will be performed:
 
 \section{Appendix}
 
-This is where you can place additional information.
-
-\subsection{Symbolic Parameters}
-
-The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
-
-\subsection{Usability Survey Questions?}
-
-\wss{This is a section that would be appropriate for some projects.}
-
+\subsection{Reflection}
+\begin{outline}[enumerate]
+  \1 What knowledge and skills will the team collectively need to acquire to successfully complete the verification and validation of your project?
+  examples of possible knowledge and skills include dynamic testing knowledge, static testing knowledge, specific tool usage, etc. You should look to
+  identify at least one item for each team member
+    \2 filler
+  \1 For each of the knowledge areas and skills identified in the previous question, what are at least two approaches to acquiring the knowledge or
+  mastering the skill? Of the identified approaches, which will each team member pursue, and why did they make this choice?
+\end{outline}
 \end{document}
