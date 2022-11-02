@@ -287,8 +287,29 @@ How test will be performed:
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-\wss{Provide a table that shows which test cases are supporting which
-  requirements.}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.2\linewidth}|p{0.2\linewidth}|p{0.46\linewidth}}
+\toprule
+\textbf{Test Case ID} & \textbf{Requirement ID} & \textbf{Requirement Description}\\
+\midrule
+TC-CFR1 & CFR1 & The camera detects hand gestures and capture images\\ \hline
+TC-MLFR1 & CFR2, MLFR1, MLFR5 & The system recognizes joints of the user’s hand\\ \hline
+TC-MLFR2 & MLFR2, MLFR6 & The system recognizes x, y, z coordinates of each joint relative to the camera\\ \hline
+TC-MLFR3 & MLFR3 & The system identifies and separates two hands from each other\\ \hline
+TC-MLFR4 & MLFR1, MLFR3 & The system identifies more than two hands and notifies users\\ \hline
+TC-MLFR5 & MLFR7 & The model updates the database in learning mode\\ \hline
+TC-RDP1 & MLFR4, MLFR5 & The model processes data in real-time according to user’s continuous input\\ \hline
+TC-RDP2 & MLFR6 & The system provides text-to-speech translation in real-time\\ \hline
+TC-NFR1 & TC-NFR1 & The system provides results that have acceptable accuracy\\ \hline
+TC-NFR3 & TC-NFR3 & New users quickly understands how to use the device\\ \hline
+TC-NFR4 & TC-NFR4 & Instructions are easily understandable\\ \hline
+TC-NFR6 & TC-NFR6 & The device is small and portable\\ \hline
+TC-NFR7 & TC-NFR7 & The system has the ability of translating different forms of sign languages\\
+\bottomrule
+\end{tabularx}
+\captionof{table}{Traceability Between Test Cases and Requirements}
+
+\newpage
 
 % \section{Unit Test Description}
 
