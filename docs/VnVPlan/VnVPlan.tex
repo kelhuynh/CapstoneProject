@@ -187,7 +187,7 @@ The software will be validated through blackbox and white box  testing. The whit
 \subsection{Tests for Functional Requirements}
 
 
-\subsubsection{Camera}
+\subsubsection{Hardware}
 		
 %\paragraph{Title for Test}
   
@@ -206,7 +206,21 @@ Output: Send the image to the algorithm and it is recognized.
 Test Case Derivation: The image will be processed and translated into its corresponding hand gesture
             
 How test will be performed: The tester uses a variety of different gestures in sequence that the algorithm has learned
+
+\item{TC-CFR2: Raspberry Pi\\}
   
+Control: Manual, Static, Functional
+            
+Initial State: Raspberry Pi is placed with the camera
+            
+Input: Translated text from the algorithm
+            
+Output: The Raspberry Pi will act as a speaker to play the translation in English.
+  
+Test Case Derivation: After the algorithm is input to the Raspberry, it should process it correctly and “readout” the translated text in English.
+            
+How test will be performed: Some English sentences will be chosen for the text, the users will perform the sign languages for the selected sentences and listen to the outputs provided by Raspberry Pi and compare them with the input sentences.
+ 
 \end{enumerate}
   
 \subsubsection{Machine Learning}
@@ -413,7 +427,8 @@ Requirement IDs CFR1, CFR2, MLFR1, MLFR2, MLFR3, MLFR4, MLFR5, MLFR6, MLFR7 can 
 \textbf{Test Case ID} & \textbf{Requirement ID} & \textbf{Requirement Description}\\
 \midrule
 TC-CFR1 & CFR1 & The camera detects hand gestures and capture images\\ \hline
-TC-MLFR1 & CFR2, MLFR1, MLFR5 & The system recognizes joints of the user’s hand\\ \hline
+TC-CFR2 & CFR2 & The Raspberry Pi will receive the translated text from the algorithm and play out the translation in English\\ \hline
+TC-MLFR1 & CFR1, MLFR1, MLFR5 & The system recognizes joints of the user’s hand\\ \hline
 TC-MLFR2 & MLFR2, MLFR6 & The system recognizes x, y, z coordinates of each joint relative to the camera\\ \hline
 TC-MLFR3 & MLFR3 & The system identifies and separates two hands from each other\\ \hline
 TC-MLFR4 & MLFR1, MLFR3 & The system identifies more than two hands and notifies users\\ \hline
