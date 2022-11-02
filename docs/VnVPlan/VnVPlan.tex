@@ -10,7 +10,7 @@
 \usepackage[none]{hyphenat}
 \usepackage[document]{ragged2e}
 \usepackage[square, numbers]{natbib}
-\usepackage[nottoc]{tocbibind}
+\usepackage[nottoc, notlot, numbib, section]{tocbibind}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -41,6 +41,12 @@
 
 \newpage
 
+\tableofcontents
+
+\listoftables
+
+\newpage
+
 \section{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
@@ -50,12 +56,6 @@ November 02, 2022 & 1.0 Everyone\\
 Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
-
-\newpage
-
-\tableofcontents
-
-\listoftables
 
 \newpage
 
