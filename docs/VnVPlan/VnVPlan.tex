@@ -173,17 +173,16 @@ Similar to the SRS verification plan, the approaches involve peer reviews from t
 
 \subsection{Automated Testing and Verification Tools}
 
-\wss{What tools are you using for automated testing.  Likely a unit testing
-  framework and maybe a profiling tool, like ValGrind.  Other possible tools
-  include a static analyzer, make, continuous integration tools, test coverage
-  tools, etc.  Explain your plans for summarizing code coverage metrics.
-  Linters are another important class of tools.  For the programming language
-  you select, you should look at the available linters.  There may also be tools
-  that verify that coding standards have been respected, like flake9 for
-  Python.}
-
-\wss{The details of this section will likely evolve as you get closer to the
-  implementation.}
+As stated in the Development Plan, unit testing is planned to be accomplished through the use of the Pytest Unit Testing framework. Code coverage can also 
+be determined using this same framework using the pytest-cov plugin. The framework would enable us to utilize automated testing; however, unit tests have 
+not been developed for the current phase of the project.\\
+~\\
+For performance testing, there are options available such as the utilization of OpenCV’s getTickCount() and getTickFrequency() which can be used to 
+calculate the FPS of the camera. In addition, there is also the use of Python’s own time library function, time.perf\_counter(), enabling us to measure 
+the execution time of our code.\\
+~\\
+In terms of code verification, the code for the project will loosely follow the PEP8 Python Coding Standard. The linter that the project will use is the 
+Flake8 linter for Python which will enable us to conform to this coding standard and catch syntactic errors that the code may have.
 
 \subsection{Software Validation Plan}
 
