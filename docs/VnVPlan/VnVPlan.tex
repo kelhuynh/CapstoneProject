@@ -1,8 +1,14 @@
-\documentclass[12pt, titlepage]{article}
+\documentclass[12pt]{article}
 
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{caption}
+\usepackage{appendix,float}
+\usepackage{fullpage}
+\usepackage[none]{hyphenat}
+\usepackage[document]{ragged2e}
+\usepackage[round]{natbib}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -10,7 +16,6 @@
     linkcolor=red,
     urlcolor=blue
 }
-\usepackage[round]{natbib}
 
 \input{../Comments}
 \input{../Common}
@@ -27,6 +32,8 @@
 
 \pagenumbering{roman}
 
+\newpage
+
 \section{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
@@ -42,10 +49,6 @@ Date 2 & 1.1 & Notes\\
 \tableofcontents
 
 \listoftables
-\wss{Remove this section if it isn't needed}
-
-\listoffigures
-\wss{Remove this section if it isn't needed}
 
 \newpage
 
@@ -57,56 +60,41 @@ Date 2 & 1.1 & Notes\\
 \textbf{Term, Abbreviation, or Acronym} & \textbf{Description}\\
 \midrule
 A
-& Shorthand for Assumption\\
-\hline
+& Shorthand for Assumption\\ \hline
 ASL
-& Shorthand for American Sign Language. It is a form of sign language primarily used in the US and in parts of Canada\\
-\hline
+& Shorthand for American Sign Language. It is a form of sign language primarily used in the US and in parts of Canada\\ \hline
 CFR
-& Shorthand for Camera Functional Requirement\\
-\hline
+& Shorthand for Camera Functional Requirement\\ \hline
 CMC
-& Shorthand for carpometacarpal. This is the joint that connects your thumb to the rest of your hand\\
-\hline
+& Shorthand for carpometacarpal. This is the joint that connects your thumb to the rest of your hand\\ \hline
 DIP
-& Shorthand for distal interphalangeal. This is the joint on your finger just before where your fingernail is\\
-\hline
+& Shorthand for distal interphalangeal. This is the joint on your finger just before where your fingernail is\\ \hline
 IP
-& Shorthand for interphalangeal. This is the joint just before where your fingernail on the thumb is situated\\
-\hline
+& Shorthand for interphalangeal. This is the joint just before where your fingernail on the thumb is situated\\ \hline
 PIP 
-& Shorthand for proximal interphalangeal. This is the next joint up your finger from where the knuckles are\\
-\hline
+& Shorthand for proximal interphalangeal. This is the next joint up your finger from where the knuckles are\\ \hline
 MCP
-& Shorthand for metacarpophalangeal. This is the joint situated roughly where your knuckles are\\
-\hline
+& Shorthand for metacarpophalangeal. This is the joint situated roughly where your knuckles are\\ \hline
 ML
-& Shorthand for Machine Learning\\
-\hline
+& Shorthand for Machine Learning\\ \hline
 MLFR
-& Shorthand for Machine Learning Functional Requirement\\
-\hline
+& Shorthand for Machine Learning Functional Requirement\\ \hline
 NFR
-& Shorthand for Non-Functional Requirement\\
-\hline
+& Shorthand for Non-Functional Requirement\\ \hline
 CV
-&Shorthand for computer vision, computer vision is an interdisciplinary scientific field that deals with how computers can gain high-level understanding from digital images or videos.\\
-\hline
+&Shorthand for computer vision, computer vision is an interdisciplinary scientific field that deals with how computers can gain high-level understanding from digital images or videos.\\ \hline
 OpenCV
-& Shorthand for computer vision, computer vision is an interdisciplinary scientific field that deals with how computers can gain high-level understanding from digital images or videos.\\
-\hline
+& Shorthand for computer vision, computer vision is an interdisciplinary scientific field that deals with how computers can gain high-level understanding from digital images or videos.\\ \hline
 TensorFlow
 & An open-source framework developed by Google, which enables machine learning, deep learning, and other 
 statistical and predictive analytics\\
 \bottomrule
 \end{tabularx}
+\captionof{table}{Symbols, Abbreviations, and Acronyms}
 
 \newpage
 
 \pagenumbering{arabic}
-
-This document ... \wss{provide an introductory blurb and roadmap of the
-  Verification and Validation plan}
 
 \section{General Information}
 
@@ -139,9 +127,30 @@ This document ... \wss{provide an introductory blurb and roadmap of the
 
 \subsection{Verification and Validation Team}
 
-\wss{You, your classmates and the course instructor.  Maybe your supervisor.
-  You shoud do more than list names.  You should say what each person's role is
-  for the project.  A table is a good way to summarize this information.}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|X}
+\toprule
+\textbf{Name} & \textbf{Responsibility}\\
+\midrule
+Robert Zhu
+& White/Black Box Testing; Manual SRS Verification\\ \hline
+Zifan Meng
+& OpenCV Verification; Manual code Verification\\ \hline
+Jiahui Chen
+& End-to-End Testing; Manual SRS Verification\\ \hline
+Kelvin Huynh
+& Machine Learning Verification; Manual code Verification\\ \hline
+Runze Zhu
+& White/Black Box Testing; End-to-End Testing\\ \hline
+Mirza Nafi Hasan
+& Performance Testing; Manual code Verification\\ \hline
+Classmate Peer Review
+& Provide peer reviews for our project\\ \hline
+Dr. Spencer Smith / TAs
+& Provide reviews and feedback for our project\\
+\bottomrule
+\end{tabularx}
+\captionof{table}{Verification and Validation Team Members and Roles}
 
 \subsection{SRS Verification Plan}
 
