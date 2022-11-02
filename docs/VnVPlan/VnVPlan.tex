@@ -9,7 +9,8 @@
 \usepackage{outlines}
 \usepackage[none]{hyphenat}
 \usepackage[document]{ragged2e}
-\usepackage[round]{natbib}
+\usepackage[square, numbers]{natbib}
+\usepackage[nottoc]{tocbibind}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -17,6 +18,7 @@
     linkcolor=red,
     urlcolor=blue
 }
+\renewcommand\bibname{References}
 
 \usepackage{enumitem}
 \setlist[enumerate,2]{label=\roman*)}
@@ -79,7 +81,7 @@ NFR
 & Shorthand for Non-Functional Requirement\\ \hline
 OpenASL
 & This is the name of the project which is to create a sign language translator. The objective and purpose of this project can be found in the \emph{Problem Statement}
-and \emph{SRS} documentation of the project respectively\\ \hline
+\citep{ProbState} and \emph{SRS} \citep{SRS} documentation of the project respectively\\ \hline
 OpenCV
 & Shorthand for computer vision, computer vision is an interdisciplinary scientific field that deals with how computers can gain high-level understanding 
 from digital images or videos\\ \hline
@@ -109,17 +111,17 @@ TC
 The objectives to be fulfilled by utilizing the VnV plan are as follows:\\
 \begin{itemize}
   \item Building confidence that the software was implemented correctly for the purpose of the project
-  \item Ensuring that OpenASL displays adequate usability for its intended purpose. See \emph{Problem Statement} documentation
+  \item Ensuring that OpenASL displays adequate usability for its intended purpose. See \emph{Problem Statement} \citep{ProbState} documentation
 \end{itemize}
 
 \subsection{Relevant Documentation}
 
 The relevant documentation used to formulate the VnV plan include:\\
 \begin{itemize}
-  \item Problem Statement
-  \item SRS
-  \item Hazard Analysis
-  \item Development Plan
+  \item Problem Statement \citep{ProbState}
+  \item Development Plan \citep{DevPlan}
+  \item SRS \citep{SRS}
+  \item Hazard Analysis \citep{Hazard}
 \end{itemize}
 
 \section{Plan}
@@ -173,7 +175,7 @@ Similar to the SRS verification plan, the approaches involve peer reviews from t
 
 \subsection{Automated Testing and Verification Tools}
 
-As stated in the Development Plan, unit testing is planned to be accomplished through the use of the Pytest Unit Testing framework. Code coverage can also 
+As stated in the Development Plan \citep{DevPlan}, unit testing is planned to be accomplished through the use of the Pytest Unit Testing framework. Code coverage can also 
 be determined using this same framework using the pytest-cov plugin. The framework would enable us to utilize automated testing; however, unit tests have 
 not been developed for the current phase of the project.\\
 ~\\
@@ -432,7 +434,7 @@ TC-NFR7 & TC-NFR7 & The system has the ability of translating different forms of
 
 % \wss{Provide evidence that all of the modules have been considered.}
 				
-\bibliographystyle{plainnat}
+\bibliographystyle{abbrvnat}
 
 \bibliography{../../refs/References}
 
