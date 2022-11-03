@@ -608,6 +608,8 @@ TC-NFR5 & TC-NFR5 & The system has the ability of translating different forms of
     seeing if the system delivers on its promises for quick and accurate translations becomes paramount. Black box testing is a method that helps in this regard as it tests 
     a system with no prior knowledge of its internal workings and exercises a system end-to-end. Our stakeholders do not need to learn any implementation and can test non-functional 
     requirements such as user intuitiveness.\\
+    \2 Zifan Meng: Static Testing\\
+    The correctness and robustness of the code is the key to the success of this project. Whether it's the machine learning model or coding for Raspberry Pi, if the code is unstable or performs poorly, we won't be able to achieve our intended goals. Static testing is a software testing method that examines the program and associated documents before the program is executed. In comparison to dynamic testing, static testing examines the structure of the program, analyzes the performance, maintains code specification for better readability, modularity and extensibility. Furthermore, static testing is usually more efficient than dynamic testing, especially in the early phase of the project, or for dynamic language like Python.\\
 
   \1 For each of the knowledge areas and skills identified in the previous question, what are at least two approaches to acquiring the knowledge or
   mastering the skill? Of the identified approaches, which will each team member pursue, and why did they make this choice?\\
@@ -634,6 +636,8 @@ TC-NFR5 & TC-NFR5 & The system has the ability of translating different forms of
     provides that deal with software development and documentation. Another approach is through online videos and websites that provide tutorials on the importance of Black box testing. 
     In our case, reviewing previous courses will provide the most valuable method in acquiring skills as previous projects give context and real experience to mitigating failure in 
     the system at the user’s end.\\
+    \2 Zifan Meng: Static Testing\\
+    For our project, Python is the main language, therefore one approach to apply static testing is to learn how to utilize the built in static testing function (Inspect Code) of Pycharm. This function automatically inspects code according to \href{https://peps.python.org/pep-0008/}{PEP8 Python coding standard}, it can find problems like bad structure, unlocalized string, memory leak, etc. There are many tutorials and documents about configuring and using Pycharm, it can be learnt quickly and applied easily. Another approach for static testing is an analyzer called Cppcheck, this analyzer is designed specifically for C or C++, if we use C or C++ for the Raspberry Pi, then this tool can be used. Cppcheck is very user friendly, there aren’t many configurations needed for using it, therefore, looking through documents provided by the designer is sufficient for learning features of this analyzer.
 
   
 \end{outline}
