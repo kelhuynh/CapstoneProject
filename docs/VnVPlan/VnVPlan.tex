@@ -201,11 +201,11 @@ Initial State: Camera is placed in front of the user
             
 Input: User performs hand gestures
             
-Output: Send the image to the algorithm and it is recognized.
+Output: Send the image to the algorithm and it is recognized
   
-Test Case Derivation: The image will be processed and translated into its corresponding hand gesture
+Test Case Derivation: The image will be processed and translated into its corresponding hand gesture.
             
-How test will be performed: The tester uses a variety of different gestures in sequence that the algorithm has learned
+How test will be performed: The tester uses a variety of different gestures in sequence that the algorithm has learned.
 
 \item{TC-CFR2: Raspberry Pi\\}
   
@@ -215,7 +215,7 @@ Initial State: Raspberry Pi is placed with the camera
             
 Input: Translated text from the algorithm
             
-Output: The Raspberry Pi will act as a speaker to play the translation in English.
+Output: The Raspberry Pi will act as a speaker to play the translation in English
   
 Test Case Derivation: After the algorithm is input to the Raspberry, it should process it correctly and “readout” the translated text in English.
             
@@ -237,9 +237,9 @@ Input: User performs hand gestures
               
 Output: User\textquotesingle s hand gesture with joint lines overlaid on top
     
-Test Case Derivation: The system is able to capture the camera\textquotesingle s vision by recognizing the joints on the user\textquotesingle s hand 
+Test Case Derivation: The system is able to capture the camera\textquotesingle s vision by recognizing the joints on the user\textquotesingle s hand.
     
-How test will be performed: The tester will raise their hand to the camera in any orientation following ASL phrases/words
+How test will be performed: The tester will raise their hand to the camera in any orientation following ASL phrases/words.
   
 \item{TC-MLFR2: Display coordinates in space\\}
   
@@ -251,9 +251,9 @@ Input: User performs hand gestures
               
 Output: Displays the x,y,z coordinates of each joint relative to the camera
     
-Test Case Derivation: These system uses these coordinates to calibrate and enhance predictive accuracy
+Test Case Derivation: These system uses these coordinates to calibrate and enhance predictive accuracy.
     
-How test will be performed: The tester will use any type of hand motion with both hands and compare the results of each joint to the displayed coordinates over each iteration of the algorithm
+How test will be performed: The tester will use any type of hand motion with both hands and compare the results of each joint to the displayed coordinates over each iteration of the algorithm.
   
 \item{TC-MLFR3: Detecting multiple pairs of hands\\}
   
@@ -265,9 +265,9 @@ Input: User will place two hands in front of the camera
               
 Output: Both hands will have joints overlaid on top and following movement
     
-Test Case Derivation: These system uses these coordinates to calibrate and enhance predictive accuracy
+Test Case Derivation: These system uses these coordinates to calibrate and enhance predictive accuracy.
     
-How test will be performed: The user/tester will raise both their hands in front of the camera
+How test will be performed: The user/tester will raise both their hands in front of the camera.
   
 \item{TC-MLFR4: Detecting multiple pairs of hands\\}
   
@@ -279,9 +279,9 @@ Input: Multiple pairs of hands will be placed for detection
               
 Output: The system will tell the user that it is detecting more than one pair of hands and stop tracking
     
-   Case Derivation: The system is created for a single user, thus multiple users are not supported for translation at the same time
+   Case Derivation: The system is created for a single user, thus multiple users are not supported for translation at the same time.
     
-How test will be performed: More than 2 hands will perform multiple signs at the same time in front of the camera performing any type of gesture
+How test will be performed: More than 2 hands will perform multiple signs at the same time in front of the camera performing any type of gesture.
   
 \item{TC-MLFR5: Trainable Model\\}
   
@@ -293,9 +293,9 @@ Input: User will press a key to enter learning mode, a second key to identify th
               
 Output: When the user signs in front of the camera again, the model should be updated and classify the previously unknown sign correctly
     
-Test Case Derivation: The system should be enabled for expandability to increase its vocabulary and adapt to users\textquotesingle \ habits
+Test Case Derivation: The system should be enabled for expandability to increase its vocabulary and adapt to users\textquotesingle \ habits.
     
-How test will be performed: Sign a word that is not in the dataset to create a new classifier
+How test will be performed: Sign a word that is not in the dataset to create a new classifier.
   
 \end{enumerate}
   
@@ -313,9 +313,9 @@ Input: User will perform a gesture that the system recognizes
                 
 Output: ML model will classify the gesture based on training data used and label the gesture accordingly
       
-Test Case Derivation: The system should react within proper reason and provide a label within an acceptable time frame
+Test Case Derivation: The system should react within proper reason and provide a label within an acceptable time frame.
       
-How test will be performed: Users will perform multiple signs in front of the camera to simulate the changing of input in real-time
+How test will be performed: Users will perform multiple signs in front of the camera to simulate the changing of input in real-time.
   
 \item{TC-RDP2: Text-to-Speech in real-time\\}
   
@@ -327,9 +327,9 @@ Input: User will perform a gesture that the system recognizes
                 
 Output: ML model will classify the gesture and label it. Then the system will put that label through a text-to-speech system to say the word out loud
       
-Test Case Derivation: The system should say the respective word associated to the gesture within an acceptable time frame
+Test Case Derivation: The system should say the respective word associated to the gesture within an acceptable time frame.
       
-How test will be performed: Users will perform signs in front of the camera to simulate the changing of input in real-time
+How test will be performed: Users will perform signs in front of the camera to simulate the changing of input in real-time.
   
 \end{enumerate}
 
@@ -357,7 +357,7 @@ How test will be performed: Users will sign in front of the device for a short p
 
 \begin{enumerate}
 
-\item{TC-NFR4: Understandability\\}
+\item{TC-NFR2: Understandability\\}
 
 Type: Manual
 					
@@ -377,10 +377,10 @@ Initial State: User is working with the device for the first time
 					
 Input/Condition: Users will read the instructions and learn how to use the device
 					
-Output/Result: Users will learn to work with the translator on their own without any difficulties.
+Output/Result: Users will learn to work with the translator on their own without any difficulties\\
 How the test will be performed: Multiple new users will be given the device along with its instructions, and we will compare how long it takes each user to learn the device and use its main functionalities.
 					
-How test will be performed:
+
 
 \end{enumerate}
 
@@ -388,7 +388,7 @@ How test will be performed:
 
 \begin{enumerate}
 
-\item{TC-NFR6: Portability\\}
+\item{TC-NFR4: Portability\\}
 
 Type: Manual
 					
@@ -400,7 +400,7 @@ How test will be performed: Users will carry the device and perform some everyda
 
 \begin{enumerate}
 
-\item{TC-NFR7: Cultural Requirement\\}
+\item{TC-NFR5: Cultural Requirement\\}
 
 Type: Manual
 
@@ -427,7 +427,7 @@ Requirement IDs CFR1, CFR2, MLFR1, MLFR2, MLFR3, MLFR4, MLFR5, MLFR6, MLFR7 can 
 \textbf{Test Case ID} & \textbf{Requirement ID} & \textbf{Requirement Description}\\
 \midrule
 TC-CFR1 & CFR1 & The camera detects hand gestures and capture images\\ \hline
-TC-CFR2 & CFR2 & The Raspberry Pi will receive the translated text from the algorithm and play out the translation in English\\ \hline
+TC-CFR2 & N/A & The Raspberry Pi will receive the translated text from the algorithm and play out the translation in English\\ \hline
 TC-MLFR1 & CFR1, MLFR1, MLFR5 & The system recognizes joints of the user’s hand\\ \hline
 TC-MLFR2 & MLFR2, MLFR6 & The system recognizes x, y, z coordinates of each joint relative to the camera\\ \hline
 TC-MLFR3 & MLFR3 & The system identifies and separates two hands from each other\\ \hline
@@ -436,10 +436,10 @@ TC-MLFR5 & MLFR7 & The model updates the database in learning mode\\ \hline
 TC-RDP1 & MLFR4, MLFR5 & The model processes data in real-time according to user’s continuous input\\ \hline
 TC-RDP2 & MLFR6 & The system provides text-to-speech translation in real-time\\ \hline
 TC-NFR1 & TC-NFR1 & The system provides results that have acceptable accuracy\\ \hline
-TC-NFR3 & TC-NFR3 & New users quickly understands how to use the device\\ \hline
-TC-NFR4 & TC-NFR4 & Instructions are easily understandable\\ \hline
-TC-NFR6 & TC-NFR6 & The device is small and portable\\ \hline
-TC-NFR7 & TC-NFR7 & The system has the ability of translating different forms of sign languages\\
+TC-NFR2 & TC-NFR3 & New users quickly understands how to use the device\\ \hline
+TC-NFR3 & TC-NFR4 & Instructions are easily understandable\\ \hline
+TC-NFR4 & TC-NFR6 & The device is small and portable\\ \hline
+TC-NFR5 & TC-NFR7 & The system has the ability of translating different forms of sign languages\\
 \bottomrule
 \end{tabularx}
 \captionof{table}{Traceability Between Test Cases and Requirements}
