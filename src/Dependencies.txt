@@ -25,5 +25,5 @@ Python 3 is required.
 
     pip install tensorflow
     pip install tensorflow_gpu
-    pip install sklearn
+    pip install scikit-learn
     pip install numpy
