@@ -12,19 +12,20 @@ Python 3 is required.
 
 2. keypoint_classification.py, point_history_classification.py, keypoint_classifier.py, and point_history_classifier.py
 
-    Requires CUDA, CUDNN to be installed from the following websites if using a supported NVIDIA GPU for Tensorflow:
-    
-    Check whether or not NVIDIA GPU is compatible for use at https://developer.nvidia.com/cuda-gpus
-
-    https://developer.nvidia.com/cuda-downloads <- Must add C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.x\bin to PATH
-
-    https://developer.nvidia.com/cudnn <-   Extract to C:\Program Files\NVIDIA\CUDNN\v8.6.0.163
-                                            Add C:\Program Files\NVIDIA\CUDNN\v8.6.0.163\bin to PATH
-
     Requires Tensorflow, Tensorflow GPU, numpy, and scikit-learn. These libraries can be installed by running the following commands in console.
 
     pip install tensorflow
-    pip install tensorflow_gpu
+    pip install tensorflow_gpu <- Only if using a GPU to run Tensorflow
     pip install scikit-learn
     pip install numpy
     
+    OPTIONAL:
+
+        Requires CUDA, CUDNN to be installed from the following websites only if using a supported NVIDIA GPU for Tensorflow:
+    
+        Check whether or not NVIDIA GPU is compatible for use at https://developer.nvidia.com/cuda-gpus
+
+        https://developer.nvidia.com/cuda-downloads <- Must add C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.x\bin to PATH
+
+        https://developer.nvidia.com/cudnn <-   Extract to C:\Program Files\NVIDIA\CUDNN\v8.6.0.163
+                                                Add C:\Program Files\NVIDIA\CUDNN\v8.6.0.163\bin to PATH
