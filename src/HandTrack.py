@@ -181,12 +181,12 @@ class Track:
     def __makeCSV(self, number, mode, landmark_list, point_history_list):
         if mode == 0:
             pass
-        if mode == 1 and (0 <= number <= 9):
+        if mode == 1 and (0 <= number <= 26):
             csv_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint.csv'
             with open(csv_path, 'a', newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([number, *landmark_list])
-        if mode == 2 and (0 <= number <= 9):
+        if mode == 2 and (0 <= number <= 26):
             csv_path = os.getcwd() + '\\src\\model\\point_history_classifier\\point_history.csv'
             with open(csv_path, 'a', newline="") as f:
                 writer = csv.writer(f)
@@ -195,7 +195,7 @@ class Track:
 
     def __draw_bounding_rect(self, use_brect, image, brect):
         if use_brect:
-            # Outer rectangle
+            # Outer rectangles
             cv2.rectangle(image, (brect[0], brect[1]), (brect[2], brect[3]), (0, 0, 0), 1)
 
         return image
