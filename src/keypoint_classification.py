@@ -1,11 +1,12 @@
 import numpy as np
 import tensorflow as tf
+import os
 from sklearn.model_selection import train_test_split
 
 RANDOM_SEED = 51
 
-dataset = 'model/keypoint_classifier/keypoint.csv'
-model_save_path = 'model/keypoint_classifier/keypoint_classifier.hdf5'
+dataset = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint.csv'
+model_save_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint_classifier.hdf5'
 
 NUM_CLASSES = 26  # Change as more signs are added
 
@@ -50,7 +51,7 @@ print(np.squeeze(predict_result))
 print(np.argmax(np.squeeze(predict_result)))
 
 model.save(model_save_path, include_optimizer=False)
-tflite_save_path = 'model/keypoint_classifier/keypoint_classifier.tflite'
+tflite_save_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint_classifier.tflite'
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]

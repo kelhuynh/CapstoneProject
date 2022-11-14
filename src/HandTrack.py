@@ -4,6 +4,7 @@ import numpy as np
 import copy
 import itertools
 import csv
+import os
 from collections import deque
 from model import KeyPointClassifier
 
@@ -22,7 +23,7 @@ class Track:
         self.num = 0
         self.mode = 0
         self.keypoint_classifier = KeyPointClassifier()
-        with open('model/keypoint_classifier/keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
+        with open(os.getcwd()+'\\src\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
             self.keypoint_classifier_labels = csv.reader(f)
             self.keypoint_classifier_labels = [row[0] for row in self.keypoint_classifier_labels]
 
@@ -89,13 +90,13 @@ class Track:
 
     def __sel_mode(self, key, mode):
         num = -1
-        if 48 <= key <= 57:  # 0 ~ 9
-            num = key - 48
-        if key == 110:  # n
+        if 97 <= key <= 122:  # a - z on keyboard Select class
+            num = key - 97
+        if key == 49:  # 1 - Normal operation
             mode = 0
-        if key == 107:  # k
+        if key == 50:  # 2 - Train keypoint
             mode = 1
-        if key == 104:  # h
+        if key == 51:  # 3
             mode = 2
         return num, mode
 
@@ -180,13 +181,13 @@ class Track:
     def __makeCSV(self, number, mode, landmark_list, point_history_list):
         if mode == 0:
             pass
-        if mode == 1 and (0 <= number <= 9):
-            csv_path = 'model/keypoint_classifier/keypoint.csv'
+        if mode == 1 and (0 <= number <= 26):
+            csv_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint.csv'
             with open(csv_path, 'a', newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([number, *landmark_list])
-        if mode == 2 and (0 <= number <= 9):
-            csv_path = 'model/point_history_classifier/point_history.csv'
+        if mode == 2 and (0 <= number <= 26):
+            csv_path = os.getcwd() + '\\src\\model\\point_history_classifier\\point_history.csv'
             with open(csv_path, 'a', newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([number, *point_history_list])
@@ -194,7 +195,7 @@ class Track:
 
     def __draw_bounding_rect(self, use_brect, image, brect):
         if use_brect:
-            # Outer rectangle
+            # Outer rectangles
             cv2.rectangle(image, (brect[0], brect[1]), (brect[2], brect[3]), (0, 0, 0), 1)
 
         return image
