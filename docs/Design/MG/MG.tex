@@ -46,8 +46,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+January 18, 2023 & 1.0 & initial version\\
+
 \bottomrule
 \end{tabularx}
 
@@ -74,7 +74,6 @@ This section records information for easy reference.
   SRS & Software Requirements Specification\\
   \progname & Explanation of program name\\
   UC & Unlikely Change \\
-  \wss{etc.} & \wss{...}\\
   \bottomrule
 \end{tabular}\\
 
@@ -143,6 +142,8 @@ other shows the relation between anticipated changes and the modules. Section
 
 \section{Anticipated and Unlikely Changes} \label{SecChange}
 
+This section lists any changes to the system
+
 This section lists possible changes to the system. According to the likeliness
 of the change, the possible changes are classified into two
 categories. Anticipated changes are listed in Section \ref{SecAchange}, and
@@ -157,11 +158,19 @@ adapted here is called design for
 change.
 
 \begin{description}
-\item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
-  hardware on which the software is running.
-\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
-  initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{acMotionT}:] The implementation of a more advanced motion tracking algorithm so that continuous motions with faster speed can be captured.
+\item[\refstepcounter{acnum} \actheacnum \label{acCoordN}:] The formatting of the normalized coordinates input into the Classification Module.
+\item[\refstepcounter{acnum} \actheacnum \label{acCoordE}:] The format of export normalized coordinates.
+\item[\refstepcounter{acnum} \actheacnum \label{acVideoC}:] Allow for static image input to enable training using larger datasets.
+\item[\refstepcounter{acnum} \actheacnum \label{acVideoA}:] Increase the area that the recognition boundary encloses for recognizing more complicated gestures.
+\item[\refstepcounter{acnum} \actheacnum \label{acKeyPointC}:] Modify keypoint classification to check multiple points instead of single point for more complex motion.
+\item[\refstepcounter{acnum} \actheacnum \label{acML}:] Change from static classifier set to a dynamic classifier set that is able to expand the number of gestures.
+\item[\refstepcounter{acnum} \actheacnum \label{acTraining}:] The implementation of a more suitable machine learning model for better performance.
+\item[\refstepcounter{acnum} \actheacnum \label{acTextToSpeech}:] The implementation of reading a translated script into audio output through Raspberry Pi.
+\item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The hardware tracking devices on which the the software is running was replaced with a Raspberry Pi with the camera from a PC.
+
+
+
 \end{description}
 
 \subsection{Unlikely Changes} \label{SecUchange}
@@ -174,9 +183,12 @@ will potentially need to be modified. Hence, it is not intended that these
 decisions will be changed.
 
 \begin{description}
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
-  (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc1}:] The csv format to another file type.
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc2}:] The output to just TTS instead of both TTS and video.
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc3}:] Capture full body and facial recognition for sign language.
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc4}:] The hardware design is not likely to change once it is finished.
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc5}:] Training method for the machine learning model.
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc6}:] The goal for the ASL translator is to translate the user’s hand gestures to the corresponding English words or phrases.
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -187,9 +199,23 @@ below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented.
 
 \begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
+\item [\refstepcounter{mnum} \mthemnum \label{m1}:] 
+\item [\refstepcounter{mnum} \mthemnum \label{m2}:]
+\item [\refstepcounter{mnum} \mthemnum \label{m3}:]
+\item [\refstepcounter{mnum} \mthemnum \label{m4}:]
+\item [\refstepcounter{mnum} \mthemnum \label{m5}:]
+\item [\refstepcounter{mnum} \mthemnum \label{m6}:]
+\item [\refstepcounter{mnum} \mthemnum \label{m7}:] 
+\item [\refstepcounter{mnum} \mthemnum \label{m8}:] 
+\item [\refstepcounter{mnum} \mthemnum \label{m9}:] 
+\item [\refstepcounter{mnum} \mthemnum \label{m10}:] 
+
+
 \end{description}
+
+
+
+
 
 
 \begin{table}[h!]
@@ -199,23 +225,22 @@ actually be implemented.
 \textbf{Level 1} & \textbf{Level 2}\\
 \midrule
 
-{Hardware-Hiding Module} & ~ \\
+{Hardware-Hiding Module} & Video Capture Module \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Text-to-Speech Module\\
+& Key Point Classification Module - Communicates with ML module with data from coordinate normalization module\\
+& Training Module - Communicates with ML module to update dataset\\
+& Coordinate Export Module - Read data from video capture and stores into file\\
+& Motion Tracking Module - Controller (ties everything together)\\
+
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{3}{0.3\textwidth}{Software Decision Module} & Video Analysis Module - requires data to be used\\
+& Machine Learning Module\\
+& Coordinate Normalization Module\\
 \bottomrule
+
 
 \end{tabular}
 \caption{Module Hierarchy}
@@ -227,15 +252,6 @@ actually be implemented.
 The design of the system is intended to satisfy the requirements developed in
 the SRS. In this stage, the system is decomposed into modules. The connection
 between requirements and modules is listed in Table \ref{TblRT}.
-
-\wss{The intention of this section is to document decisions that are made
-  ``between'' the requirements and the design.  To satisfy some requirements,
-  design decisions need to be made.  Rather than make these decisions implicit,
-  they are explicitly recorded here.  For instance, if a program has security
-  requirements, a specific design decision may be made to satisfy those
-  requirements with a password.  In scientific examples, the choice of algorithm
-could potentially go here, if that is a decision that is exposed by the
-interface.}
 
 \section{Module Decomposition} \label{SecMD}
 
@@ -253,55 +269,96 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash
 (\emph{--}) is shown, this means that the module is not a leaf and will not have
 to be implemented.
 
-\subsection{Hardware Hiding Modules (\mref{mHH})}
+\subsection{Hardware Hiding Modules (\mref{m10})}
 
 \begin{description}
-\item[Secrets:]The data structure and algorithm used to implement the virtual
-  hardware.
-\item[Services:]Serves as a virtual hardware used by the rest of the
-  system. This module provides the interface between the hardware and the
-  software. So, the system can use it to display outputs or to accept inputs.
-\item[Implemented By:] OS
-\end{description}
+  \item[Secrets:]
+  \item[Services:] 
+  \item[Implemented By:] 
+  \end{description}
+  
+
 
 \subsection{Behaviour-Hiding Module}
 
-\begin{description}
-\item[Secrets:]The contents of the required behaviours.
-\item[Services:]Includes programs that provide externally visible behaviour of
-  the system as specified in the software requirements specification (SRS)
-  documents. This module serves as a communication layer between the
-  hardware-hiding module and the software decision module. The programs in this
-  module will need to change if there are changes in the SRS.
-\item[Implemented By:] --
-\end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
+\subsubsection{Video Capture Module (\mref{m4})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
-\end{description}
+  \item[Secrets:]
+  \item[Services:] 
+  \item[Implemented By:] 
+  \end{description}
+  
 
-\subsubsection{Etc.}
+
+
+\subsubsection{Key-Point Classification Module (\mref{m6})}
+
+\begin{description}
+  \item[Secrets:]
+  \item[Services:] 
+  \item[Implemented By:] 
+  \end{description}
+  
+\subsubsection{Training Module (\mref{m8})}
+
+\begin{description}
+  \item[Secrets:]
+  \item[Services:] 
+  \item[Implemented By:] 
+  \end{description}
+  
+
+
+\subsubsection{Coordinate Export Module (\mref{m3})}
+\begin{description}
+  \item[Secrets:]
+  \item[Services:] 
+  \item[Implemented By:] 
+  \end{description}
+  
+
+
+\subsubsection{Motion Tracking Module (\mref{m1})}
+
+\begin{description}
+  \item[Secrets:]
+  \item[Services:] 
+  \item[Implemented By:] 
+  \end{description}
+  
 
 
 \subsection{Software Decision Module}
 
+\subsubsection{Machine Learning Module (\mref{m7})}
+
 \begin{description}
-\item[Secrets:] The design decision based on mathematical theorems, physical
-  facts, or programming considerations. The secrets of this module are
-  \emph{not} described in the SRS.
-\item[Services:] Includes data structure and algorithms used in the system that
-  do not provide direct interaction with the user. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
-\item[Implemented By:] --
-\end{description}
+  \item[Secrets:]
+  \item[Services:] 
+  \item[Implemented By:] 
+  \end{description}
+  
+
+\subsubsection{Video Analysis Module (\mref{m5})}
+
+\begin{description}
+  \item[Secrets:]
+  \item[Services:] 
+  \item[Implemented By:] 
+  \end{description}
+  
+
+
+\subsubsection{Coordinate Normalization Module (\mref{m2})}
+
+\begin{description}
+  \item[Secrets:]
+  \item[Services:] 
+  \item[Implemented By:] 
+  \end{description}
+  
 
 \subsubsection{Etc.}
 
@@ -341,18 +398,21 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \toprule
 \textbf{AC} & \textbf{Modules}\\
 \midrule
-\acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
+\acref{acMotionT} & \mref{m1}\\
+\acref{acCoordN} & \mref{m2}\\
+\acref{acCoordE} & \mref{m3}\\
+\acref{acVideoC} & \mref{m4}\\
+\acref{acVideoA} & \mref{m5}\\
+\acref{acKeyPointC} & \mref{m6}\\
+\acref{acML} & \mref{m7}\\
+\acref{acTraining} & \mref{m8}\\
+\acref{acTextToSpeech} & \mref{m9}\\
+\acref{acHardware} & \mref{m10}\\
+
+
+
+
+
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
