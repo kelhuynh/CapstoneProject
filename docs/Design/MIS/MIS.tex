@@ -74,11 +74,13 @@ See SRS Documentation at \wss{give url}
 \section{Introduction}
 
 The following document details the Module Interface Specifications for
-\wss{Fill in your project name and description}
+OpenASL, a device developed with the aim of translating sign language into text-to-speech, 
+with the purpose of helping members of the deaf and mute community communicate with those 
+who do not know sign language.\\
 
 Complementary documents include the System Requirement Specifications
 and Module Guide.  The full documentation and implementation can be
-found at \url{...}.  \wss{provide the url for your repo}
+found at \url{https://github.com/kelhuynh/OpenASL/}.\\
 
 \section{Notation}
 
@@ -153,32 +155,28 @@ The following table is taken directly from the Module Guide document for this pr
 \newpage
 ~\newpage
 
-\section{MIS of \wss{Module Name}} \label{Module} \wss{Use labels for
-  cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+\section{MIS of Motion Tracking Module (M1)} \label{M1}
 
 \subsection{Module}
 
-\wss{Short name for the module}
+motionTrack\\
 
 \subsection{Uses}
 
+Video Capture, Coordinate Normalization, Coordinate Export, Video Analysis, Keypoint Classification, TTS\\
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
-
-\subsubsection{Exported Access Programs}
 
 \begin{center}
 \begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+results & image & Object & - \\
+hand_landmarks & - & Tuple of tuples & - \\
+handedness & - & \mathbb{R} & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -187,42 +185,234 @@ The following table is taken directly from the Module Guide document for this pr
 
 \subsubsection{State Variables}
 
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+None\\
 
 \subsubsection{Environment Variables}
 
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+f - file variable for coordinate export purposes\\
 
 \subsubsection{Assumptions}
 
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent motionTrack():
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+\item output: video consisting of overlay for hand gesture classification into ASL\\
+\item exception: exc := cv2.error\\
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
+\newpage
+~\newpage
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
+\section{MIS of Coordinate Normalization Module (M2)} \label{M2}
+
+\subsection{Module}
+
+Coordinate Normalization\\
+
+\subsection{Uses}
+
+Video Capture\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+pre_processed_landmark_list & landmark_list & Tuple of tuples & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None\\
+
+\subsubsection{Environment Variables}
+
+None\\
+
+\subsubsection{Assumptions}
+
+None
+
+\subsubsection{Access Routine Semantics}
+
+\noindent pre_process_landmark(landmark_list):
+\begin{itemize}
+\item output: tuple of 20 tuples consisting of x and y coordinates for each hand joint\\
+\item exception: exc := ListIndexOutofBounds\\
+\end{itemize}
 
 \subsubsection{Local Functions}
+\begin{itemize}
+\item __calc_landmark_list\\
+\end{itemize}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+\newpage
+~\newpage
+
+\section{MIS of Coordinate Export Module (M3)} \label{M3}
+
+\subsection{Module}
+
+Coordinate Export\\
+
+\subsection{Uses}
+
+Coordinate Normalization\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+keypoint.csv & - & File containing normalized coordinates & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None\\
+
+\subsubsection{Environment Variables}
+
+None\\
+
+\subsubsection{Assumptions}
+
+None
+
+\subsubsection{Local Functions}
+\begin{itemize}
+\item __make_csv\\
+\end{itemize}
+
+\newpage
+~\newpage
+
+\section{MIS of Video Capture Module (M4)} \label{M4}
+
+\subsection{Module}
+
+Video Capture\\
+
+\subsection{Uses}
+
+None\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+success & - & \mathbb{R} & - \\
+image & - & Object & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None\\
+
+\subsubsection{Environment Variables}
+
+success - indicates that the camera input is initialized for use\\
+
+\subsubsection{Assumptions}
+
+There is an available camera connected to the system\\
+
+\newpage
+~\newpage
+
+\section{MIS of Video Analysis Module (M5)} \label{M5}
+
+\subsection{Module}
+
+Video Analysis\\
+
+\subsection{Uses}
+
+Coordinate Normalization, Video Capture\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+draw_bounding_rect & - & image & - \\
+draw_landmarks & - & image & - \\
+draw_info_text & - & image & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None\\
+
+\subsubsection{Environment Variables}
+
+None\\
+
+\subsubsection{Assumptions}
+
+None
+
+\subsubsection{Access Routine Semantics}
+
+\noindent draw_bounding_rect(self, use_brect, image, brect):
+\begin{itemize}
+\item output: image with overlaid bounding rectangle around hand\\
+\item exception: exc := None\\
+\end{itemize}
+
+\noindent draw_landmarks(self, image, landmark_point):
+\begin{itemize}
+\item output: image with overlaid hand joints and connections\\
+\item exception: exc := None\\
+\end{itemize}
+
+\noindent draw_info_text(self, image, brect, handedness, hand_sign_text):
+\begin{itemize}
+\item output:  image with overlaid classifier label\\
+\item exception: exc := None\\
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+\item __calc_bounding_rect\\
+\end{itemize}
+
 
 \newpage
 
