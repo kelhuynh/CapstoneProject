@@ -8,7 +8,6 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{hyperref}
-\usepackage{longtable}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -101,6 +100,12 @@ OpenASL is primarily designed to assist the hearing impaired who use sign langua
 describe the key requirements for OpenASL to efficiently translate gestures and motions for any individual who does not know sign language 
 to understand. More detailed explanations for each goal can be found in the SRS (REF SRS 2.2.1).
 
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{SystemContextDiagram.jpg} 
+\caption{Hand Variables} 
+\label{Fig.System_Context_Diagram} 
+\end{figure}
 
 \wss{I made two tables, choose the one you like}
 \begin{center}
@@ -155,63 +160,17 @@ tell the user to retry. This would help prevent any incorrect data from being en
 
 \subsection{Component Diagram}
 
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{ComponentDiagram.jpg} 
+\caption{Component Diagram} 
+\label{Fig.Component_Diagram} 
+\end{figure}
+
 \subsection{Connection Between Requirements and Design} \label{SecConnection}
 (REF SRS 6.1, 6.2, 8.1, 8.2, 8.3, 8.4 for description of ID).
 
-\renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.2\textwidth}|p{0.75\textwidth}}
-\hline
-\textbf{Requirement ID} & \textbf{Design Decision}\\
-\hline
-CFR1
-& We used a Tensorflow machine learning algorithm already incorporated into the Mediapipe library to recognize hand shape and model its joints through the lens of any camera when it detects motion.\\
-\hline
-CFR2
-& The program normalizes the resolution of any camera lens to ensure that the coordinates detected from the camera can be used to classify the vision of a gesture to its corresponding word/phrase.\\
-\hline
-MLFR1
-& We used a Tensorflow machine learning algorithm already incorporated into Mediapipe to recognize a hand shape and model its joints. This allows the coordinates of each joint to be identified and recorded into a dataset for the system.\\
-\hline
-MLFR2
-& Using the Mediapipe library, we have set up our program to take a set of normalized coordinates based on the location of the hand. This allows us to recognize.\\
-\hline
-MLFR3
-& The Mediapipe library has a built-in variable to limit the number of hands that can be tracked. We have limited that number to 2.\\
-\hline
-MLFR4
-& We acquired a Raspberry Pi board that we would use to process the machine learning model and set the delay within the hand tracking script to a reasonable amount for conversation.\\
-\hline
-MLFR5
-& Mediapipe’s built-in machine learning model classifies hand shapes within a specified confidence value between 0 and 1, of which a defaulted value of 0.5 is used. This means that if the model can confidently say with 50\% certainty that the video/image being recorded contains a hand, the hand and its joints will be displayed (subject to hand limit defined by MLFR3).\\
-\hline
-MLFR6
-& The Raspberry Pi board has the necessary hardware to process the hand gestures at a pace that is understandable to other people.\\
-\hline
-MLFR7
-& The program is set up with a training mode, where we can add data points for certain gestures to increase the accuracy of the model.\\
-\hline
-NFR1
-& The Keypoint Classifier Module checks the dataset for each gesture and is able to display its confidence as a percentage for an estimate of how often it will be able to classify the correct gesture to support testing.\\
-\hline
-NFR2
-& Mediapipe, an open-source library built from OpenCV for Python, is able to detect the user’s hands and highlight their joints accordingly to help the user focus on their hand gestures.\\
-\hline
-NFR3
-& The device is already preset with a dataset that contains many common phrases that can be translated, allowing for little set up.\\
-\hline
-NFR4
-& The user interface contains only written words and is clearly labeled for translating (normal operation), and can be further adapted into training the machine learning model as incorrect classifications indicate that the model must be retrained.\\
-\hline
-NFR5
-& The Motion Tracking module is equipped with the ability to snapshot hand positions as needed to train the relevant classifier label if retraining is needed. These coordinates are then stored into a .csv file which can be used in conjunction with the Keypoint Classifier module to retrain the model.\\
-\hline
-NFR6
-& We have chosen to implement our program onto a Raspberry Pi board. The board has a small form factor, making it easy to carry and very portable.\\
-\hline
-NFR7
-& The current design is using the universal training model for standard ASL gestures. And the machine learning function for the program will allow for the ease of training in different grammar and phonology in the future.\\
-\hline
-\end{longtable}
+\wss{Missing the first table because I cannot figure out how to do long table}
 
 \renewcommand{\arraystretch}{1.2}
 \noindent \begin{tabularx}{\textwidth}{p{0.2\linewidth}|p{0.72\linewidth}}
@@ -295,7 +254,12 @@ Memory: 1 GB
 Storage: Micro-SD
 Ports: 3.5mm analogue audio-video jack, Camera Serial Interface (CSI)
 
-\wss{Insert picture of Raspberry Pi board}
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{PiBoard.jpg} 
+\caption{Raspberry Pi Model 3 B+ diagram} 
+\label{Fig.Pi_Board} 
+\end{figure}
 
 Raspberry Pi Camera v2
 Video Resolution: 1080p30, 720p60 and 640x480p60/90
