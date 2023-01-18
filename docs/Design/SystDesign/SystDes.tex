@@ -101,8 +101,42 @@ describe the key requirements for OpenASL to efficiently translate gestures and 
 to understand. More detailed explanations for each goal can be found in the SRS (REF SRS 2.2.1).
 
 
-\wss{Insert Table and System Context Here}
+\wss{I made two tables, choose the one you like}
+\begin{center}
+\begin{tabular}{ | m{18em} | } 
+  \hline
+  Goals\\ 
+  \hline
+  Reliable and Accurate Translations\\ 
+  \hline
+  Real Time Translations\\ 
+  \hline
+  Ease of Use\\
+  \hline
+  Affordability\\
+  \hline
+  Customizable to User\\
+  \hline
+\end{tabular}
+\end{center}
 
+\begin{center}
+\begin{tabular} {m{18em}}
+  \toprule		
+  \textbf{Goals}\\
+  \midrule 
+  Reliable and Accurate Translations\\
+  \hline
+  Real Time Translations\\ 
+  \hline
+  Ease of Use\\
+  \hline
+  Affordability\\
+  \hline
+  Customizable to User\\
+  \bottomrule
+\end{tabular}\\
+\end{center}
 \section{Project Overview}
 
 \subsection{Normal Behaviour}
@@ -123,17 +157,67 @@ tell the user to retry. This would help prevent any incorrect data from being en
 \subsection{Connection Between Requirements and Design} \label{SecConnection}
 (REF SRS 6.1, 6.2, 8.1, 8.2, 8.3, 8.4 for description of ID).
 
-\wss{Add Table Here}
+\wss{Missing the first table because I cannot figure out how to do long table}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.2\linewidth}|p{0.72\linewidth}}
+\toprule
+\textbf{Module} & \textbf{Requirements+}\\
+\midrule
+Motion Tracking
+& CFR1, CFR2, MLFR1, MLFR2, MLFR3, MLFR5, MLFR6, NFR2\\
+\hline
+Keypoint Classifier
+& NFR1, NFR5\\
+\hline
+Machine Learning
+& MLFR4, MLFR7\\
+\bottomrule
+\end{tabularx}
 
 \section{System Variables}
-
-\wss{Add Table Here}
-
 \subsection{Monitored Variables}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.15\linewidth}|p{0.12\linewidth}|p{0.12\linewidth}|p{0.5\linewidth}}
+\toprule
+\textbf{Monitor Name} & \textbf{Monitor Type} & \textbf{Range} & \textbf{Description}\\
+\midrule
+mode & Integer & [0, 2] & Program operation mode (normal, keypoint training, point history/motion training)\\
+\hline
+num & Integer & [0,25] & Determines corresponding ASL classifier label to use\\
+\hline
+landmark\_list & List & [-1.0,1.0] & Set of normalized coordinates to be paired with ASL classifier label\\
+\bottomrule
+\end{tabularx}
 
 \subsection{Controlled Variables}
 
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.2\linewidth}|p{0.12\linewidth}|p{0.12\linewidth}|p{0.45\linewidth}}
+\toprule
+\textbf{Control Name} & \textbf{Control Type} & \textbf{Value} & \textbf{Description}\\
+\midrule
+RANDOM\_SEED & Integer & 51 & Value set to control random shuffling in ML model for reproducible output\\
+\bottomrule
+\end{tabularx}
+
 \subsection{Constants Variables}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.28\linewidth}|p{0.12\linewidth}|p{0.08\linewidth}|p{0.4\linewidth}}
+\toprule
+\textbf{Constant Name} & \textbf{Constant Type} & \textbf{Value} & \textbf{Description}\\
+\midrule
+min\_detection\_confidence & Integer & 0.5 & Minimum confidence for hand detection from tracking script\\
+\hline
+num & Integer & 0.5 & Minimum confidence for hand joint tracking\\
+\hline
+landmark\_list & Integer & 16 & Maximum point history entries for motion tracking\\
+\hline
+NUM\_CLASSES & Integer & 26 & Number of classifier labels in ML model\\
+\bottomrule
+\end{tabularx}
 
 \section{User Interfaces}
 
@@ -161,6 +245,23 @@ N/A
 \section{Timeline}
 
 \wss{Schedule of tasks and who is responsible}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|p{0.3\linewidth}|p{0.35\linewidth}}
+\toprule
+\textbf{Objective} & \textbf{Date to be completed by} & \textbf{Member(s) Responsible}\\
+\midrule
+Create an interface that lets the user switch between training and translating & Jan 20, 2023 & Runze Zhu and Jiahui Chen\\
+\hline
+Add an expanded vocabulary of common phrases into the database & Jan 31, 2023 & Robert Zhu\\
+\hline
+Build and connect Raspberry Pi to OpenCV system to provide real-time translation & Feb 5, 2023 & Zifan Meng\\
+\hline
+Program a text-to-speech algorithm & Feb 5, 2023 & Nafi Hasan\\
+\hline
+Move OpenCV system and machine learning model onto Raspberry Pi & Feb 10, 2023 & Kelvin Huynh\\
+\bottomrule
+\end{tabularx}
 
 % \bibliographystyle {plainnat}
 % \bibliography{../../../refs/References}
