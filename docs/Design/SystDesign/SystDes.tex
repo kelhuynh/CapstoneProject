@@ -46,8 +46,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+January 18, 2023 & 1.0 & Initial System Design Draft\\
+
 \bottomrule
 \end{tabularx}
 
@@ -84,42 +84,50 @@ This section records information for easy reference.
 \pagenumbering{arabic}
 
 \section{Introduction}
-
-\wss{Include references to your other documentation}
+The purpose of this document will give an overview of the system components for how the user interacts with the system, 
+and the communication between the design of the hardware, software, and any electrical components.
 
 \section{Purpose}
+The purpose of our project is to create a device that will translate sign language gestures into their corresponding words 
+or phrases. This will require the creation and development of a computer vision system alongside a machine learning model that 
+will be used to recognize the hand motions, as well as a Raspberry Pi that will speak the word or phrase. The user will perform 
+the sign language motion that will be captured by our computer vision system through a camera, and processed by our machine learning 
+model and spoken through our Raspberry Pi.
 
-\wss{Purpose of your design documentation}
-
-\wss{Point to your other design documents}
 
 \section{Scope}
+OpenASL is primarily designed to assist the hearing impaired who use sign language to communicate. The following goals listed 
+describe the key requirements for OpenASL to efficiently translate gestures and motions for any individual who does not know sign language 
+to understand. More detailed explanations for each goal can be found in the SRS (REF SRS 2.2.1).
 
-\wss{Include a figure that show the System Context (showing the boundary between
-your system and the environment around it.)}
+
+\wss{Insert Table and System Context Here}
 
 \section{Project Overview}
 
 \subsection{Normal Behaviour}
+OpenASL acts as a medium for sign language to spoken language to help the hearing impaired communicate without the need of a human translator. 
+Under normal operations, the user would perform ASL gestures in front of a camera that would detect motion, which would begin having the Raspberry Pi 
+start classifying the movement of the user with its database and output the corresponding English word/phrase through speakers for the other person to 
+understand. The user is also able to train the algorithm to learn any of the user’s subtle differences in gestures from the standard ASL language to 
+improve the accuracy of classification for words/phrases.
 
 \subsection{Undesired Event Handling}
-
-\wss{How you will approach undesired events}
+In the event of an undesired error during the translation, the system should stop the translation being spoken through the speaker and display on the 
+user interface that an error has occurred to let the user know that something has happened to the system. In the case that an error occurs during the 
+process of the user training the model, such that the system is unable to classify the gesture, an error message should display on the interface to 
+tell the user to retry. This would help prevent any incorrect data from being entered into the classification database for more accurate results.
 
 \subsection{Component Diagram}
 
 \subsection{Connection Between Requirements and Design} \label{SecConnection}
+(REF SRS 6.1, 6.2, 8.1, 8.2, 8.3, 8.4 for description of ID).
 
-\wss{The intention of this section is to document decisions that are made
-  ``between'' the requirements and the design.  To satisfy some requirements,
-  design decisions need to be made.  Rather than make these decisions implicit,
-  they are explicitly recorded here.  For instance, if a program has security
-  requirements, a specific design decision may be made to satisfy those
-  requirements with a password.}
+\wss{Add Table Here}
 
 \section{System Variables}
 
-\wss{Include this section for Mechatronics projects}
+\wss{Add Table Here}
 
 \subsection{Monitored Variables}
 
@@ -129,8 +137,11 @@ your system and the environment around it.)}
 
 \section{User Interfaces}
 
-\wss{Design of user interface for software and hardware.  Attach an appendix if
-needed. Drawings, Sketches, Figma}
+The user interface is designed to give the user the choice between translating ASL to spoken language and training the machine learning module to adapt 
+to any of the user’s habits for any phrases. For translating ASL, the user would interact with the Raspberry Pi Camera that is equipped to register hand 
+movement for the machine learning algorithm to classify. Either on a PC or laptop, the English translation will be provided to the user to determine if 
+it is accurate or if it requires additional training. For training, the interface will display when to do the gesture in front of the camera to retrain 
+the classification module for more accurate results. For the audience, who do not know sign language, a text-to-speech module will deliver a translation of ASL.
 
 \section{Design of Hardware}
 
@@ -141,15 +152,11 @@ needed. Drawings, Sketches, Figma}
 
 \section{Design of Electrical Components}
 
-\wss{Most relevant for mechatronics projects}
-\wss{Show what will be acquired}
-\wss{Show what will be built, with detail on fabrication and materials}
-\wss{Include appendices as appropriate, possibly with sketches, drawings,
-circuit diagrams, etc}
+N/A
 
 \section{Design of Communication Protocols}
 
-\wss{If appropriate}
+N/A
 
 \section{Timeline}
 
@@ -162,16 +169,13 @@ circuit diagrams, etc}
 
 \appendix
 
-\section{Interface}
+%\section{Interface}
 
-\wss{Include additional information related to the appearance of, and
-interaction with, the user interface}
+%\section{Mechanical Hardware}
 
-\section{Mechanical Hardware}
+%\section{Electrical Components}
 
-\section{Electrical Components}
-
-\section{Communication Protocols}
+%\section{Communication Protocols}
 
 \section{Reflection}
 
@@ -181,10 +185,24 @@ graduate attribute of Problem Analysis and Design.  Please answer the following 
 \begin{enumerate}
   \item What are the limitations of your solution?  Put another way, given
   unlimited resources, what could you do to make the project better? (LO\_ProbSolutions)
+  Robert Zhu: One of the limitations for our solution is that it is unable to capture the full language of ASL through only capturing hand gestures. 
+  That is because ASL often uses a range of different body movements to deliver a proper sentence. For example, the phrase for “come here” involves 
+  tapping the knee, which our program is unable to categorize since it only tracks hand movement. Grammar is also an issue as face expressions dictate 
+  the tone, urgency, and even the meaning of phrases when combined with hand gestures. At the moment, these aspects of ASL are out of the scope for the 
+  current plan, however, with enough time and datasets from the ASL community that the machine learning algorithm can read from, more of this language 
+  can be translated.
+  
   \item Give a brief overview of other design solutions you considered.  What
   are the benefits and tradeoffs of those other designs compared with the chosen
   design?  From all the potential options, why did you select documented design?
   (LO\_Explores)
+  Robert Zhu: One other design solution involved designing a device that is placed on the hands of the user with sensors that are capable of capturing 
+  hand gestures, and transmitting the information into a spoken language. The main benefit of this method compared to our current chosen design would 
+  be a very high accuracy in being able to classify the motion. Having sensors on each joint would provide more information for the processing unit by 
+  being able to distinctly tell the position of each finger, leading to fewer mistakes compared to using a camera sensor. We did not select this method 
+  as it greatly reduced the scope of ASL to only having finger movements. ASL uses dynamic motion that can not be captured using glove sensors, while a 
+  camera sensor is able to detect these movements and classify them. A dataset is also easier to gather through using a camera sensor as the hardware 
+  required for gloves requires a lot of effort to generate enough datasets to accurately translate.
 \end{enumerate}
 
 \end{document}
