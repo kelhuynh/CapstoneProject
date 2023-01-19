@@ -9,6 +9,7 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{longtable}
+\usepackage{caption}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -105,7 +106,9 @@ to understand. More detailed explanations for each goal can be found in the SRS 
   \hline
   Customizable to User\\
   \bottomrule
-\end{tabular}\\
+\\
+\captionof{table}{Controlled Variables}
+\end{tabular}
 \end{center}
 \section{Project Overview}
 
@@ -187,6 +190,7 @@ NFR6
 NFR7
 & The current design is using the universal training model for standard ASL gestures. And the machine learning function for the program will allow for the ease of training in different grammar and phonology in the future.\\
 \hline
+\caption{Requirements and Design Decisions}
 \end{longtable}
 
 \renewcommand{\arraystretch}{1.2}
@@ -204,6 +208,7 @@ Machine Learning
 & MLFR4, MLFR7\\
 \bottomrule
 \end{tabularx}
+\captionof{table}{Modules and Requirements}
 
 \section{System Variables}
 \subsection{Monitored Variables}
@@ -220,6 +225,7 @@ num & Integer & [0,25] & Determines corresponding ASL classifier label to use\\
 landmark\_list & List & [-1.0,1.0] & Set of normalized coordinates to be paired with ASL classifier label\\
 \bottomrule
 \end{tabularx}
+\captionof{table}{Monitored Variables}
 
 \subsection{Controlled Variables}
 
@@ -231,6 +237,7 @@ landmark\_list & List & [-1.0,1.0] & Set of normalized coordinates to be paired 
 RANDOM\_SEED & Integer & 51 & Value set to control random shuffling in ML model for reproducible output\\
 \bottomrule
 \end{tabularx}
+\captionof{table}{Controlled Variables}
 
 \subsection{Constants Variables}
 
@@ -248,6 +255,7 @@ landmark\_list & Integer & 16 & Maximum point history entries for motion trackin
 NUM\_CLASSES & Integer & 26 & Number of classifier labels in ML model\\
 \bottomrule
 \end{tabularx}
+\captionof{table}{Constant Variables}
 
 \section{User Interfaces}
 
@@ -308,6 +316,7 @@ Program a text-to-speech algorithm & Feb 5, 2023 & Nafi Hasan\\
 Move OpenCV system and machine learning model onto Raspberry Pi & Feb 10, 2023 & Kelvin Huynh\\
 \bottomrule
 \end{tabularx}
+\captionof{table}{Objectives Timeline}
 
 % \bibliographystyle {plainnat}
 % \bibliography{../../../refs/References}
