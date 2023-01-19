@@ -199,16 +199,16 @@ below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented.
 
 \begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{m1}:] 
-\item [\refstepcounter{mnum} \mthemnum \label{m2}:]
-\item [\refstepcounter{mnum} \mthemnum \label{m3}:]
-\item [\refstepcounter{mnum} \mthemnum \label{m4}:]
-\item [\refstepcounter{mnum} \mthemnum \label{m5}:]
-\item [\refstepcounter{mnum} \mthemnum \label{m6}:]
-\item [\refstepcounter{mnum} \mthemnum \label{m7}:] 
-\item [\refstepcounter{mnum} \mthemnum \label{m8}:] 
-\item [\refstepcounter{mnum} \mthemnum \label{m9}:] 
-\item [\refstepcounter{mnum} \mthemnum \label{m10}:] 
+\item [\refstepcounter{mnum} \mthemnum \label{m1}:] Motion Tracking Module
+\item [\refstepcounter{mnum} \mthemnum \label{m2}:] Coordinate Normalization Module
+\item [\refstepcounter{mnum} \mthemnum \label{m3}:] Coordinate Export Module
+\item [\refstepcounter{mnum} \mthemnum \label{m4}:] Video Capture Module
+\item [\refstepcounter{mnum} \mthemnum \label{m5}:] Video Analysis Module
+\item [\refstepcounter{mnum} \mthemnum \label{m6}:] Key Point Classification Module
+\item [\refstepcounter{mnum} \mthemnum \label{m7}:] Machine Learning Modules
+\item [\refstepcounter{mnum} \mthemnum \label{m8}:] Training Module
+\item [\refstepcounter{mnum} \mthemnum \label{m9}:] Text-to-Speech Module
+\item [\refstepcounter{mnum} \mthemnum \label{m10}:] Hardware Hiding Module
 
 
 \end{description}
@@ -255,67 +255,55 @@ between requirements and modules is listed in Table \ref{TblRT}.
 
 \section{Module Decomposition} \label{SecMD}
 
-Modules are decomposed according to the principle of ``information hiding''
-proposed by \citet{ParnasEtAl1984}. The \emph{Secrets} field in a module
-decomposition is a brief statement of the design decision hidden by the
-module. The \emph{Services} field specifies \emph{what} the module will do
-without documenting \emph{how} to do it. For each module, a suggestion for the
-implementing software is given under the \emph{Implemented By} title. If the
-entry is \emph{OS}, this means that the module is provided by the operating
-system or by standard programming language libraries.  \emph{\progname{}} means the
-module will be implemented by the \progname{} software.
-
-Only the leaf modules in the hierarchy have to be implemented. If a dash
-(\emph{--}) is shown, this means that the module is not a leaf and will not have
-to be implemented.
-
 \subsection{Hardware Hiding Modules (\mref{m10})}
 
 \begin{description}
-  \item[Secrets:]
-  \item[Services:] 
-  \item[Implemented By:] 
+  \item[Secrets: The data structure and algorithm used to implement the virtual hardware.]
+  \item[Services: Serves as a virtual hardware used by the rest of the system. This module provides the interface between the hardware and the software. So, the system can use it to display outputs or to accept inputs.] 
+  \item[Implemented By: OS] 
   \end{description}
   
-
-
-\subsection{Behaviour-Hiding Module}
-
-
 \subsubsection{Video Capture Module (\mref{m4})}
 
 \begin{description}
-  \item[Secrets:]
-  \item[Services:] 
-  \item[Implemented By:] 
+  \item[Secrets: The algorithm used to track hand movement through any camera lens]
+  \item[Services: Allows the progrom to interface with an external recording devices] 
+  \item[Implemented By: TensorFlow] 
   \end{description}
-  
 
-
+\subsection{Behaviour-Hiding Module}
 
 \subsubsection{Key-Point Classification Module (\mref{m6})}
 
 \begin{description}
-  \item[Secrets:]
-  \item[Services:] 
-  \item[Implemented By:] 
+  \item[Secrets: The algorithm used to return index/classifier closest to the normalized coordinates]
+  \item[Services: Provides communication between the motion tracking module and the machine learning module by storing the gathered information in the dataset] 
+  \item[Implemented By: Python] 
   \end{description}
+
+\subsubsection{Text-to-Speech Module (\mref{m4})}
+
+\begin{description}
+  \item[Secrets: The algorithm and dataset used to translate text-to-speech]
+  \item[Services: This module serves as the method by which the sign language gesture will be converted into audio output] 
+  \item[Implemented By: Python] 
+  \end{description}  
   
 \subsubsection{Training Module (\mref{m8})}
 
 \begin{description}
-  \item[Secrets:]
-  \item[Services:] 
-  \item[Implemented By:] 
+  \item[Secrets: Gathers data points from the user and formats the structure into input for machine learning]
+  \item[Services: Combines classifier label and coordinate data for application use] 
+  \item[Implemented By: Python] 
   \end{description}
   
 
 
 \subsubsection{Coordinate Export Module (\mref{m3})}
 \begin{description}
-  \item[Secrets:]
-  \item[Services:] 
-  \item[Implemented By:] 
+  \item[Secrets: The algorithm used to create a dataset for the machine learning model]
+  \item[Services: Provides access to normalized coordinate data] 
+  \item[Implemented By: Python] 
   \end{description}
   
 
@@ -323,9 +311,9 @@ to be implemented.
 \subsubsection{Motion Tracking Module (\mref{m1})}
 
 \begin{description}
-  \item[Secrets:]
-  \item[Services:] 
-  \item[Implemented By:] 
+  \item[Secrets: The algorithm by which the software detects the hand gestures performed in ASL]
+  \item[Services: Receives the video from the camera as input, and locates the different hand joints to return the coordinates of the hand position] 
+  \item[Implemented By: Python] 
   \end{description}
   
 
@@ -335,18 +323,18 @@ to be implemented.
 \subsubsection{Machine Learning Module (\mref{m7})}
 
 \begin{description}
-  \item[Secrets:]
-  \item[Services:] 
-  \item[Implemented By:] 
+  \item[Secrets: The data structure in which classifier label data is paired with normalized coordinate data]
+  \item[Services: Automates classification of sign language based on input coordinate data] 
+  \item[Implemented By: Python] 
   \end{description}
   
 
 \subsubsection{Video Analysis Module (\mref{m5})}
 
 \begin{description}
-  \item[Secrets:]
-  \item[Services:] 
-  \item[Implemented By:] 
+  \item[Secrets: The algorithm by which the hand joints and classifier are displayed for the user]
+  \item[Services: Based on the data from the Motion Tracking Module (M1), the algorithm places a joint overlay over the user’s hand as a visual tracker for all 20 joints] 
+  \item[Implemented By: Python] 
   \end{description}
   
 
@@ -354,9 +342,9 @@ to be implemented.
 \subsubsection{Coordinate Normalization Module (\mref{m2})}
 
 \begin{description}
-  \item[Secrets:]
-  \item[Services:] 
-  \item[Implemented By:] 
+  \item[Secrets: The algorithm to restructure the coordinates gathered from users into a value between 1 and -1]
+  \item[Services: Standardizes the coordinate data allowing for different resolutions in cameras to be used] 
+  \item[Implemented By: Python] 
   \end{description}
   
 
@@ -375,15 +363,15 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
+CFR1 & \mref{m1}, \mref{m4}\\
+CFR2 & \mref{m5}\\
+MLFR1 & \mref{m2}\\
+MLFR2 & \mref{m3}\\
+MLFR3 & \mref{m4}\\
+MLFR4 & \mref{m6}, \mref{m9}, \mref{m10}\\
+MLFR5 & \mref{m4}\\
+MLFR6 & \mref{m4}\\
+MLFR7 & \mref{m7}, \mref{m8}\\
 R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
 R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \bottomrule
