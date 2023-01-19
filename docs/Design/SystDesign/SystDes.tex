@@ -18,8 +18,11 @@
     urlcolor=blue
 }
 
-\input{../../Comments}
-\input{../../Common}
+%\input{../../Comments}
+%\input{../../Common}
+
+\input{Comments}
+\input{Common}
 
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
@@ -359,6 +362,10 @@ graduate attribute of Problem Analysis and Design.  Please answer the following 
   \\
   ~\\
   \\
+  Runze Zhu: One other limitation for our solution is the amount of time it takes to capture each character and translate some long sentences. Currently, it is set up in a way that requires the user to perform the hand signs one by one and hold each sign for sometime as  it takes some time to translate each sign. If the user needs to express long sentences, it would be very time consuming. At the moment, improving the speed of translation is not on the plan, while more hot words of body language can be created with enough time, so the translation can be more efficient.
+   \\
+  ~\\
+  \\
   Zifan Meng: One of the limitations of our solution is we cannot provide customization to each individual user. Every user has their own habits about
   hand gestures, for our current solution, we only have a universal training model for standard ASL gestures, if a user’s hand gesture differs a lot 
   from the standard ASL gesture, it is likely that the translation is incorrect. If we were to have more development time, we could develop a user accounts
@@ -402,6 +409,10 @@ automate the training process.
   fits a very specific niche as those who are exposed to ASL on a daily basis (i.e those who are hard of hearing) would have no use for such a solution as they 
   already understand the meaning of the different signs. The design we chose enables not only personal usage, but wider application to a teaching setting as 
   well since in theory the device can be hooked up to a large scale display device if needed.
+  \\
+  ~\\
+  \\
+  Runze Zhu: Another design solution we considered was developing an application that can be installed on cell phones or laptops to replace the Raspberry Pi, which can detect ASL language with cameras of those devices and output the results by audio or showing the words on the screen. Some advantages of such design solution would be it can use scalable cloud storage for training and saves the cost of extra hardware such as Raspberry Pi and extra camera. It’s also more portable since users don’t need to carry those hardware for translation. However, it would be quite hard to develop a software that can fit in various hardware and might need a server to run the machine learning algorithm and send the results to the users, which can be quite expensive.
   \\
   ~\\
   \\
