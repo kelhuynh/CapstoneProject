@@ -257,17 +257,17 @@ between requirements and modules is listed in Table \ref{TblRT}.
 \subsection{Hardware Hiding Modules (\mref{m10})}
 
 \begin{description}
-  \item[Secrets: The data structure and algorithm used to implement the virtual hardware.]
-  \item[Services: Serves as a virtual hardware used by the rest of the system. This module provides the interface between the hardware and the software. So, the system can use it to display outputs or to accept inputs.] 
-  \item[Implemented By: OS] 
+  \item[Secrets:] The data structure and algorithm used to implement the virtual hardware
+  \item[Services:] Serves as a virtual hardware used by the rest of the system. This module provides the interface between the hardware and the software. So, the system can use it to display outputs or to accept inputs
+  \item[Implemented By:] OS
   \end{description}
   
 \subsubsection{Video Capture Module (\mref{m4})}
 
 \begin{description}
-  \item[Secrets: The algorithm used to track hand movement through any camera lens]
-  \item[Services: Allows the progrom to interface with an external recording devices] 
-  \item[Implemented By: TensorFlow] 
+  \item[Secrets:] The algorithm used to track hand movement through any camera lens
+  \item[Services:] Allows the progrom to interface with an external recording devices
+  \item[Implemented By:] TensorFlow
   \end{description}
 
 \subsection{Behaviour-Hiding Module}
@@ -275,34 +275,34 @@ between requirements and modules is listed in Table \ref{TblRT}.
 \subsubsection{Key-Point Classification Module (\mref{m6})}
 
 \begin{description}
-  \item[Secrets: The algorithm used to return index/classifier closest to the normalized coordinates]
-  \item[Services: Provides communication between the motion tracking module and the machine learning module by storing the gathered information in the dataset] 
-  \item[Implemented By: Python] 
+  \item[Secrets:] The algorithm used to return index/classifier closest to the normalized coordinates
+  \item[Services:] Provides communication between the motion tracking module and the machine learning module by storing the gathered information in the dataset
+  \item[Implemented By:] Python
   \end{description}
 
 \subsubsection{Text-to-Speech Module (\mref{m4})}
 
 \begin{description}
-  \item[Secrets: The algorithm and dataset used to translate text-to-speech]
-  \item[Services: This module serves as the method by which the sign language gesture will be converted into audio output] 
-  \item[Implemented By: Python] 
+  \item[Secrets:] The algorithm and dataset used to translate text-to-speech
+  \item[Services:] This module serves as the method by which the sign language gesture will be converted into audio output
+  \item[Implemented By:] Python
   \end{description}  
   
 \subsubsection{Training Module (\mref{m8})}
 
 \begin{description}
-  \item[Secrets: Gathers data points from the user and formats the structure into input for machine learning]
-  \item[Services: Combines classifier label and coordinate data for application use] 
-  \item[Implemented By: Python] 
+  \item[Secrets:] Gathers data points from the user and formats the structure into input for machine learning
+  \item[Services:] Combines classifier label and coordinate data for application use
+  \item[Implemented By:] Python
   \end{description}
   
 
 
 \subsubsection{Coordinate Export Module (\mref{m3})}
 \begin{description}
-  \item[Secrets: The algorithm used to create a dataset for the machine learning model]
-  \item[Services: Provides access to normalized coordinate data] 
-  \item[Implemented By: Python] 
+  \item[Secrets:] The algorithm used to create a dataset for the machine learning model
+  \item[Services:] Provides access to normalized coordinate data
+  \item[Implemented By:] Python
   \end{description}
   
 
@@ -310,9 +310,9 @@ between requirements and modules is listed in Table \ref{TblRT}.
 \subsubsection{Motion Tracking Module (\mref{m1})}
 
 \begin{description}
-  \item[Secrets: The algorithm by which the software detects the hand gestures performed in ASL]
-  \item[Services: Receives the video from the camera as input, and locates the different hand joints to return the coordinates of the hand position] 
-  \item[Implemented By: Python] 
+  \item[Secrets:] The algorithm by which the software detects the hand gestures performed in ASL
+  \item[Services:] Receives the video from the camera as input, and locates the different hand joints to return the coordinates of the hand position
+  \item[Implemented By:] Python
   \end{description}
   
 
@@ -322,18 +322,18 @@ between requirements and modules is listed in Table \ref{TblRT}.
 \subsubsection{Machine Learning Module (\mref{m7})}
 
 \begin{description}
-  \item[Secrets: The data structure in which classifier label data is paired with normalized coordinate data]
-  \item[Services: Automates classification of sign language based on input coordinate data] 
-  \item[Implemented By: Python] 
+  \item[Secrets:] The data structure in which classifier label data is paired with normalized coordinate data
+  \item[Services:] Automates classification of sign language based on input coordinate data
+  \item[Implemented By:] Python
   \end{description}
   
 
 \subsubsection{Video Analysis Module (\mref{m5})}
 
 \begin{description}
-  \item[Secrets: The algorithm by which the hand joints and classifier are displayed for the user]
-  \item[Services: Based on the data from the Motion Tracking Module (M1), the algorithm places a joint overlay over the user’s hand as a visual tracker for all 20 joints] 
-  \item[Implemented By: Python] 
+  \item[Secrets:] The algorithm by which the hand joints and classifier are displayed for the user
+  \item[Services:] Based on the data from the Motion Tracking Module (M1), the algorithm places a joint overlay over the user’s hand as a visual tracker for all 20 joints
+  \item[Implemented By:] Python
   \end{description}
   
 
@@ -341,9 +341,9 @@ between requirements and modules is listed in Table \ref{TblRT}.
 \subsubsection{Coordinate Normalization Module (\mref{m2})}
 
 \begin{description}
-  \item[Secrets: The algorithm to restructure the coordinates gathered from users into a value between 1 and -1]
-  \item[Services: Standardizes the coordinate data allowing for different resolutions in cameras to be used] 
-  \item[Implemented By: Python] 
+  \item[Secrets:] The algorithm to restructure the coordinates gathered from users into a value between 1 and -1
+  \item[Services:] Standardizes the coordinate data allowing for different resolutions in cameras to be used
+  \item[Implemented By:] Python
   \end{description}
   
 
