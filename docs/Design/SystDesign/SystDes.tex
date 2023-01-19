@@ -101,6 +101,12 @@ OpenASL is primarily designed to assist the hearing impaired who use sign langua
 describe the key requirements for OpenASL to efficiently translate gestures and motions for any individual who does not know sign language 
 to understand. More detailed explanations for each goal can be found in the SRS (REF SRS 2.2.1).
 
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{SystemContextDiagram.jpg} 
+\caption{Hand Variables} 
+\label{Fig.System_Context_Diagram} 
+\end{figure}
 
 \wss{I made two tables, choose the one you like}
 \begin{center}
@@ -154,6 +160,13 @@ process of the user training the model, such that the system is unable to classi
 tell the user to retry. This would help prevent any incorrect data from being entered into the classification database for more accurate results.
 
 \subsection{Component Diagram}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{ComponentDiagram.jpg} 
+\caption{Component Diagram} 
+\label{Fig.Component_Diagram} 
+\end{figure}
 
 \subsection{Connection Between Requirements and Design} \label{SecConnection}
 (REF SRS 6.1, 6.2, 8.1, 8.2, 8.3, 8.4 for description of ID).
@@ -281,12 +294,30 @@ movement for the machine learning algorithm to classify. Either on a PC or lapto
 it is accurate or if it requires additional training. For training, the interface will display when to do the gesture in front of the camera to retrain 
 the classification module for more accurate results. For the audience, who do not know sign language, a text-to-speech module will deliver a translation of ASL.
 
-\section{Design of Hardware}
+\section{Mechanical Hardware}
 
-\wss{Most relevant for mechatronics projects}
-\wss{Show what will be acquired}
-\wss{Show what will be built, with detail on fabrication and materials}
-\wss{Include appendices as appropriate, possibly with sketches, drawings, CAD, etc}
+For our project, we will be implementing our program onto a Raspberry Pi 3 Model B+ board. We chose a Raspberry Pi board mainly because of its smaller form 
+factor. We wanted our device to be portable, but we also need enough processing power to run a machine learning algorithm. The Raspberry Pi board allows us 
+to achieve both of these goals. The Raspberry Pi board also has the ability to add external components such as a speaker and camera, both of which will be 
+needed for our project. We will be using the Raspberry Pi Camera v2 to capture the sign language gestures, and we will use the on-board audio socket to output 
+the translation.
+
+Raspberry Pi 3 Model B+
+GPU: Broadcom Videocore-IV
+Memory: 1 GB
+Storage: Micro-SD
+Ports: 3.5mm analogue audio-video jack, Camera Serial Interface (CSI)
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{PiBoard.jpg} 
+\caption{Raspberry Pi Model 3 B+ diagram} 
+\label{Fig.Pi_Board} 
+\end{figure}
+
+Raspberry Pi Camera v2
+Video Resolution: 1080p30, 720p60 and 640x480p60/90
+Sensor: Sony IMX219 Image sensor
 
 \section{Design of Electrical Components}
 
@@ -347,9 +378,25 @@ graduate attribute of Problem Analysis and Design.  Please answer the following 
   tapping the knee, which our program is unable to categorize since it only tracks hand movement. Grammar is also an issue as face expressions dictate 
   the tone, urgency, and even the meaning of phrases when combined with hand gestures. At the moment, these aspects of ASL are out of the scope for the 
   current plan, however, with enough time and datasets from the ASL community that the machine learning algorithm can read from, more of this language 
-  can be translated.\\
+  can be translated.
   \\
-  Zifan Meng: One of the limitations of our solution is we cannot provide customization to each individual user. Every user has their own habits about hand gestures, for our current solution, we only have a universal training model for standard ASL gestures, if a user’s hand gesture differs a lot from the standard ASL gesture, it is likely that the translation is incorrect. If we were to have more development time, we could develop a user accounts function, each user has their own account and their own database, some specific gestures of theirs can be stored in the database and the product is able to translate accordingly to the account that’s logged in.\\
+  ~\\
+  \\
+  Zifan Meng: One of the limitations of our solution is we cannot provide customization to each individual user. Every user has their own habits about
+  hand gestures, for our current solution, we only have a universal training model for standard ASL gestures, if a user’s hand gesture differs a lot 
+  from the standard ASL gesture, it is likely that the translation is incorrect. If we were to have more development time, we could develop a user accounts
+  function, each user has their own account and their own database, some specific gestures of theirs can be stored in the database and the product is 
+  able to translate accordingly to the account that’s logged in.
+  \\
+   ~\\
+  \\
+    Mirza Nafi Hasan: One limitation of our solution is the amount of time it takes to train our machine learning model. Currently, we have it set up in a way 
+that requires someone to perform the hand sign and record it themselves. Since there are no machine learning models that have data on different sign language
+gestures, if we want to be able to translate all of ASL, that will require someone to perform every gesture in sign language, which would be a very time 
+consuming process. If we had unlimited resources, we could have someone who is very familiar with ASL do these gestures, or we could try to find a way to
+automate the training process.
+  \\
+  ~\\
 
   
   \item Give a brief overview of other design solutions you considered.  What
@@ -364,9 +411,26 @@ graduate attribute of Problem Analysis and Design.  Please answer the following 
   being able to distinctly tell the position of each finger, leading to fewer mistakes compared to using a camera sensor. We did not select this method 
   as it greatly reduced the scope of ASL to only having finger movements. ASL uses dynamic motion that can not be captured using glove sensors, while a 
   camera sensor is able to detect these movements and classify them. A dataset is also easier to gather through using a camera sensor as the hardware 
-  required for gloves requires a lot of effort to generate enough datasets to accurately translate.\\
+  required for gloves requires a lot of effort to generate enough datasets to accurately translate.
   \\
-  Zifan Meng: One design solution we considered was implementing a LED screen on Raspberry Pi that outputs the translation results. Our current solution is to have a speaker for audio output, if we have both visual output and audio output, the device is more complete as a portable, individually-working device, and is suitable for all users (users with other disabilities). However this solution significantly increases the complexity of the design and increases the cost of the device. The design that we have right now are targeting users that do not have hearing disabilities, hence the audio output is sufficient enough for helping most of the users to understand ASL languages.\\
+  ~\\
+  \\
+  Zifan Meng: One design solution we considered was implementing a LED screen on Raspberry Pi that outputs the translation results. Our current solution 
+  is to have a speaker for audio output, if we have both visual output and audio output, the device is more complete as a portable, individually-working 
+  device, and is suitable for all users (users with other disabilities). However this solution significantly increases the complexity of the design and 
+  increases the cost of the device. The design that we have right now are targeting users that do not have hearing disabilities, hence the audio output 
+  is sufficient enough for helping most of the users to understand ASL languages.
+  \\
+  ~\\
+  \\
+    Mirza Nafi Hasan: One other design solution we considered was instead of using a Raspberry Pi board, we considered using a smartphone. Some advantages of 
+    this design solution would be that it satisfies the portability requirement we were aiming for. This would also be very accessible considering that everyone
+    has a phone these days. Almost all smartphones have a camera and a speaker meaning we can capture the ASL gestures as input and output the translation 
+    through the speaker. We decided against this design because we were unsure whether the average smartphone would be able to run a machine learning algorithm
+    on it. Also, creating a program for one set of hardware would be easier to manage since many things can go wrong if we wanted to test our program on 
+    multiple types of hardware.
+  \\
+  
 \end{enumerate}
 
 \end{document}
