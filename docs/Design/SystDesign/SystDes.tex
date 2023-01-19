@@ -382,6 +382,13 @@ graduate attribute of Problem Analysis and Design.  Please answer the following 
   \\
   ~\\
   \\
+  Kelvin Huynh: Another limitation for our solution is that depending on the size of the subset of ASL that we incorporate into the design, there may or 
+  may not be sufficient space available on the Raspberry Pi to accommodate our design. This is detrimental to being able to properly expand the amount of 
+  ASL able to be translated. At the moment the scope does not encompass being able to translate the entirety or a large portion of ASL, so this limitation 
+  is fine to work around.
+  \\
+  ~\\
+  \\
   Zifan Meng: One of the limitations of our solution is we cannot provide customization to each individual user. Every user has their own habits about
   hand gestures, for our current solution, we only have a universal training model for standard ASL gestures, if a user’s hand gesture differs a lot 
   from the standard ASL gesture, it is likely that the translation is incorrect. If we were to have more development time, we could develop a user accounts
@@ -412,6 +419,14 @@ automate the training process.
   as it greatly reduced the scope of ASL to only having finger movements. ASL uses dynamic motion that can not be captured using glove sensors, while a 
   camera sensor is able to detect these movements and classify them. A dataset is also easier to gather through using a camera sensor as the hardware 
   required for gloves requires a lot of effort to generate enough datasets to accurately translate.
+  \\
+  ~\\
+  \\
+  Kelvin Huynh: One design solution involved using glasses to translate ASL for someone with no understanding of ASL. This would have used the same solution 
+  as the current design using computer vision. However from a design standpoint, this solution doesn’t have a lot of benefit as it means that the end-user 
+  fits a very specific niche as those who are exposed to ASL on a daily basis (i.e those who are hard of hearing) would have no use for such a solution as they 
+  already understand the meaning of the different signs. The design we chose enables not only personal usage, but wider application to a teaching setting as 
+  well since in theory the device can be hooked up to a large scale display device if needed.
   \\
   ~\\
   \\
