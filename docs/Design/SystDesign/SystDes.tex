@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage{longtable}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -101,8 +102,42 @@ describe the key requirements for OpenASL to efficiently translate gestures and 
 to understand. More detailed explanations for each goal can be found in the SRS (REF SRS 2.2.1).
 
 
-\wss{Insert Table and System Context Here}
+\wss{I made two tables, choose the one you like}
+\begin{center}
+\begin{tabular}{ | m{18em} | } 
+  \hline
+  Goals\\ 
+  \hline
+  Reliable and Accurate Translations\\ 
+  \hline
+  Real Time Translations\\ 
+  \hline
+  Ease of Use\\
+  \hline
+  Affordability\\
+  \hline
+  Customizable to User\\
+  \hline
+\end{tabular}
+\end{center}
 
+\begin{center}
+\begin{tabular} {m{18em}}
+  \toprule		
+  \textbf{Goals}\\
+  \midrule 
+  Reliable and Accurate Translations\\
+  \hline
+  Real Time Translations\\ 
+  \hline
+  Ease of Use\\
+  \hline
+  Affordability\\
+  \hline
+  Customizable to User\\
+  \bottomrule
+\end{tabular}\\
+\end{center}
 \section{Project Overview}
 
 \subsection{Normal Behaviour}
@@ -123,17 +158,120 @@ tell the user to retry. This would help prevent any incorrect data from being en
 \subsection{Connection Between Requirements and Design} \label{SecConnection}
 (REF SRS 6.1, 6.2, 8.1, 8.2, 8.3, 8.4 for description of ID).
 
-\wss{Add Table Here}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.2\textwidth}|p{0.75\textwidth}}
+\hline
+\textbf{Requirement ID} & \textbf{Design Decision}\\
+\hline
+CFR1
+& We used a Tensorflow machine learning algorithm already incorporated into the Mediapipe library to recognize hand shape and model its joints through the lens of any camera when it detects motion.\\
+\hline
+CFR2
+& The program normalizes the resolution of any camera lens to ensure that the coordinates detected from the camera can be used to classify the vision of a gesture to its corresponding word/phrase.\\
+\hline
+MLFR1
+& We used a Tensorflow machine learning algorithm already incorporated into Mediapipe to recognize a hand shape and model its joints. This allows the coordinates of each joint to be identified and recorded into a dataset for the system.\\
+\hline
+MLFR2
+& Using the Mediapipe library, we have set up our program to take a set of normalized coordinates based on the location of the hand. This allows us to recognize.\\
+\hline
+MLFR3
+& The Mediapipe library has a built-in variable to limit the number of hands that can be tracked. We have limited that number to 2.\\
+\hline
+MLFR4
+& We acquired a Raspberry Pi board that we would use to process the machine learning model and set the delay within the hand tracking script to a reasonable amount for conversation.\\
+\hline
+MLFR5
+& Mediapipe’s built-in machine learning model classifies hand shapes within a specified confidence value between 0 and 1, of which a defaulted value of 0.5 is used. This means that if the model can confidently say with 50\% certainty that the video/image being recorded contains a hand, the hand and its joints will be displayed (subject to hand limit defined by MLFR3).\\
+\hline
+MLFR6
+& The Raspberry Pi board has the necessary hardware to process the hand gestures at a pace that is understandable to other people.\\
+\hline
+MLFR7
+& The program is set up with a training mode, where we can add data points for certain gestures to increase the accuracy of the model.\\
+\hline
+NFR1
+& The Keypoint Classifier Module checks the dataset for each gesture and is able to display its confidence as a percentage for an estimate of how often it will be able to classify the correct gesture to support testing.\\
+\hline
+NFR2
+& Mediapipe, an open-source library built from OpenCV for Python, is able to detect the user’s hands and highlight their joints accordingly to help the user focus on their hand gestures.\\
+\hline
+NFR3
+& The device is already preset with a dataset that contains many common phrases that can be translated, allowing for little set up.\\
+\hline
+NFR4
+& The user interface contains only written words and is clearly labeled for translating (normal operation), and can be further adapted into training the machine learning model as incorrect classifications indicate that the model must be retrained.\\
+\hline
+NFR5
+& The Motion Tracking module is equipped with the ability to snapshot hand positions as needed to train the relevant classifier label if retraining is needed. These coordinates are then stored into a .csv file which can be used in conjunction with the Keypoint Classifier module to retrain the model.\\
+\hline
+NFR6
+& We have chosen to implement our program onto a Raspberry Pi board. The board has a small form factor, making it easy to carry and very portable.\\
+\hline
+NFR7
+& The current design is using the universal training model for standard ASL gestures. And the machine learning function for the program will allow for the ease of training in different grammar and phonology in the future.\\
+\hline
+\end{longtable}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.2\linewidth}|p{0.72\linewidth}}
+\toprule
+\textbf{Module} & \textbf{Requirements+}\\
+\midrule
+Motion Tracking
+& CFR1, CFR2, MLFR1, MLFR2, MLFR3, MLFR5, MLFR6, NFR2\\
+\hline
+Keypoint Classifier
+& NFR1, NFR5\\
+\hline
+Machine Learning
+& MLFR4, MLFR7\\
+\bottomrule
+\end{tabularx}
 
 \section{System Variables}
-
-\wss{Add Table Here}
-
 \subsection{Monitored Variables}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.15\linewidth}|p{0.12\linewidth}|p{0.12\linewidth}|p{0.5\linewidth}}
+\toprule
+\textbf{Monitor Name} & \textbf{Monitor Type} & \textbf{Range} & \textbf{Description}\\
+\midrule
+mode & Integer & [0, 2] & Program operation mode (normal, keypoint training, point history/motion training)\\
+\hline
+num & Integer & [0,25] & Determines corresponding ASL classifier label to use\\
+\hline
+landmark\_list & List & [-1.0,1.0] & Set of normalized coordinates to be paired with ASL classifier label\\
+\bottomrule
+\end{tabularx}
 
 \subsection{Controlled Variables}
 
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.2\linewidth}|p{0.12\linewidth}|p{0.12\linewidth}|p{0.45\linewidth}}
+\toprule
+\textbf{Control Name} & \textbf{Control Type} & \textbf{Value} & \textbf{Description}\\
+\midrule
+RANDOM\_SEED & Integer & 51 & Value set to control random shuffling in ML model for reproducible output\\
+\bottomrule
+\end{tabularx}
+
 \subsection{Constants Variables}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.28\linewidth}|p{0.12\linewidth}|p{0.08\linewidth}|p{0.4\linewidth}}
+\toprule
+\textbf{Constant Name} & \textbf{Constant Type} & \textbf{Value} & \textbf{Description}\\
+\midrule
+min\_detection\_confidence & Integer & 0.5 & Minimum confidence for hand detection from tracking script\\
+\hline
+num & Integer & 0.5 & Minimum confidence for hand joint tracking\\
+\hline
+landmark\_list & Integer & 16 & Maximum point history entries for motion tracking\\
+\hline
+NUM\_CLASSES & Integer & 26 & Number of classifier labels in ML model\\
+\bottomrule
+\end{tabularx}
 
 \section{User Interfaces}
 
@@ -162,6 +300,23 @@ N/A
 
 \wss{Schedule of tasks and who is responsible}
 
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|p{0.3\linewidth}|p{0.35\linewidth}}
+\toprule
+\textbf{Objective} & \textbf{Date to be completed by} & \textbf{Member(s) Responsible}\\
+\midrule
+Create an interface that lets the user switch between training and translating & Jan 20, 2023 & Runze Zhu and Jiahui Chen\\
+\hline
+Add an expanded vocabulary of common phrases into the database & Jan 31, 2023 & Robert Zhu\\
+\hline
+Build and connect Raspberry Pi to OpenCV system to provide real-time translation & Feb 5, 2023 & Zifan Meng\\
+\hline
+Program a text-to-speech algorithm & Feb 5, 2023 & Nafi Hasan\\
+\hline
+Move OpenCV system and machine learning model onto Raspberry Pi & Feb 10, 2023 & Kelvin Huynh\\
+\bottomrule
+\end{tabularx}
+
 % \bibliographystyle {plainnat}
 % \bibliography{../../../refs/References}
 
@@ -186,25 +341,32 @@ graduate attribute of Problem Analysis and Design.  Please answer the following 
   \item What are the limitations of your solution?  Put another way, given
   unlimited resources, what could you do to make the project better? (LO\_ProbSolutions)
   ~\\
+  \\
   Robert Zhu: One of the limitations for our solution is that it is unable to capture the full language of ASL through only capturing hand gestures. 
   That is because ASL often uses a range of different body movements to deliver a proper sentence. For example, the phrase for “come here” involves 
   tapping the knee, which our program is unable to categorize since it only tracks hand movement. Grammar is also an issue as face expressions dictate 
   the tone, urgency, and even the meaning of phrases when combined with hand gestures. At the moment, these aspects of ASL are out of the scope for the 
   current plan, however, with enough time and datasets from the ASL community that the machine learning algorithm can read from, more of this language 
-  can be translated.
+  can be translated.\\
+  \\
+  Zifan Meng: One of the limitations of our solution is we cannot provide customization to each individual user. Every user has their own habits about hand gestures, for our current solution, we only have a universal training model for standard ASL gestures, if a user’s hand gesture differs a lot from the standard ASL gesture, it is likely that the translation is incorrect. If we were to have more development time, we could develop a user accounts function, each user has their own account and their own database, some specific gestures of theirs can be stored in the database and the product is able to translate accordingly to the account that’s logged in.\\
+
   
   \item Give a brief overview of other design solutions you considered.  What
   are the benefits and tradeoffs of those other designs compared with the chosen
   design?  From all the potential options, why did you select documented design?
   (LO\_Explores)
   ~\\
+  \\
   Robert Zhu: One other design solution involved designing a device that is placed on the hands of the user with sensors that are capable of capturing 
   hand gestures, and transmitting the information into a spoken language. The main benefit of this method compared to our current chosen design would 
   be a very high accuracy in being able to classify the motion. Having sensors on each joint would provide more information for the processing unit by 
   being able to distinctly tell the position of each finger, leading to fewer mistakes compared to using a camera sensor. We did not select this method 
   as it greatly reduced the scope of ASL to only having finger movements. ASL uses dynamic motion that can not be captured using glove sensors, while a 
   camera sensor is able to detect these movements and classify them. A dataset is also easier to gather through using a camera sensor as the hardware 
-  required for gloves requires a lot of effort to generate enough datasets to accurately translate.
+  required for gloves requires a lot of effort to generate enough datasets to accurately translate.\\
+  \\
+  Zifan Meng: One design solution we considered was implementing a LED screen on Raspberry Pi that outputs the translation results. Our current solution is to have a speaker for audio output, if we have both visual output and audio output, the device is more complete as a portable, individually-working device, and is suitable for all users (users with other disabilities). However this solution significantly increases the complexity of the design and increases the cost of the device. The design that we have right now are targeting users that do not have hearing disabilities, hence the audio output is sufficient enough for helping most of the users to understand ASL languages.\\
 \end{enumerate}
 
 \end{document}
