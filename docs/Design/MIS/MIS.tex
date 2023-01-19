@@ -34,7 +34,7 @@ urlcolor=cyan          % color of external links
 \externaldocument{../../SRS/SRS}
 
 \input{../../Comments}
-\input../../{Common}
+\input{../../Common}
 
 \begin{document}
 
@@ -130,27 +130,33 @@ The following table is taken directly from the Module Guide document for this pr
 \textbf{Level 1} & \textbf{Level 2}\\
 \midrule
 
-{Hardware-Hiding} & ~ \\
+{Hardware-Hiding Module} & Video Capture Module \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding} & Input Parameters\\
-& Output Format\\
-& Output Verification\\
-& Temperature ODEs\\
-& Energy Equations\\ 
-& Control Module\\
-& Specification Parameters Module\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Text-to-Speech Module\\
+& Key Point Classification Module - Communicates with ML module with data from coordinate normalization module\\
+& Training Module - Communicates with ML module to update dataset\\
+& Coordinate Export Module - Read data from video capture and stores into file\\
+& Motion Tracking Module - Controller (ties everything together)\\
+
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision} & {Sequence Data Structure}\\
-& ODE Solver\\
-& Plotting\\
+\multirow{3}{0.3\textwidth}{Software Decision Module} & Video Analysis Module - requires data to be used\\
+& Machine Learning Module\\
+& Coordinate Normalization Module\\
 \bottomrule
+
 
 \end{tabular}
 \caption{Module Hierarchy}
 \label{TblMH}
 \end{table}
+
+\section{Connection Between Requirements and Design} \label{SecConnection}
+
+The design of the system is intended to satisfy the requirements developed in
+the SRS. In this stage, the system is decomposed into modules. The connection
+between requirements and modules is listed in Table \ref{TblRT}.
 
 \newpage
 ~\newpage
