@@ -155,11 +155,11 @@ between requirements and modules is listed in Table \ref{TblRT}.
 
 \newpage
 
-\section{MIS of Motion Tracking Module (M1)} \label{M1}
+\section{MIS of Motion Tracking Module (M1)} \label{m1}
 
 \subsection{Module}
 
-motionTrack\\
+motionTrack
 
 \subsection{Uses}
 
@@ -185,11 +185,11 @@ handedness & - & \mathbb{R} & - \\
 
 \subsubsection{State Variables}
 
-None\\
+None
 
 \subsubsection{Environment Variables}
 
-f - file variable for coordinate export purposes\\
+f - file variable for coordinate export purposes
 
 \subsubsection{Assumptions}
 
@@ -200,12 +200,12 @@ None
 \noindent motionTrack():
 \begin{itemize}
 \item output: video consisting of overlay for hand gesture classification into ASL\\
-\item exception: exc := cv2.error\\
+\item exception: exc := cv2.error
 \end{itemize}
 
 ~\newpage
 
-\section{MIS of Coordinate Normalization Module (M2)} \label{M2}
+\section{MIS of Coordinate Normalization Module (M2)} \label{m2}
 
 \subsection{Module}
 
@@ -213,7 +213,7 @@ Coordinate Normalization
 
 \subsection{Uses}
 
-Video Capture\\
+Video Capture
 
 \subsection{Syntax}
 
@@ -233,11 +233,11 @@ pre\_processed\_landmark\_list & landmark\_list & Tuple of tuples & - \\
 
 \subsubsection{State Variables}
 
-None\\
+None
 
 \subsubsection{Environment Variables}
 
-None\\
+None
 
 \subsubsection{Assumptions}
 
@@ -248,25 +248,25 @@ None
 \noindent pre\_process\_landmark(landmark\_list):
 \begin{itemize}
 \item output: tuple of 20 tuples consisting of x and y coordinates for each hand joint
-\item exception: exc := ListIndexOutofBounds\\
+\item exception: exc := ListIndexOutofBounds
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \_\_calc\_landmark\_list\\
+\item \_\_calc\_landmark\_list
 \end{itemize}
 
 ~\newpage
 
-\section{MIS of Coordinate Export Module (M3)} \label{M3}
+\section{MIS of Coordinate Export Module (M3)} \label{m3}
 
 \subsection{Module}
 
-Coordinate Export\\
+Coordinate Export
 
 \subsection{Uses}
 
-Coordinate Normalization\\
+Coordinate Normalization
 
 \subsection{Syntax}
 
@@ -286,11 +286,11 @@ keypoint.csv & - & File containing normalized coordinates & - \\
 
 \subsubsection{State Variables}
 
-None\\
+None
 
 \subsubsection{Environment Variables}
 
-None\\
+None
 
 \subsubsection{Assumptions}
 
@@ -298,20 +298,20 @@ None
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \_\_make\_csv\\
+\item \_\_make\_csv
 \end{itemize}
 
 ~\newpage
 
-\section{MIS of Video Capture Module (M4)} \label{M4}
+\section{MIS of Video Capture Module (M4)} \label{m4}
 
 \subsection{Module}
 
-Video Capture\\
+Video Capture
 
 \subsection{Uses}
 
-None\\
+None
 
 \subsection{Syntax}
 
@@ -332,27 +332,27 @@ image & - & Object & - \\
 
 \subsubsection{State Variables}
 
-None\\
+None
 
 \subsubsection{Environment Variables}
 
-success - indicates that the camera input is initialized for use\\
+success - indicates that the camera input is initialized for use
 
 \subsubsection{Assumptions}
 
-There is an available camera connected to the system\\
+There is an available camera connected to the system
 
 ~\newpage
 
-\section{MIS of Video Analysis Module (M5)} \label{M5}
+\section{MIS of Video Analysis Module (M5)} \label{m5}
 
 \subsection{Module}
 
-Video Analysis\\
+Video Analysis
 
 \subsection{Uses}
 
-Coordinate Normalization, Video Capture\\
+Coordinate Normalization, Video Capture
 
 \subsection{Syntax}
 
@@ -374,11 +374,11 @@ draw\_info\_text & - & image & - \\
 
 \subsubsection{State Variables}
 
-None\\
+None
 
 \subsubsection{Environment Variables}
 
-None\\
+None
 
 \subsubsection{Assumptions}
 
@@ -388,25 +388,25 @@ None
 
 \noindent draw\_bounding\_rect(self, use\_brect, image, brect):
 \begin{itemize}
-\item output: image with overlaid bounding rectangle around hand\\
-\item exception: exc := None\\
+\item output: image with overlaid bounding rectangle around hand
+\item exception: exc := None
 \end{itemize}
 
 \noindent draw\_landmarks(self, image, landmark\_point):
 \begin{itemize}
-\item output: image with overlaid hand joints and connections\\
-\item exception: exc := None\\
+\item output: image with overlaid hand joints and connections
+\item exception: exc := None
 \end{itemize}
 
 \noindent draw\_info\_text(self, image, brect, handedness, hand\_sign\_text):
 \begin{itemize}
-\item output:  image with overlaid classifier label\\
-\item exception: exc := None\\
+\item output:  image with overlaid classifier label
+\item exception: exc := None
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \_\_calc\_bounding\_rect\\
+\item \_\_calc\_bounding\_rect
 \end{itemize}
 
 
