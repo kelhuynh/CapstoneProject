@@ -181,7 +181,7 @@ Video Capture, Coordinate Normalization, Coordinate Export, Video Analysis, Keyp
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
 results & image & Object & - \\
-hand_landmarks & - & Tuple of tuples & - \\
+hand\_landmarks & - & Tuple of tuples & - \\
 handedness & - & \mathbb{R} & - \\
 \hline
 \end{tabular}
@@ -231,7 +231,7 @@ Video Capture\\
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-pre_processed_landmark_list & landmark_list & Tuple of tuples & - \\
+pre\_processed\_landmark\_list & landmark\_list & Tuple of tuples & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -252,7 +252,7 @@ None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent pre_process_landmark(landmark_list):
+\noindent pre\_process\_landmark(landmark\_list):
 \begin{itemize}
 \item output: tuple of 20 tuples consisting of x and y coordinates for each hand joint\\
 \item exception: exc := ListIndexOutofBounds\\
@@ -260,7 +260,7 @@ None
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item __calc_landmark_list\\
+\item \_\_calc\_landmark\_list\\
 \end{itemize}
 
 \newpage
@@ -306,7 +306,7 @@ None
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item __make_csv\\
+\item \_\_make\_csv\\
 \end{itemize}
 
 \newpage
@@ -373,9 +373,9 @@ Coordinate Normalization, Video Capture\\
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-draw_bounding_rect & - & image & - \\
-draw_landmarks & - & image & - \\
-draw_info_text & - & image & - \\
+draw\_bounding\_rect & - & image & - \\
+draw\_landmarks & - & image & - \\
+draw\_info_text & - & image & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -396,19 +396,19 @@ None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent draw_bounding_rect(self, use_brect, image, brect):
+\noindent draw\_bounding\_rect(self, use\_brect, image, brect):
 \begin{itemize}
 \item output: image with overlaid bounding rectangle around hand\\
 \item exception: exc := None\\
 \end{itemize}
 
-\noindent draw_landmarks(self, image, landmark_point):
+\noindent draw\_landmarks(self, image, landmark\_point):
 \begin{itemize}
 \item output: image with overlaid hand joints and connections\\
 \item exception: exc := None\\
 \end{itemize}
 
-\noindent draw_info_text(self, image, brect, handedness, hand_sign_text):
+\noindent draw\_info\_text(self, image, brect, handedness, hand\_sign\_text):
 \begin{itemize}
 \item output:  image with overlaid classifier label\\
 \item exception: exc := None\\
@@ -416,7 +416,7 @@ None
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item __calc_bounding_rect\\
+\item \_\_calc\_bounding\_rect\\
 \end{itemize}
 
 
