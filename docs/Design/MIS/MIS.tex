@@ -33,8 +33,8 @@ urlcolor=cyan          % color of external links
 
 \externaldocument{../../SRS/SRS}
 
-\input{../../Comments}
-\input{../../Common}
+\input{Comments}
+\input{Common}
 
 \begin{document}
 
@@ -409,6 +409,157 @@ None
 \item \_\_calc\_bounding\_rect
 \end{itemize}
 
+\newpage
+~\newpage
+
+\section{MIS of Keypoint Classification Module (M6)} \label{M6}
+
+\subsection{Module}
+
+Keypoint Classification\\
+
+\subsection{Uses}
+
+Coordinate Export, Machine Learning\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{center}
+\begin{tabular}{p{3cm} p{3cm} p{2cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+result_index & landmark_list & R & ListIndexOutofRange \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None\\
+
+\subsubsection{Environment Variables}
+
+None\\
+
+\subsubsection{Assumptions}
+
+None\\
+
+\subsubsection{Local Functions}
+\begin{itemize}
+\item \_\_call\_\_
+\end{itemize}
+
+\newpage
+~\newpage
+
+\section{MIS of Machine Learning Module (M7)} \label{M7}
+
+\subsection{Module}
+
+Machine Learning\\
+
+\subsection{Uses}
+
+Keypoint Classification, Coordinate Export, Coordinate Normalization, Training\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+None\\
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None\\
+
+\subsubsection{Environment Variables}
+
+None\\
+
+\subsubsection{Assumptions}
+
+None\\
+
+\newpage
+~\newpage
+
+\section{MIS of Training Module (M8)} \label{M8}
+
+\subsection{Module}
+
+ML Train\\
+
+\subsection{Uses}
+
+Coordinate Export\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{1cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+keypoint_classifier.hdf5 & - & Hierarchical Data Format file & - \\
+\hline
+keypoint_classifier.tflite & - & ML model & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None\\
+
+\subsubsection{Environment Variables}
+
+None\\
+
+\subsubsection{Assumptions}
+
+None\\
+
+\newpage
+~\newpage
+
+\section{MIS of Text to Speech Module (M9)} \label{M9}
+
+\subsection{Module}
+
+TTS\\
+
+\subsection{Uses}
+
+Video Analysis, Keypoint Classification, Coordinate Normalization\\
+
+\subsection{Notes}
+
+To be implemented\\
+
+\newpage
+~\newpage
+
+\section{MIS of Hardware Hiding Module (M10)} \label{M10}
+
+\subsection{Module}
+
+Hardware hiding\\
+
+\subsection{Notes}
+
+To be implemented\\
 
 \newpage
 
