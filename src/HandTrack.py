@@ -1,3 +1,4 @@
+from socket import IP_MULTICAST_LOOP
 import cv2
 import mediapipe as mp
 import numpy as np
@@ -82,6 +83,8 @@ class Track:
 
                 else:
                     self.point_history.append([0, 0])
+
+                self.__ui(debug_image, self.mode, self.num)
 
                 cv2.imshow('Hand Tracking', debug_image)
 
@@ -334,3 +337,11 @@ class Track:
         cv2.putText(image, info_text, (brect[0] + 5, brect[1] - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
 
         return image
+
+    def __ui(self, image, mode, num):
+
+        if mode == 0:
+            cv2.putText(image, 'Press 2 to enter training mode, press ESC to exit', (0,15), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+        elif mode == 1:
+            cv2.putText(image, 'Press 1 to exit training mode, press ESC to exit', (0,15), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+        return
