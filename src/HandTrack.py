@@ -10,6 +10,7 @@ import os
 import time
 from collections import deque
 from model import KeyPointClassifier
+import pyttsx3
 
 
 
@@ -29,6 +30,7 @@ class Track:
         self.num = 0
         self.mode = 0
         self.tts = ""
+        self.frame_count = 0
         self.keypoint_classifier = KeyPointClassifier()
         with open(os.getcwd()+'\\src\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
             self.keypoint_classifier_labels = csv.reader(f)
@@ -86,11 +88,12 @@ class Track:
                         debug_image = self.__draw_bounding_rect(self.use_brect, debug_image, brect)
                         debug_image = self.__draw_landmarks(debug_image, self.landmark_list)
                         debug_image = self.__draw_info_text(debug_image, brect, handedness, self.keypoint_classifier_labels[hand_sign_id])
-                        self.tts = self.__textBuilder(self.tts, key, self.keypoint_classifier_labels[hand_sign_id])
+                        self.tts = self.__textBuilder(self.tts, key, self.keypoint_classifier_labels[hand_sign_id], self.frame_count)
                     
                 else:
                     self.point_history.append([0, 0])
 
+                self.frame_count = self.frame_count + 1
                 self.next_frame = time.time()
                 self.fps = 1/(self.next_frame-self.prev_frame)
                 self.prev_frame = self.next_frame
@@ -377,10 +380,24 @@ class Track:
             cv2.putText(image, 'Press 1 to exit training mode, press ESC to exit', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         return
 
-    def __textBuilder(self, tts, key, text):
+    def __textBuilder(self, tts, key, text, frame):
 
-        if key == 47: #Press '/' to add sign language input to string
-            tts = tts + text
-        if key == 46: #Press '.' to clear string
-            tts = ""
-        return tts
+            #if key == 47: #Press '/' to add sign language input to string
+                #tts = tts + text + ' ' #Adding a space for the text to speech to read individual letters
+            
+            if (frame%20) == 0:
+                tts = tts + text + " "
+
+            if key == 46: #Press '.' to clear string
+                tts = ""
+
+            if text == "v": #Read the current string and clear string
+                engine = pyttsx3.init()
+                engine.say(tts)
+                engine.runAndWait()
+                tts = ""
+
+            return tts
+
+
+
