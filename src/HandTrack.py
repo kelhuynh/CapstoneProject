@@ -16,7 +16,8 @@ from model import KeyPointClassifier
 class Track:
 
     def __init__(self, use_brect):
-        self.start = time.time()
+        self.next_frame = 0
+        self.prev_frame = 0
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
         self.mp_hands = mp.solutions.hands
@@ -90,10 +91,20 @@ class Track:
                 else:
                     self.point_history.append([0, 0])
 
-                self.__ui(debug_image, self.mode, self.num)
+                self.next_frame = time.time()
+                self.fps = 1/(self.next_frame-self.prev_frame)
+                self.prev_frame = self.next_frame
+                self.fps = int(self.fps)
+                self.fps = str(self.fps)
+
+                self.__ui(debug_image, str(self.fps), self.mode, self.num)
                 if key == 46:
                     self.tts = ""
-                cv2.putText(debug_image, "The current string is: " + self.tts, (0,475), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+
+                text_size, _ = cv2.getTextSize("The current string is: " + self.tts, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+                text_w, text_h = text_size
+                cv2.rectangle(debug_image, (0, 475 - text_h), (text_w, 480), (0,0,0), -1)
+                cv2.putText(debug_image, "The current string is: " + self.tts, (0, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
                 cv2.imshow('Hand Tracking', debug_image)
 
@@ -347,7 +358,12 @@ class Track:
 
         return image
 
-    def __ui(self, image, mode, num):
+    def __ui(self, image, frames, mode, num):
+        text = "FPS: {}  Resolution: {}x{}".format(frames, image.shape[1], image.shape[0])
+        text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+        text_w, text_h = text_size
+        cv2.rectangle(image, (636 - text_w, 0), (640, 4 + text_h), (0,0,0), -1)
+        cv2.putText(image, text, (638 - text_w, 2 + text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         
         if mode == 0:
             text_size, _ = cv2.getTextSize('Press 2 to enter training mode, press ESC to exit', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
