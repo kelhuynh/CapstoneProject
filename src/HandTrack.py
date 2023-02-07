@@ -1,18 +1,22 @@
 from socket import IP_MULTICAST_LOOP
 import cv2
+from matplotlib.pyplot import draw
 import mediapipe as mp
 import numpy as np
 import copy
 import itertools
 import csv
 import os
+import time
 from collections import deque
 from model import KeyPointClassifier
+
 
 
 class Track:
 
     def __init__(self, use_brect):
+        self.start = time.time()
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
         self.mp_hands = mp.solutions.hands
@@ -23,6 +27,7 @@ class Track:
         self.landmark_list = []
         self.num = 0
         self.mode = 0
+        self.tts = ""
         self.keypoint_classifier = KeyPointClassifier()
         with open(os.getcwd()+'\\src\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
             self.keypoint_classifier_labels = csv.reader(f)
@@ -80,11 +85,15 @@ class Track:
                         debug_image = self.__draw_bounding_rect(self.use_brect, debug_image, brect)
                         debug_image = self.__draw_landmarks(debug_image, self.landmark_list)
                         debug_image = self.__draw_info_text(debug_image, brect, handedness, self.keypoint_classifier_labels[hand_sign_id])
-
+                        self.tts = self.__textBuilder(self.tts, key, self.keypoint_classifier_labels[hand_sign_id])
+                    
                 else:
                     self.point_history.append([0, 0])
 
                 self.__ui(debug_image, self.mode, self.num)
+                if key == 46:
+                    self.tts = ""
+                cv2.putText(debug_image, "The current string is: " + self.tts, (0,475), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
                 cv2.imshow('Hand Tracking', debug_image)
 
@@ -339,9 +348,23 @@ class Track:
         return image
 
     def __ui(self, image, mode, num):
-
+        
         if mode == 0:
-            cv2.putText(image, 'Press 2 to enter training mode, press ESC to exit', (0,15), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+            text_size, _ = cv2.getTextSize('Press 2 to enter training mode, press ESC to exit', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+            text_w, text_h = text_size
+            cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
+            cv2.putText(image, 'Press 2 to enter training mode, press ESC to exit', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         elif mode == 1:
-            cv2.putText(image, 'Press 1 to exit training mode, press ESC to exit', (0,15), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+            text_size, _ = cv2.getTextSize('Press 1 to exit training mode, press ESC to exit', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+            text_w, text_h = text_size
+            cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
+            cv2.putText(image, 'Press 1 to exit training mode, press ESC to exit', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         return
+
+    def __textBuilder(self, tts, key, text):
+
+        if key == 47: #Press '/' to add sign language input to string
+            tts = tts + text
+        if key == 46: #Press '.' to clear string
+            tts = ""
+        return tts
