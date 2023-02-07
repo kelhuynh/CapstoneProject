@@ -7,6 +7,7 @@ import csv
 import os
 from collections import deque
 from model import KeyPointClassifier
+from VideoStream import VideoStream
 
 
 class Track:
@@ -23,50 +24,46 @@ class Track:
         self.num = 0
         self.mode = 0
         self.keypoint_classifier = KeyPointClassifier()
-        with open(os.getcwd()+'\\src\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
+        with open(os.getcwd()+'/model/keypoint_classifier/keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
             self.keypoint_classifier_labels = csv.reader(f)
             self.keypoint_classifier_labels = [row[0] for row in self.keypoint_classifier_labels]
 
     def motionTrack(self):
-        cap = cv2.VideoCapture(0)
+        cap = VideoStream(0).start()
         with self.mp_hands.Hands(
                 model_complexity=0,
                 min_detection_confidence=0.5,
                 min_tracking_confidence=0.5) as hands:
 
-            while cap.isOpened():
+            while True:
 
                 key = cv2.waitKey(10)
                 if key == 27:
+                    cap.stop()
                     break
                 self.num, self.mode = self.__sel_mode(key, self.mode)
 
-                success, image = cap.read()  # Success = feed established
-                if not success:
-                    print("Empty camera frame")
-                    continue
-
                 # Performance Optimization
-                image = cv2.flip(image, 1)
-                debug_image = copy.deepcopy(image)
+                cap.image = cv2.flip(cap.image, 1)
+                debug_image = copy.deepcopy(cap.image)
 
-                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                cap.image = cv2.cvtColor(cap.image, cv2.COLOR_BGR2RGB)
 
-                image.flags.writeable = False
+                cap.image.flags.writeable = False
 
-                results = hands.process(image)
+                results = hands.process(cap.image)
 
                 # Draw Hand joints
 
-                image.flags.writeable = True
-                image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+                cap.image.flags.writeable = True
+                cap.image = cv2.cvtColor(cap.image, cv2.COLOR_RGB2BGR)
 
                 if results.multi_hand_landmarks:
                     for hand_landmarks, handedness in zip(results.multi_hand_landmarks, results.multi_handedness):
 
                         brect = self.__calc_bounding_rect(debug_image, hand_landmarks)
                         # Normalize Joint Coordinates
-                        self.landmark_list = self.__calc_landmark_list(image, hand_landmarks)
+                        self.landmark_list = self.__calc_landmark_list(cap.image, hand_landmarks)
                         pre_processed_landmark_list = self.__pre_process_landmark(self.landmark_list)
                         pre_processed_point_history_list = self.__pre_process_point_history(debug_image, self.point_history)
 
@@ -85,7 +82,6 @@ class Track:
 
                 cv2.imshow('Hand Tracking', debug_image)
 
-        cap.release()
         cv2.destroyAllWindows()
 
     def __sel_mode(self, key, mode):
@@ -182,12 +178,12 @@ class Track:
         if mode == 0:
             pass
         if mode == 1 and (0 <= number <= 26):
-            csv_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint.csv'
+            csv_path = os.getcwd() + '/model/keypoint_classifier/keypoint.csv'
             with open(csv_path, 'a', newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([number, *landmark_list])
         if mode == 2 and (0 <= number <= 26):
-            csv_path = os.getcwd() + '\\src\\model\\point_history_classifier\\point_history.csv'
+            csv_path = os.getcwd() + '/model/point_history_classifier/point_history.csv'
             with open(csv_path, 'a', newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([number, *point_history_list])
