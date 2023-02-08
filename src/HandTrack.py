@@ -452,7 +452,7 @@ class Track:
         if key == 46: #Press '.' to clear string
             tts = ""
 
-        if text == "v": #Read the current string and clear string
+        if text == "Speak": #Read the current string and clear string
             engine = pyttsx3.init()
             engine.say(tts)
             engine.runAndWait()
