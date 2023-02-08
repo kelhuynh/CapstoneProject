@@ -4,8 +4,8 @@ from sklearn.model_selection import train_test_split
 
 RANDOM_SEED = 51
 
-dataset = 'model/point_history_classifier/point_history.csv'
-model_save_path = 'model/point_history_classifier/point_history_classifier.hdf5'
+dataset = 'src\\model\\point_history_classifier\\point_history.csv'
+model_save_path = 'src\\model\\point_history_classifier\\point_history_classifier.hdf5'
 
 NUM_CLASSES = 26
 TIME_STEPS = 16
@@ -66,7 +66,7 @@ print(np.argmax(np.squeeze(predict_result)))
 
 model.save(model_save_path, include_optimizer=False)
 model = tf.keras.models.load_model(model_save_path)
-tflite_save_path = 'model/point_history_classifier/point_history_classifier.tflite'
+tflite_save_path = 'src\\model\\point_history_classifier\\point_history_classifier.tflite'
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)  # converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_path)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
