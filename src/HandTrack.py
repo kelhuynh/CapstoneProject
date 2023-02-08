@@ -9,7 +9,9 @@ import csv
 import os
 import time
 from collections import deque
+from collections import Counter
 from model import KeyPointClassifier
+from model import PointHistoryClassifier
 import pyttsx3
 
 
@@ -24,20 +26,23 @@ class Track:
         self.mp_hands = mp.solutions.hands
         self.IMAGE_FILES = []
         self.use_brect = use_brect
-        history_len = 16
-        self.point_history = deque(maxlen=history_len)
+        self.history_len = 16
+        self.point_history = deque(maxlen=self.history_len)
+        self.finger_gesture_history = deque(maxlen=self.history_len)
         self.landmark_list = []
         self.num = 0
         self.mode = 0
         self.tts = ""
-        self.frame_count = 0
         self.count = 0
-        self.text = ""
-        self.prev_key = 0
         self.keypoint_classifier = KeyPointClassifier()
+        self.point_history_classifier = PointHistoryClassifier()
         with open(os.getcwd()+'\\src\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
             self.keypoint_classifier_labels = csv.reader(f)
             self.keypoint_classifier_labels = [row[0] for row in self.keypoint_classifier_labels]
+        
+        with open(os.getcwd()+'\\src\\model\\point_history_classifier\\point_history_classifier_label.csv', encoding='utf-8-sig') as f:
+            self.point_history_classifier_labels = csv.reader(f)
+            self.point_history_classifier_labels = [row[0] for row in self.point_history_classifier_labels]
 
     def motionTrack(self):
         cap = cv2.VideoCapture(0)
@@ -85,41 +90,46 @@ class Track:
                         # Dataset Generation
                         self.__makeCSV(self.num, self.mode, pre_processed_landmark_list, pre_processed_point_history_list)
 
-                        # Draw joints
+                        # Hand sign classification
                         hand_sign_id = self.keypoint_classifier(pre_processed_landmark_list)
+                        if self.mode == 2:  # Point gesture
+                            self.point_history.append(self.landmark_list[8])
+                        else:
+                            self.point_history.append([0, 0])
+
+                        # Finger gesture classification
+                        self.finger_gesture_id = 0
+                        point_history_len = len(pre_processed_point_history_list)
+                        if point_history_len == (self.history_len * 2):
+                            self.finger_gesture_id = self.point_history_classifier(pre_processed_point_history_list)
+
+                        #self.__makeCSV(self.num, self.mode, pre_processed_landmark_list, pre_processed_point_history_list)
+
+                        # Calculates the gesture IDs in the latest detection
+                        self.finger_gesture_history.append(self.finger_gesture_id)
+                        most_common_fg_id = Counter(self.finger_gesture_history).most_common()
+
+                        # Draw joints
 
                         debug_image = self.__draw_bounding_rect(self.use_brect, debug_image, brect)
                         debug_image = self.__draw_landmarks(debug_image, self.landmark_list)
-                        debug_image = self.__draw_info_text(debug_image, brect, handedness, self.keypoint_classifier_labels[hand_sign_id])
-                        self.tts = self.__textBuilder(self.tts, key, self.keypoint_classifier_labels[hand_sign_id], self.frame_count)
+                        debug_image = self.__draw_info_text(debug_image, brect, handedness, self.keypoint_classifier_labels[hand_sign_id], self.point_history_classifier_labels[most_common_fg_id[0][0]])
+                        self.tts = self.__textBuilder(self.tts, key, self.keypoint_classifier_labels[hand_sign_id], self.count)
                     
                 else:
                     self.point_history.append([0, 0])
 
-                self.frame_count = self.frame_count + 1
                 self.next_frame = time.time()
                 self.fps = 1/(self.next_frame-self.prev_frame)
                 self.prev_frame = self.next_frame
+                self.count = self.count + 1 #Frame Counter
                 self.fps = int(self.fps)
                 self.fps = str(self.fps)
+                #self.fps = str(self.count) Testing Code for Frame Counter
 
                 self.__ui(debug_image, str(self.fps), self.mode, self.num)
                 if key == 46:
                     self.tts = ""
-
-                if (self.mode == 1):
-                    text_size, _ = cv2.getTextSize("Added 0000 points for a", cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
-                    text_w, text_h = text_size
-                    cv2.rectangle(debug_image, (635 - text_w, 475 - text_h), (640, 480), (0,0,0), -1)
-                    if (97 <= key <= 122):
-                        if self.prev_key != key:
-                            self.count = 1
-                            self.text = "Added {} points for {}".format(self.count,chr(key))
-                        else:
-                            self.count += 1
-                            self.text = "Added {} points for {}".format(self.count,chr(key))
-                        self.prev_key = key
-                    cv2.putText(debug_image, self.text, (636 - text_w, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
                 text_size, _ = cv2.getTextSize("The current string is: " + self.tts, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
                 text_w, text_h = text_size
@@ -139,7 +149,7 @@ class Track:
             mode = 0
         if key == 50:  # 2 - Train keypoint
             mode = 1
-        if key == 51:  # 3
+        if key == 51:  # 3 - Point History Training
             mode = 2
         return num, mode
 
@@ -201,9 +211,8 @@ class Track:
 
         return temp_landmark_list
 
-    def __pre_process_point_history(self, image, point_history):
-        image_width, image_height = image.shape[1], image.shape[0]
-
+    def __pre_process_point_history(self, img, point_history):
+        img_width, img_height = img.shape[1], img.shape[0]
         temp_point_history = copy.deepcopy(point_history)
 
         # Convert to relative coordinates
@@ -212,12 +221,13 @@ class Track:
             if index == 0:
                 base_x, base_y = point[0], point[1]
 
-            temp_point_history[index][0] = (temp_point_history[index][0] - base_x) / image_width
-            temp_point_history[index][1] = (temp_point_history[index][1] - base_y) / image_height
+            temp_point_history[index][0] = (temp_point_history[index][0] - base_x) /img_width
+            temp_point_history[index][1] = (temp_point_history[index][1] - base_y) /img_height
 
-        # Convert to a one-dimensional list
+
         temp_point_history = list(
             itertools.chain.from_iterable(temp_point_history))
+
 
         return temp_point_history
 
@@ -367,7 +377,7 @@ class Track:
 
         return image
 
-    def __draw_info_text(self, image, brect, handedness, hand_sign_text):
+    def __draw_info_text(self, image, brect, handedness, hand_sign_text, hand_gesture_text):
         cv2.rectangle(image, (brect[0], brect[1]), (brect[2], brect[1] - 22), (0, 0, 0), -1)
 
         info_text = handedness.classification[0].label[0:]
@@ -376,6 +386,12 @@ class Track:
             info_text = info_text + ':' + hand_sign_text
         cv2.putText(image, info_text, (brect[0] + 5, brect[1] - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
 
+        if hand_gesture_text != "":
+            cv2.putText(image, "Finger Gesture:" + hand_gesture_text, (10, 60),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), 4, cv2.LINE_AA)
+            cv2.putText(image, "Finger Gesture:" + hand_gesture_text, (10, 60),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2,
+                    cv2.LINE_AA)
         return image
 
     def __ui(self, image, frames, mode, num):
@@ -395,27 +411,23 @@ class Track:
             text_w, text_h = text_size
             cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
             cv2.putText(image, 'Press 1 to exit training mode, press ESC to exit', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
-            
         return
 
     def __textBuilder(self, tts, key, text, frame):
 
-            #if key == 47: #Press '/' to add sign language input to string
-                #tts = tts + text + ' ' #Adding a space for the text to speech to read individual letters
-            
-            if (frame%20) == 0:
-                tts = tts + text + " "
+        #if key == 47: #Press '/' to add sign language input to string
+            #tts = tts + text + ' ' #Adding a space for the text to speech to read individual letters
+        
+        if (frame%20) == 0:
+            tts = tts + text + " "
 
-            if key == 46: #Press '.' to clear string
-                tts = ""
+        if key == 46: #Press '.' to clear string
+            tts = ""
 
-            if text == "v": #Read the current string and clear string
-                engine = pyttsx3.init()
-                engine.say(tts)
-                engine.runAndWait()
-                tts = ""
+        if text == "v": #Read the current string and clear string
+            engine = pyttsx3.init()
+            engine.say(tts)
+            engine.runAndWait()
+            tts = ""
 
-            return tts
-
-
-
+        return tts
