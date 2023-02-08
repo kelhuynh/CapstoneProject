@@ -8,7 +8,7 @@ RANDOM_SEED = 51
 dataset = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint.csv'
 model_save_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint_classifier.hdf5'
 
-NUM_CLASSES = 31  # Change as more signs are added
+NUM_CLASSES = 32  # Change as more signs are added
 
 x_dataset = np.loadtxt(dataset, delimiter=',', dtype='float32', usecols=list(range(1, (21 * 2) + 1)))
 y_dataset = np.loadtxt(dataset, delimiter=',', dtype='int32', usecols=(0))
