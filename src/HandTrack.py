@@ -33,7 +33,10 @@ class Track:
         self.num = 0
         self.mode = 0
         self.tts = ""
+        self.frame_count = 0
         self.count = 0
+        self.text = ""
+        self.prev_key = 0
         self.keypoint_classifier = KeyPointClassifier()
         self.point_history_classifier = PointHistoryClassifier()
         with open(os.getcwd()+'\\src\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
@@ -103,7 +106,7 @@ class Track:
                         if point_history_len == (self.history_len * 2):
                             self.finger_gesture_id = self.point_history_classifier(pre_processed_point_history_list)
 
-                        #self.__makeCSV(self.num, self.mode, pre_processed_landmark_list, pre_processed_point_history_list)
+                        self.__makeCSV(self.num, self.mode, pre_processed_landmark_list, pre_processed_point_history_list)
 
                         # Calculates the gesture IDs in the latest detection
                         self.finger_gesture_history.append(self.finger_gesture_id)
@@ -114,7 +117,7 @@ class Track:
                         debug_image = self.__draw_bounding_rect(self.use_brect, debug_image, brect)
                         debug_image = self.__draw_landmarks(debug_image, self.landmark_list)
                         debug_image = self.__draw_info_text(debug_image, brect, handedness, self.keypoint_classifier_labels[hand_sign_id], self.point_history_classifier_labels[most_common_fg_id[0][0]])
-                        self.tts = self.__textBuilder(self.tts, key, self.keypoint_classifier_labels[hand_sign_id], self.count)
+                        self.tts = self.__textBuilder(self.tts, key, self.keypoint_classifier_labels[hand_sign_id], self.frame_count)
                     
                 else:
                     self.point_history.append([0, 0])
@@ -122,7 +125,7 @@ class Track:
                 self.next_frame = time.time()
                 self.fps = 1/(self.next_frame-self.prev_frame)
                 self.prev_frame = self.next_frame
-                self.count = self.count + 1 #Frame Counter
+                self.frame_count = self.frame_count + 1 #Frame Counter
                 self.fps = int(self.fps)
                 self.fps = str(self.fps)
                 #self.fps = str(self.count) Testing Code for Frame Counter
@@ -130,6 +133,21 @@ class Track:
                 self.__ui(debug_image, str(self.fps), self.mode, self.num)
                 if key == 46:
                     self.tts = ""
+
+                if (self.mode == 1):
+                    text_size, _ = cv2.getTextSize("Added 0000 points for a", cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+                    text_w, text_h = text_size
+                    cv2.rectangle(debug_image, (635 - text_w, 475 - text_h), (640, 480), (0,0,0), -1)
+                    if (97 <= key <= 122):
+                        if self.prev_key != key:
+                            self.count = 1
+                            self.text = "Added {} points for {}".format(self.count,chr(key))
+                        else:
+                            self.count += 1
+                            self.text = "Added {} points for {}".format(self.count,chr(key))
+                        self.prev_key = key
+                    cv2.putText(debug_image, self.text, (636 - text_w, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+
 
                 text_size, _ = cv2.getTextSize("The current string is: " + self.tts, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
                 text_w, text_h = text_size
