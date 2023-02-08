@@ -429,10 +429,16 @@ class Track:
             cv2.putText(image, "The current string is: " + self.tts, (0, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
         elif mode == 1:
-            text_size, _ = cv2.getTextSize('Press 1 to exit training mode, press ESC to exit', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+            text_size, _ = cv2.getTextSize('Press 1 for Translation, 3 to Point History, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
             cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-            cv2.putText(image, 'Press 1 to exit training mode, press ESC to exit', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(image, 'Press 1 for Translation, 3 to Point History, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+
+        elif mode == 2:
+            text_size, _ = cv2.getTextSize('Press 1 for Translation, 2 to Training Mode, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+            text_w, text_h = text_size
+            cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
+            cv2.putText(image, 'Press 1 for Translation, 2 to Training Mode, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         return
 
     def __textBuilder(self, tts, key, text, frame):
@@ -440,7 +446,7 @@ class Track:
         #if key == 47: #Press '/' to add sign language input to string
             #tts = tts + text + ' ' #Adding a space for the text to speech to read individual letters
         
-        if (frame%20) == 0: #Modify this value for string record frequency
+        if (frame%40) == 0: #Modify this value for string record frequency
             tts = tts + text + " "
 
         if key == 46: #Press '.' to clear string
