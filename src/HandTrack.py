@@ -117,7 +117,8 @@ class Track:
                         debug_image = self.__draw_bounding_rect(self.use_brect, debug_image, brect)
                         debug_image = self.__draw_landmarks(debug_image, self.landmark_list)
                         debug_image = self.__draw_info_text(debug_image, brect, handedness, self.keypoint_classifier_labels[hand_sign_id], self.point_history_classifier_labels[most_common_fg_id[0][0]])
-                        self.tts = self.__textBuilder(self.tts, key, self.keypoint_classifier_labels[hand_sign_id], self.frame_count)
+                        if self.mode == 0:
+                            self.tts = self.__textBuilder(self.tts, key, self.keypoint_classifier_labels[hand_sign_id], self.frame_count)
                     
                 else:
                     self.point_history.append([0, 0])
@@ -148,11 +149,6 @@ class Track:
                         self.prev_key = key
                     cv2.putText(debug_image, self.text, (636 - text_w, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
-
-                text_size, _ = cv2.getTextSize("The current string is: " + self.tts, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
-                text_w, text_h = text_size
-                cv2.rectangle(debug_image, (0, 475 - text_h), (text_w, 480), (0,0,0), -1)
-                cv2.putText(debug_image, "The current string is: " + self.tts, (0, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
                 cv2.imshow('Hand Tracking', debug_image)
 
@@ -422,10 +418,16 @@ class Track:
         cv2.putText(image, text, (638 - text_w, 2 + text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         
         if mode == 0:
-            text_size, _ = cv2.getTextSize('Press 2 to enter training mode, press ESC to exit', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+            text_size, _ = cv2.getTextSize('Press 2 to Training Mode, 3 to Point History, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
             cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-            cv2.putText(image, 'Press 2 to enter training mode, press ESC to exit', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(image, 'Press 2 to Training Mode, 3 to Point History, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+
+            text_size, _ = cv2.getTextSize("The current string is: " + self.tts, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+            text_w, text_h = text_size
+            cv2.rectangle(image, (0, 475 - text_h), (text_w, 480), (0,0,0), -1)
+            cv2.putText(image, "The current string is: " + self.tts, (0, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+
         elif mode == 1:
             text_size, _ = cv2.getTextSize('Press 1 to exit training mode, press ESC to exit', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
@@ -438,7 +440,7 @@ class Track:
         #if key == 47: #Press '/' to add sign language input to string
             #tts = tts + text + ' ' #Adding a space for the text to speech to read individual letters
         
-        if (frame%20) == 0:
+        if (frame%20) == 0: #Modify this value for string record frequency
             tts = tts + text + " "
 
         if key == 46: #Press '.' to clear string
