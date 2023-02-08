@@ -162,7 +162,9 @@ class Track:
     def __sel_mode(self, key, mode):
         num = -1
         if 97 <= key <= 122:  # a - z on keyboard Select class
-            num = key - 97
+            num = key - 97  #0-25
+        if 65 <= key <= 90:
+            num = key - 39    
         if key == 49:  # 1 - Normal operation
             mode = 0
         if key == 50:  # 2 - Train keypoint
@@ -252,7 +254,7 @@ class Track:
     def __makeCSV(self, number, mode, landmark_list, point_history_list):
         if mode == 0:
             pass
-        if mode == 1 and (0 <= number <= 26):
+        if mode == 1 and (0 <= number <= 31):
             csv_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint.csv'
             with open(csv_path, 'a', newline="") as f:
                 writer = csv.writer(f)
