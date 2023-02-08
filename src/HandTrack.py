@@ -31,6 +31,9 @@ class Track:
         self.mode = 0
         self.tts = ""
         self.frame_count = 0
+        self.count = 0
+        self.text = ""
+        self.prev_key = 0
         self.keypoint_classifier = KeyPointClassifier()
         with open(os.getcwd()+'\\src\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
             self.keypoint_classifier_labels = csv.reader(f)
@@ -103,6 +106,20 @@ class Track:
                 self.__ui(debug_image, str(self.fps), self.mode, self.num)
                 if key == 46:
                     self.tts = ""
+
+                if (self.mode == 1):
+                    text_size, _ = cv2.getTextSize("Added 0000 points for a", cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+                    text_w, text_h = text_size
+                    cv2.rectangle(debug_image, (635 - text_w, 475 - text_h), (640, 480), (0,0,0), -1)
+                    if (97 <= key <= 122):
+                        if self.prev_key != key:
+                            self.count = 1
+                            self.text = "Added {} points for {}".format(self.count,chr(key))
+                        else:
+                            self.count += 1
+                            self.text = "Added {} points for {}".format(self.count,chr(key))
+                        self.prev_key = key
+                    cv2.putText(debug_image, self.text, (636 - text_w, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
                 text_size, _ = cv2.getTextSize("The current string is: " + self.tts, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
                 text_w, text_h = text_size
@@ -378,6 +395,7 @@ class Track:
             text_w, text_h = text_size
             cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
             cv2.putText(image, 'Press 1 to exit training mode, press ESC to exit', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+            
         return
 
     def __textBuilder(self, tts, key, text, frame):
