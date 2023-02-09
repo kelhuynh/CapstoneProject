@@ -410,11 +410,10 @@ class Track:
         cv2.putText(image, info_text, (brect[0] + 5, brect[1] - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
 
         if hand_gesture_text != "":
-            cv2.putText(image, "Finger Gesture:" + hand_gesture_text, (10, 60),
+            cv2.putText(image, "Gesture:" + hand_gesture_text, (10, 60),
                     cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), 4, cv2.LINE_AA)
-            cv2.putText(image, "Finger Gesture:" + hand_gesture_text, (10, 60),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2,
-                    cv2.LINE_AA)
+            cv2.putText(image, "Gesture:" + hand_gesture_text, (10, 60),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
         return image
 
     def __ui(self, image, frames, mode, num):
