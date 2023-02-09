@@ -257,7 +257,7 @@ class Track:
     def __makeCSV(self, number, mode, landmark_list, point_history_list):
         if mode == 0:
             pass
-        if mode == 1 and (0 <= number <= 31):
+        if mode == 1 and (0 <= number <= 36):
             csv_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint.csv'
             with open(csv_path, 'a', newline="") as f:
                 writer = csv.writer(f)
