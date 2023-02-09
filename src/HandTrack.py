@@ -95,7 +95,7 @@ class Track:
 
                         # Hand sign classification
                         hand_sign_id = self.keypoint_classifier(pre_processed_landmark_list)
-                        if self.mode == 2:  # Point gesture
+                        if self.mode == 0:  # Point gesture
                             self.point_history.append(self.landmark_list[8])
                         else:
                             self.point_history.append([0, 0])
