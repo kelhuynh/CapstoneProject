@@ -119,7 +119,7 @@ class Track:
                         debug_image = self.__draw_info_text(debug_image, brect, handedness, self.keypoint_classifier_labels[hand_sign_id], self.point_history_classifier_labels[most_common_fg_id[0][0]])
                         if self.mode == 0:
                             self.tts = self.__textBuilder(self.tts, self.keypoint_classifier_labels[hand_sign_id], self.frame_count)
-                            self.__textToSpeech(self.tts, self.keypoint_classifier_labels[hand_sign_id])
+                            self.tts = self.__textToSpeech(self.tts, self.keypoint_classifier_labels[hand_sign_id])
                     
                 else:
                     self.point_history.append([0, 0])
@@ -461,4 +461,5 @@ class Track:
             engine.say(tts)
             engine.runAndWait()
             tts = ""
-        return
+        
+        return tts
