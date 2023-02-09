@@ -118,7 +118,8 @@ class Track:
                         debug_image = self.__draw_landmarks(debug_image, self.landmark_list)
                         debug_image = self.__draw_info_text(debug_image, brect, handedness, self.keypoint_classifier_labels[hand_sign_id], self.point_history_classifier_labels[most_common_fg_id[0][0]])
                         if self.mode == 0:
-                            self.tts = self.__textBuilder(self.tts, key, self.keypoint_classifier_labels[hand_sign_id], self.frame_count)
+                            self.tts = self.__textBuilder(self.tts, self.keypoint_classifier_labels[hand_sign_id], self.frame_count)
+                            self.__textToSpeech(self.tts, self.keypoint_classifier_labels[hand_sign_id])
                     
                 else:
                     self.point_history.append([0, 0])
@@ -447,18 +448,18 @@ class Track:
             cv2.putText(image, 'Press 1 for Translation, 2 to Training Mode, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         return
 
-    def __textBuilder(self, tts, key, text, frame):
-
-        #if key == 47: #Press '/' to add sign language input to string
-            #tts = tts + text + ' ' #Adding a space for the text to speech to read individual letters
+    def __textBuilder(self, tts, text, frame):
         
         if (frame%40) == 0: #Modify this value for string record frequency
             tts = tts + text
+
+        return tts
+    
+    def __textToSpeech(self, tts, text):
 
         if text == "Speak": #Read the current string and clear string
             engine = pyttsx3.init()
             engine.say(tts)
             engine.runAndWait()
             tts = ""
-
-        return tts
+        return
