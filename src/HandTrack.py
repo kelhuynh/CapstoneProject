@@ -132,8 +132,14 @@ class Track:
                 #self.fps = str(self.count) Testing Code for Frame Counter
 
                 self.__ui(debug_image, str(self.fps), self.mode, self.num)
-                if key == 46:
+                if key == 46: #Press '.' to clear string
                     self.tts = ""
+                
+                if key == 8: #Press 'Backspace' to clear last character
+                    self.tts = self.tts[:-1]
+                
+                if key == 32: #Press 'Space' to add a space
+                    self.tts = self.tts + " "
 
                 if (self.mode == 1):
                     text_size, _ = cv2.getTextSize("Added 0000 points for a", cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
@@ -447,10 +453,7 @@ class Track:
             #tts = tts + text + ' ' #Adding a space for the text to speech to read individual letters
         
         if (frame%40) == 0: #Modify this value for string record frequency
-            tts = tts + text + " "
-
-        if key == 46: #Press '.' to clear string
-            tts = ""
+            tts = tts + text
 
         if text == "Speak": #Read the current string and clear string
             engine = pyttsx3.init()
