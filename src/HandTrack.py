@@ -450,7 +450,7 @@ class Track:
     def __textBuilder(self, tts, text, frame):
         
         if (frame%40) == 0: #Modify this value for string record frequency
-            tts = tts + text
+            tts = tts + text + " "
 
         return tts
     
@@ -458,8 +458,12 @@ class Track:
 
         if text == "Speak": #Read the current string and clear string
             engine = pyttsx3.init()
+            engine.setProperty('rate', 125)
+            voices = engine.getProperty('voices') 
+            engine.setProperty('voice', voices[1].id)
             engine.say(tts)
             engine.runAndWait()
+            engine.stop()
             tts = ""
-        
+
         return tts
