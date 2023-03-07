@@ -3,6 +3,9 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{lscape}
+\usepackage{longtable}
+\usepackage{graphicx}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -65,8 +68,118 @@ Date 2 & 1.1 & Notes\\
 This document ...
 
 \section{Functional Requirements Evaluation}
+Section 5 from V&V Plan \\
+Hardware: \\
+1. Camera Detection \\
+2. Raspberry Pi \\
+\\~\\
+Machine Learning: \\
+1. Joint Recognition \\
+2. Display coordinates in space \\
+3. Detecting multiple pairs of hands \\
+4. Detecting multiple pairs of hands \\
+5. Trainable Model  \\
+\\~\\
+Real-time Data Processing \\ 
+1. Process data in real-time \\
+
+\newpage
+\centerline{HARDWARE FUNCTIONAL REQUIREMENTS}
+\centerline{The reference for ASL alphabet is Table \#}
+
+\begin{landscape}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.2\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.05\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Requirement Reference} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+T1 & Camera is set up on Raspberry Pi & CFR1 & Raspistill command to take a picture & A picture & A picture & Pass\\ \hline
+T2 & Real-time video is captured and displayed on screen & CFR1, CFR2 & Views in front of the camera & Views in front of the camera are displayed & Views in front of the camera are displayed & Pass\\ \hline
+T3 & Testing hand detection at a distance & CFR1 & hand gesture for “d” & d & d & Pass\\ \hline
+T4 & Testing if different webcams or cameras impact a sentence & CFR1, CFR2 & Sign the sentence “how do you do” alphabetically through 5 different cameras & & & Pass\\ \hline
+T5 & Testing hand detection with multiple hands & CFR3 & hand gestures for “d” & d & d & Pass\\ \hline
+T6 & Testing hand detection for similar gestures & CFR1 & hand gesture for “m” & m & n & Fail\\ \hline
+T7 & Testing hand detection for motion (no input) & CFR1 & Static hand gestures (no motions) & No output & z/d & Fail\\ \hline
+T8 & Testing hand detection for motion & CFR1 & hand motion for “z” & z & z & Pass\\ \hline
+T9 & Testing hand detection for hand at the edges of the camera detection area & CFR1 & hand gesture for “d” & d & d & Pass\\ \hline
+T10 & Mode Selection & N/A & number “2” on keyboard & System goes into “Training Mode” & System goes into “Training Mode” & Pass\\ \hline
+T11 & String display for one hand gesture & N/A & Any hand gesture except for the gesture for “Speak” & Text representing the hand gesture is displayed & Text representing the hand gesture is displayed & Pass\\ \hline
+T12 & String display for a series of hand gestures (slow) & N/A & A series of hand gestures (except for “Speak”) with a pause of 2 seconds & Text representing each hand gesture is displayed as a string & Text representing each hand gesture is displayed as a string & Pass\\ \hline
+T13 & String display for a series of hand gestures (fast) & N/A & A series of hand gestures (except for “Speak”) with a pause of  less than 2 seconds & Text representing each hand gesture is displayed as a string & Some gesture’s tests are not displayed & Fail\\ \hline
+T14 & Modifying string display & N/A & Pressing “Backspace” or “Space” & “Backspace” deletes a character, “Space” adds a space & “Backspace” deletes a character, “Space” adds a space & Pass\\
+T15 & Testing hand detection for a series of hand gestures (fast) & CFR1 & A series of hand gestures performed in a very fast speed & Letters for corresponding hand gestures & Some letters are missing & Fail (need to increase fps)
+\hline
+\caption{HARDWARE FUNCTIONAL REQUIREMENTS}
+\end{longtable}
+\end{landscape}
+
+\newpage
+\centerline{MACHINE LEARNING FUNCTION REQUIREMENTS}
+
+\begin{landscape}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.1\linewidth}|p{0.15\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|p{0.05\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Requirement Reference} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+M1 & Testing for joint tracking when hiding joints & MLFR1, MLFR5, NFR2 & Hand Gesture for “m” and “n” (covering thumb) & Able to recognize hidden joints & Able to recognize hidden joints & Pass\\ \hline
+M2 & Testing for joint tracking when overlapping hands & MLFR1, MLFR3, MLFR5 & Hand Gesture for “S”, “M”, “N”, “R” & Able to separate different hand joints from each other & Able to separate different hand joints from each other & Pass\\ \hline
+M3 & Testing if joint lines are properly aligned with the user’s joints and move accordingly at the center & MLFR1, MLFR6, NFR2 & Moving hand from one side of the screen to the other in rapid succession & Able to overlay joint lines on user’s hand continually and is centered on the hand & Able to overlay joint lines on user’s hand continually and is centered on the hand & Pass\\ \hline
+M4 & Testing if a joint overlay will be placed on more than two hands & MLFR1, MLFR3, NFR2 & Having a third hand in the frame after the initial two & Unable to detect the third hand & Unable to detect the third hand & Pass\\ \hline
+M5 & Testing if detected joints are from one individual (the user) & MLFR1, NFR1, NFR3 & Have two people with one hand each in the frame & Detects the hand from one person as opposed to two & Detects both the hands of both people & Fail\\ \hline
+M6 & Testing if the coordinates (x,y) of each joint is accurately recorded & MLFR2 & Repeatedly recording the gesture “a” at the center of the screen & 0,0,0,-0.374045802,-0.038167939,-0.709923664,-0.381679389,-0.824427481,-0.72519084,-0.824427481,-1,-0.541984733,-0.65648855,-0.671755725,-0.86259542,-0.564885496,-0.610687023,-0.465648855,-0.389312977,-0.328244275,-0.72519084,-0.480916031,-0.885496183,-0.366412214,-0.541984733,-0.251908397,-0.305343511,-0.122137405,-0.763358779,-0.251908397,-0.870229008,-0.160305344,-0.519083969,-0.076335878,-0.282442748,0.106870229,-0.770992366,-0.045801527,-0.847328244,-0.015267176,-0.603053435,0.038167939,-0.419847328 & 0,0,0,-0.374045802,-0.038167939,-0.709923664,-0.381679389,-0.824427481,-0.72519084,-0.824427481,-1,-0.541984733,-0.65648855,-0.671755725,-0.86259542,-0.564885496,-0.610687023,-0.465648855,-0.389312977,-0.328244275,-0.72519084,-0.480916031,-0.885496183,-0.366412214,-0.541984733,-0.251908397,-0.305343511,-0.122137405,-0.763358779,-0.251908397,-0.870229008,-0.160305344,-0.519083969,-0.076335878,-0.282442748,0.106870229,-0.770992366,-0.045801527,-0.847328244,-0.015267176,-0.603053435,0.038167939,-0.419847328 & Pass\\ \hline
+M7 & Testing if the coordinates (x,y) of each joint is accurately recorded for two handed gestures & MLFR2, MLFR3 & Repeatedly recording the gesture “F” at the center of the screen & 6,0,0,0.121428571,-0.232142857,0.357142857,-0.328571429,0.578571429,-0.342857143,0.728571429,-0.357142857,0.328571429,-0.310714286,0.660714286,-0.314285714,0.85,-0.307142857,1,-0.292857143,0.346428571,-0.121428571,0.628571429,-0.171428571,0.560714286,-0.203571429,0.457142857,-0.196428571,0.342857143,0.042857143,0.571428571,-0.039285714,0.496428571,-0.071428571,0.403571429,-0.064285714,0.339285714,0.175,0.521428571,0.078571429,0.45,0.042857143,0.357142857,0.057142857 & 6,0,0,0.121428571,-0.232142857,0.357142857,-0.328571429,0.578571429,-0.342857143,0.728571429,-0.357142857,0.328571429,-0.310714286,0.660714286,-0.314285714,0.85,-0.307142857,1,-0.292857143,0.346428571,-0.121428571,0.628571429,-0.171428571,0.560714286,-0.203571429,0.457142857,-0.196428571,0.342857143,0.042857143,0.571428571,-0.039285714,0.496428571,-0.071428571,0.403571429,-0.064285714,0.339285714,0.175,0.521428571,0.078571429,0.45,0.042857143,0.357142857,0.057142857 & Pass\\ \hline
+M8 & Testing if gestures that require movement are able to be recognized (motion gestures) & MLFR4, MLFR6 & Signing“j” and “z”  & j z & j z & Pass\\ \hline
+M9 & Test if TTS string creation speed can keep up with signing speed at one gesture per second & MLFR6, MLFR4, NFR1 & Signing letters in sequence at one gesture per second & a b c d e f g & a b c d e f g & Pass\\ \hline
+M10 & Test if a .tflite file can be generated from the CSV files & MLFR5, NFR5 & A CSV file with data points from different ASL gestures & A .tflite file that can be used to  recognize the gestures that were recorded & A .tflite file that can be used to  recognize the gestures that were recorded & Pass\\ \hline
+M11 & Testing if retraining by adding new data points can change recognition & MLFR7, NFR1, NFR5 & Adding 50 accurate data points to the gesture “Hello” & The accuracy prediction increases & The accuracy prediction decrease from 60\% to 80\% & Pass\\ \hline
+M12 & Test model accuracy by signing different sequences of gestures / introducing variance into the system & MLFR4, NFR1 & Sign letters in sequence of a,b,c,d then sign with d, f, z, j & a,b,c,d d,f,z,j with 100\% accuracy & a,b,c,d d,f,z,j & Pass\\ \hline
+M13 & Testing for gesture variation based on user habits through retraining & MLFR7, NFR1, NFR3, NFR7 & Retraining the model with a different method of signing “Hello” & Hello & Hello & Pass\\
+\hline
+\caption{MACHINE LEARNING FUNCTION REQUIREMENTS}
+\end{longtable}
+\end{landscape}
+
+\newpage
+\centerline{Real-time Data Processing}
+
+\begin{landscape}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.1\linewidth}|p{0.15\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|p{0.05\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Requirement Reference} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+1 & test process data in real-time & RDP1 & hand gestures for “d” and “a” & Output the corresponding letters “da” right after the hand gestures & Letters “da” were detected and displayed right after the hand gestures & Pass\\ \hline
+2 & Testing if the relative coordinates (x,y) is written to the CSV file & RDP1, NFR5 & Hand gesture for “a” & Coordinates with identifier “0” (identifier for the letter “a”) are written to the CSV file & Coordinates with identifier “0” were written to the CSV file & Pass\\ \hline
+3 & Testing if the point history coordinates (x,y) is written to the CSV file & RDP1, NFR5 & Hand gesture for “j” & Multiple coordinates with identifier “9” (identifier for the letter “j”) are written to the CSV file & Multiple coordinates with identifier “9” get written to the CSV file & Pass\\ \hline
+4 & Text to Speech & RDP2 & Hand gesture for “Speak” & Current string is read out and then cleared & Current string is read out and then cleared & Pass\\ \hline
+5 & Text-to-speech in real-time for individual letters & RDP2 & Hand gestures for “a”, “b” and “c” & Audio output for letters “a”, “b” and “c” & Audio output for letters “a”, “b” and “c” & Pass\\ \hline
+6 & Text-to-speech in real-time for sentence & RDP2 & hand gesture for “I love you” & Audio output for “I love you” & Audio output for “I love you” & Pass\\ \hline
+7 & Switching from translating mode to retraining mode stop detecting hand gestures & N/A & Pressing either 2 or 3 & The interface no longer tries to record hand motion & The interface no longer tries to record hand motion & Pass
+\hline
+\caption{Real-time Data Processing}
+\end{longtable}
+\end{landscape}
 
 \section{Nonfunctional Requirements Evaluation}
+\newpage
+\centerline{accuracy, usability, portability, cultural}
+
+\begin{landscape}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.1\linewidth}|p{0.15\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|p{0.05\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Requirement Reference} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+1 & Test if GUI is displayed on screen & N/A & Program is started and camera is turned on & The resolution, FPS, mode, and current text are displayed on screen & The resolution, FPS, mode, and current text are displayed on screen & Pass\\ \hline
+2 & Test if gestures are not written to string when in training mode & N/A & Program is started, in training mode, and gestures are being performed & Nothing is being added to the string & Nothing is added to the string & Pass\\ \hline
+3 & Test if output is accurate for variations in user gestures & NFR7 & Trying three variations of “Hello” & Hello & Hello & Pass\\ \hline
+4 & Usability: the ease of use of a user without the knowledge of ASL &  & Instructions and example hand gestures are provided to the user & The user should know how to use the ASL device and can input some sample ASL words after reading the instructions & The user is able to use the ASL device and input some sample ASL words after reading the instructions & Pass\\ \hline
+5 & Test if the Raspberry Pi can capture and translate ASL in real time &  & Program is started on the Raspberry Pi & The Raspberry Pi should be able to use the camera to detect and translate ASL in real time & The Raspberry Pi camera does not display the video with an adequate frame rate, making translation undoable & Fail\\
+\hline
+\caption{accuracy, usability, portability, cultural}
+\end{longtable}
+\end{landscape}
 
 \subsection{Usability}
 		
