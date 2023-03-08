@@ -547,6 +547,23 @@ habits and allow for manual correction for the future\\
 \bottomrule
 \end{tabularx}
 
+\subsection{Real-time Data Processing Requirements}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.4\linewidth}|p{0.4\linewidth}}
+\toprule
+\textbf{Identifier} & \textbf{Requirement} & \textbf{Rationale}\\
+\midrule
+RDP1
+& ML model should classify the gesture based on training data used and label the gesture accordingly in real-time
+& This ensures that the system can processes data and gives output in real-time, so that continuous translation can be achieved\\
+\hline
+RDP2
+& ML model should classify the gesture and label it. Then the system should put that label through a text-to-speech system to say the word out loud
+& This allows users to consume content more easily and without the need for visual aids, making written content more accessible to people with visual impairments, learning disabilities, or other conditions that make reading difficult.\\
+\bottomrule
+\end{tabularx}
+
 \section{Functional Requirement Change Likelihood}
 \subsection{Camera Functional Requirements}
 
