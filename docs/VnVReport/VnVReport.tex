@@ -295,6 +295,13 @@ RDP2 & H8
 		
 \section{Non-Functional Quality 1}	
 
+The table above highlights the correlation between the addition of more data points and its effect on the machine learning model’s 
+accuracy. As shown above, when there are more data points to process, the machine learning model becomes more accurate as it learns 
+to generalize better, meaning it can better recognize and classify the coordinates for “a”  when the user performs the gesture again. 
+It was also important to add variation when signing to help the machine learning module learn to handle small differences. This might 
+cause a dip in the accuracy but adding more data points helps it analyze patterns better. It should be important to note however that 
+adding too much data can lead to overfitting, where the model becomes too specialized to the training data and has a hard time recognizing 
+new gestures.
 
 
 \section{Non-Functional Quality 2}
@@ -337,6 +344,14 @@ RDP2 & H8
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
 
+The pictures above are some examples of our test for the robustness of the machine learning module following a 
+rigorous evaluation process.. We introduced various types of noise and perturbations as our input for this test.
+ This includes obscuring parts of the hand, changing the lighting, and a different orientation. We measured 
+ the robustness using these conditions and fine-tuned the model by retraining it using the perturbed data. 
+ Finally, we validated the performance by testing with a different set of users, as seen above in the images,
+  with different hand sizes and gestures to help ensure that the model is robust and reliable for recognizing 
+  hand gestures in a wide range of real-world scenarios.
+
 \newpage{}
 \section*{Appendix --- Reflection}
 
@@ -352,6 +367,17 @@ graduate attribute of Reflection.  Please answer the following question:
   predict a feasible amount of effort and the right tasks needed to build the
   evidence that demonstrates the required quality?  (It is expected that most
   teams will have had to deviate from their original VnV Plan.)
+
+  Robert Zhu: One of the things we didn’t consider during the VnV plan was how the 
+  GUI would be created and tested. During the VnV planning, the scope of the plan was 
+  focused on machine learning and the newly purchased Raspberry Pi that required many 
+  test cases to ensure that the gestures would be correctly translated using the new 
+  hardware. The GUI requirements were less critical during the development process, 
+  however during testing, we needed to think about how the user is about to access 
+  the different functions of the code and the issues that occur from it. In future 
+  projects this should be anticipated since the user experience is an important 
+  requirement especially in this project where providing visual feedback to the user 
+  in real-time is necessary for improving their performance and accuracy in hand signs.
 \end{enumerate}
 
 \end{document}
