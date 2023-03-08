@@ -67,6 +67,11 @@ Date 2 & 1.1 & Notes\\
 
 This document ...
 
+\section{Purpose}
+The purpose of this document is to outline the testing that was done during the development of the ASL translator. These tests were conducted to ensure that the ASL translator is able to perform as expected and is usable in a real-life setting. This document summarizes the results of those tests.
+
+
+
 \section{Functional Requirements Evaluation}
 
 \section{Nonfunctional Requirements Evaluation}
@@ -91,10 +96,6 @@ the feedback from the Rev 0 demo to the supervisor (or to potential users)
 should be highlighted.}
 
 \section{Automated Testing}
-		
-\section{Trace to Requirements}
-		
-\section{Trace to Modules}		
 
 \section{Code Coverage Metrics}
 
@@ -247,6 +248,91 @@ H9 & Test if gestures are not written to string when in training mode & N/A & Pr
 \hline
 \caption{Text and String Display}
 \end{longtable}
+
+\newpage
+\centerline{Tests for Nonfunctional Requirements accuracy, usability, portability, cultural}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+I1 & Test if GUI is displayed on screen & N/A & Program is started and camera is turned on & The resolution, FPS, mode, and current text are displayed on screen & The resolution, FPS, mode, and current text are displayed on screen & Pass\\ \hline
+I2 & Test if output is accurate for variations in user gestures & NFR7 & Trying three variations of “Hello” & Hello & Hello & Pass\\ \hline
+I3 & Usability: the ease of use of a user without the knowledge of ASL & N/A & Instructions and example hand gestures are provided to the user & The user should know how to use the ASL device and can input some sample ASL words after reading the instructions. & The user is able to use the ASL device and input some sample ASL words after reading the instructions & Pass
+\hline
+\caption{Tests for Nonfunctional Requirements accuracy, usability, portability, cultural}
+\end{longtable}
+
+\section{Trace to Requirements}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.22\linewidth}|p{0.6\linewidth}}
+\hline
+\textbf{Requirements} & \textbf{ID}\\
+\hline
+CFR1 & A2 A6 A7 A11 B1 D1 D2 D3 G1 G3\\ \hline
+CFR2 & B1 G3\\ \hline
+MLFR1 & A1 A3 A4 A5 A8 A10 A12 A13\\ \hline
+MLFR2 & B2 B3 B4 B5\\ \hline
+MLFR3 & A2 A4 A8 B3\\ \hline
+MLFR4 & D4 D5 D6\\ \hline
+MLFR5 & A1 A8 E2\\ \hline
+MLFR6 & A3 D4\\ \hline
+MLFR7 & E3 E4\\ \hline
+NFR1 & A5 A13 D5 E3 E4\\ \hline
+NFR2 & A1 A2 A4\\ \hline
+NFR3 & A5 E4\\ \hline
+NFR4 & A14 B 5\\ \hline
+NFR5 & C1 C2 E2 E3\\ \hline
+NFR6 & G2\\ \hline
+NFR7 & E4\\ \hline
+RDP1 & C1 C2 C3 D1 D2 D3 D4 D5\\ \hline
+RDP2 & H8
+\hline
+\caption{Trace to Requirements}
+\end{longtable}
+		
+\section{Non-Functional Quality 1}	
+
+
+
+\section{Non-Functional Quality 2}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{angle_y.PNG} 
+\caption{Angled y} 
+\label{Fig.Angled y} 
+\end{figure}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{lowlight_y.PNG} 
+\caption{Low Light y} 
+\label{Fig.Low Light y} 
+\end{figure}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{normal_y.PNG} 
+\caption{Normal y} 
+\label{Fig.Normal y} 
+\end{figure}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{tiltedl_y.PNG} 
+\caption{Tilted Left} 
+\label{Fig.Tilted Left} 
+\end{figure}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{tiltedr_y.PNG} 
+\caption{Tilted Right} 
+\label{Fig.Tilted Right} 
+\end{figure}
 
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
