@@ -6,6 +6,7 @@
 \usepackage{lscape}
 \usepackage{longtable}
 \usepackage{graphicx}
+\usepackage{float}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -53,6 +54,20 @@ Date 2 & 1.1 & Notes\\
 
 \wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
 
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{lower_cases.PNG} 
+\caption{Lower Case} 
+\label{Fig.Lower Case} 
+\end{figure}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{upper_cases.PNG} 
+\caption{Upper Case} 
+\label{Fig.Upper Case} 
+\end{figure}
+
 \newpage
 
 \tableofcontents
@@ -71,33 +86,7 @@ This document ...
 The purpose of this document is to outline the testing that was done during the development of the ASL translator. These tests were conducted to ensure that the ASL translator is able to perform as expected and is usable in a real-life setting. This document summarizes the results of those tests.
 
 
-
-\section{Functional Requirements Evaluation}
-
-\section{Nonfunctional Requirements Evaluation}
-
-\subsection{Usability}
-		
-\subsection{Performance}
-
-\subsection{etc.}
-	
-\section{Comparison to Existing Implementation}	
-
-This section will not be appropriate for every project.
-
-\section{Unit Testing}
-
-\section{Changes Due to Testing}
-
-\wss{This section should highlight how feedback from the users and from 
-the supervisor (when one exists) shaped the final product.  In particular 
-the feedback from the Rev 0 demo to the supervisor (or to potential users) 
-should be highlighted.}
-
-\section{Automated Testing}
-
-\section{Code Coverage Metrics}
+\section{Test Cases}
 
 \newpage
 \centerline{Tests for Motion Tracking Module}
@@ -114,7 +103,7 @@ A4 & Testing if a joint overlay will be placed on more than two hands & MLFR1, M
 A5 & Testing if detected joints are from one individual (the user) & MLFR1, NFR1, NFR3 & Have two people with one hand each in the frame & Detects the hand from one person as opposed to two & Detects both the hands of both people & Fail\\ \hline
 A6 & Testing hand detection at a distance of 2 m & CFR1 & Hand gesture for “a”, “b”, “c” & a b c & a b c & Pass\\ \hline
 A7 & Testing hand detection with multiple hands & CFR1 & Hand gestures for “z”, “x”, “y” & z x y & z x y & Pass\\ \hline
-A8 & Testing for joint tracking when overlapping hands & MLFR1,MLFR3, MLFR5 & Hand Gesture for “S”, “M”, “N”, “R” & Able to separate different hand joints from each other & Able to separate different hand joints from each other & Pass\\ \hline
+A8 & Testing for joint tracking when overlapping hands & MLFR1, MLFR3, MLFR5 & Hand Gesture for “S”, “M”, “N”, “R” & Able to separate different hand joints from each other & Able to separate different hand joints from each other & Pass\\ \hline
 A9 & Switching from translating mode to training mode stop detecting hand gestures & N/A & Pressing either 2 or 3 & The interface no longer tries to record hand motion & The interface no longer tries to record hand motion & Pass\\ \hline
 A10 & Testing for precision tracking & MLFR1 & Making small rotations and tremors & The joint overlay makes small movements & The joint overlay makes small movements & Pass\\ \hline
 A11 & Testing for gesture recognition if the hands hand in placing with different angles & CFR1 & Hand gestures for “a”, “b”, “c” with different angles for the position of the hand & “a”, “b”, “c” & “a”, “b”, “c” & Pass\\ \hline
@@ -295,51 +284,53 @@ RDP2 & H8
 		
 \section{Non-Functional Quality 1}	
 
-The table above highlights the correlation between the addition of more data points and its effect on the machine learning model’s 
-accuracy. As shown above, when there are more data points to process, the machine learning model becomes more accurate as it learns 
-to generalize better, meaning it can better recognize and classify the coordinates for “a”  when the user performs the gesture again. 
-It was also important to add variation when signing to help the machine learning module learn to handle small differences. This might 
-cause a dip in the accuracy but adding more data points helps it analyze patterns better. It should be important to note however that 
-adding too much data can lead to overfitting, where the model becomes too specialized to the training data and has a hard time recognizing 
-new gestures.
 
 
 \section{Non-Functional Quality 2}
 
 \begin{figure}[H] 
 \centering
-\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{angle_y.PNG} 
+\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{angle_y.PNG} 
 \caption{Angled y} 
 \label{Fig.Angled y} 
 \end{figure}
 
 \begin{figure}[H] 
 \centering
-\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{lowlight_y.PNG} 
+\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{lowlight_y.PNG} 
 \caption{Low Light y} 
 \label{Fig.Low Light y} 
 \end{figure}
 
 \begin{figure}[H] 
 \centering
-\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{normal_y.PNG} 
+\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{normal_y.PNG} 
 \caption{Normal y} 
 \label{Fig.Normal y} 
 \end{figure}
 
 \begin{figure}[H] 
 \centering
-\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{tiltedl_y.PNG} 
+\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{tiltedl_y.PNG} 
 \caption{Tilted Left} 
 \label{Fig.Tilted Left} 
 \end{figure}
 
 \begin{figure}[H] 
 \centering
-\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{tiltedr_y.PNG} 
+\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{tiltedr_y.PNG} 
 \caption{Tilted Right} 
 \label{Fig.Tilted Right} 
 \end{figure}
+
+\section{Changes due to Testing}
+
+
+\section{Automated Testing}
+
+
+\section{Code Coverage Metrics}
+
 
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
