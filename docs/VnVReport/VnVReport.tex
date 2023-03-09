@@ -19,8 +19,8 @@
 }
 \usepackage[round]{natbib}
 
-\input{Comments}
-\input{Common}
+\input{../Comments}
+\input{../Common}
 
 \begin{document}
 
@@ -37,8 +37,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+March 8, 2023 & 1.0 & Everyone - Initial VnV Report Draft\\
 \bottomrule
 \end{tabularx}
 
@@ -51,11 +50,13 @@ Date 2 & 1.1 & Notes\\
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
-  T & Test\\
+  Req & Requirements\\
+  Ref & References \\
   \bottomrule
 \end{tabular}\\
-
-\wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
+~\\
+For others please refer to SRS Documentation at \url{https://github.com/kelhuynh/OpenASL/blob/main/docs/SRS/SRS.pdf}\\
+For VnV Plan Documentation please refer to \url{https://github.com/kelhuynh/OpenASL/blob/main/docs/VnVPlan/VnVPlan.pdf}
 
 \begin{figure}[H] 
 \centering
@@ -111,7 +112,7 @@ A10 & Testing for precision tracking & MLFR1 & Making small rotations and tremor
 A11 & Testing for gesture recognition if the hands hand in placing with different angles & CFR1 & Hand gestures for “a”, “b”, “c” with different angles for the position of the hand & “a”, “b”, “c” & “a”, “b”, “c” & Pass\\ \hline
 A12 & Testing for occlusion handling & MLFR1 & Partially hiding half of the hand behind a desk & The joint overlay is able to predict the rest of the hand & Joints overlay becomes disjointed and stretches & Fail\\ \hline
 A13 & Testing the durability for accuracy and reliability & NFR1, MLFR1 & Keeping the program open for over an hour and testing for similar results & The joint overlay works as intended & The frame rate decreased leading to poor performance & Fail\\ \hline
-A14 & User testing for different hand sizes and shapes & MLF1 & Using different people’s hands to test the accuracy of the string “a”, “”b”, “c”, “d” & Able to translate a b c d everytime & Able to translate a b c d everytime & Pass
+A14 & User testing for different hand sizes and shapes & MLF1, NFR4 & Using different people’s hands to test the accuracy of the string “a”, “”b”, “c”, “d” & Able to translate a b c d everytime & Able to translate a b c d everytime & Pass
 \hline
 \caption{Tests for Motion Tracking Module}
 \end{longtable}
@@ -124,7 +125,7 @@ A14 & User testing for different hand sizes and shapes & MLF1 & Using different 
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-B1 & Testing if different webcams or cameras impact coordinates at the same position & CFR1, CFR2 & Sign the sentence “how do you do” alphabetically through 5 different cameras & The same set of coordinates for all 5 & The same set of coordinates for all 5 & Pass\\ \hline
+B1 & Testing if different webcams or cameras impact coordinates at the same position & CFR1, CFR2 & Sign the sentence “how do you do” alphabet -ically through 5 different cameras & The same set of coordinates for all 5 & The same set of coordinates for all 5 & Pass\\ \hline
 B2 & Testing if the coordinates (x,y) of each joint is accurately recorded & MLFR2 & Repeatedly recording the gesture “a” at the center of the screen & The same set of coordinates should be written to CSV file every time the gesture is recorded & The same set of coordinates should be written to CSV file every time the gesture is recorded & Pass\\ \hline
 B3 & Testing if the coordinates (x,y) of each joint is accurately recorded for two handed gestures & MLFR3, MLFR2 & Repeatedly recording the gesture “F” at the center of the screen & The same set of coordinates should be written to CSV file every time the gesture is recorded & The same set of coordinates should be written to CSV file every time the gesture is recorded & Pass\\ \hline
 B4 & Testing for range normalization between [-1,1] & MLFR2 & Testing the joints at the edge of the frame & No coordinate recorded exceeds [-1, 1] & No coordinate recorded exceeds [-1, 1] & Pass\\ \hline
@@ -197,8 +198,10 @@ E4 & Testing for gesture variation based on user habits through retraining & MLF
 \hline
 F1 & Text-to-speech in real-time for individual letters & RDP1, RDP2 & Hand gestures for “a”, “b” and “c”, then hand gesture for “Speak” & Audio output for letters “a”, “b” and “c” & Audio output for letters “a”, “b” and “c” & Pass\\ \hline
 F2 & Text-to-speech in real-time for sentence & RDP1, RDP2 & Hand gesture for “I love you”, then hand gesture for “Speak” & Audio output for “I love you” & Audio output for “I love you” & Pass\\ \hline
-F3 & Testing hand detection for a series of hand gestures (fast) & MLFR7, CFR1 & A series of hand gestures performed in a very fast speed & Letters for corresponding hand gestures & Some letters are missing & Fail (need to increase fps)\\ \hline
-F4 & Test if gesture for “Speak” does not work when in training mode & RDP2, MLFR5 & Program is started, in training mode, and gestures are performed, then gesture “Speak” is performed & No audio output & No audio output & Pass
+F3 & Testing hand detection for a series of hand gestures (fast) & CFR1, RDP1, MLFR4 & A series of hand gestures performed in a very fast speed & Letters for correspond -ing hand gestures & Some letters are missing & Fail (need to increase fps)\\ \hline
+\newpage
+\hline
+F4 & Test if gesture for “Speak” does not work when in training mode & RDP2 & Program is started, in training mode, and gestures are performed, then gesture “Speak” is performed & No audio output & No audio output & Pass
 \hline
 \caption{Tests for Text to Speech Module}
 \end{longtable}
@@ -212,7 +215,7 @@ F4 & Test if gesture for “Speak” does not work when in training mode & RDP2,
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
 G1 & Camera is set up on the Raspberry Pi & CFR1 & Raspistill command to take a picture & A picture & A picture & Pass\\ \hline
-G2 & Test if the Raspberry Pi can capture the input from the camera and translate ASL in real time & ??? & Program is started on the Raspberry Pi & The Raspberry Pi should be able to use the camera to detect and translate ASL in real time & The Raspberry Pi camera does not display the video with an adequate frame rate, making translation undoable & Fail\\ \hline
+G2 & Test if the Raspberry Pi can capture the input from the camera and translate ASL in real time & NFR6 & Program is started on the Raspberry Pi & The Raspberry Pi should be able to use the camera to detect and translate ASL in real time & The Raspberry Pi camera does not display the video with an adequate frame rate, making translation undoable & Fail\\ \hline
 G3 & Real-time video is captured and displayed on screen & CFR1, CFR2 & Views in front of the camera & Views in front of the camera are displayed & Views in front of the camera are displayed & Pass
 \hline
 \caption{Tests for Hardware}
@@ -226,13 +229,13 @@ G3 & Real-time video is captured and displayed on screen & CFR1, CFR2 & Views in
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-H1 & Real-time text display for hand gestures (normal speed) & RDP1 & hand gestures for “d” and “a” performed in a reasonable speed & Output the corresponding letters “d” and “a” besides user’s hand & Output the corresponding letters “d” and “a” besides user’s hand & Pass\\ \hline
-H2 & Real-time text display for hand gestures (super fast) & RDP1 & hand gestures performed in a super fast speed & Letters for corresponding hand gestures & Some letters output are missing & Fail (need to increase fps)\\ \hline
-H3 & String display for one hand gesture & MLFR6, MLFR4, NFR1 & hand gestures for “d” & “d” is displayed as string at the bottom of the screen & “d” is displayed as string at the bottom of the screen & Pass\\ \hline
-H4 & String display for a series of hand gestures (slow speed) & MLFR6, MLFR4, NFR1 & hand gestures for “d” and “a” and “I love you” with a pause of 4 seconds & “d a I love you” is displayed as string at the bottom of the screen & “d d a a I love you I love you” is displayed as string at the bottom of the screen & Fail\\ \hline
-H5 & String display for a series of hand gestures (normal speed) & MLFR6, MLFR4, NFR1 & hand gestures for “d” and “a” and “I love you” with a pause of 1 to 2 seconds & “d a I love you” is displayed as string at the bottom of the screen & “d a I love you” is displayed as string at the bottom of the screen
+H1 & Real-time text display for hand gestures (normal speed) & RDP1 & Hand gestures for “d” and “a” performed in a reasonable speed & Output the correspond -ing letters “d” and “a” besides user’s hand & Output the correspond -ing letters “d” and “a” besides user’s hand & Pass\\ \hline
+H2 & Real-time text display for hand gestures (super fast) & RDP1, MLFR4 & Hand gestures performed in a super fast speed & Letters for correspond -ing hand gestures & Some letters output are missing & Fail (need to increase fps)\\ \hline
+H3 & String display for one hand gesture & MLFR6, MLFR4, NFR1 & Hand gestures for “d” & “d” is displayed as string at the bottom of the screen & “d” is displayed as string at the bottom of the screen & Pass\\ \hline
+H4 & String display for a series of hand gestures (slow speed) & MLFR6, MLFR4, NFR1 & Hand gestures for “d” and “a” and “I love you” with a pause of 4 seconds & “d a I love you” is displayed as string at the bottom of the screen & “d d a a I love you I love you” is displayed as string at the bottom of the screen & Fail\\ \hline
+H5 & String display for a series of hand gestures (normal speed) & MLFR6, MLFR4, NFR1 & Hand gestures for “d” and “a” and “I love you” with a pause of 1 to 2 seconds & “d a I love you” is displayed as string at the bottom of the screen & “d a I love you” is displayed as string at the bottom of the screen
 & Pass\\ \hline
-H6 & String display for a series of hand gestures (fast speed) & MLFR6, MLFR4, NFR1 & hand gestures for “d” and “a” and “I love you” without pause & “d a I love you” is displayed as string at the bottom of the screen & “d I love you” is displayed as string at the bottom of the screen & Fail\\ \hline
+H6 & String display for a series of hand gestures (fast speed) & MLFR6, MLFR4, NFR1 & Hand gestures for “d” and “a” and “I love you” without pause & “d a I love you” is displayed as string at the bottom of the screen & “d I love you” is displayed as string at the bottom of the screen & Fail\\ \hline
 H7 & Modifying string display & N/A & Pressing “Backspace” or “Space” & “Backspace” deletes a character in string, “Space” adds a space in string & “Backspace” deletes a character in string, “Space” adds a space in string & Pass\\ \hline
 H8 & String display is cleared after audio output & RDP1, RDP2 & Hand gestures are performed, and then perform hand gesture for “Speak” & Current string is cleared & Current string is cleared & Pass\\ \hline
 H9 & Test if gestures are not written to string when in training mode & N/A & Program is started, in training mode, and gestures are being performed & Nothing is being added to the string and nothing is displayed at the bottom & Nothing is added to the string and nothing is displayed at the bottom & Pass
