@@ -19,8 +19,8 @@
 }
 \usepackage[round]{natbib}
 
-\input{Comments}
-\input{Common}
+\input{../Comments}
+\input{../Common}
 
 \begin{document}
 
@@ -55,7 +55,7 @@ March 8, 2023 & 1.0 & Everyone - Initial VnV Report Draft\\
   \bottomrule
 \end{tabular}\\
 ~\\
-For others please refer to VnV Plan Documentation at \url{https://github.com/kelhuynh/OpenASL/blob/main/docs/VnVPlan/VnVPlan.pdf}
+For others please refer to SRS Documentation at \url{https://github.com/kelhuynh/OpenASL/blob/main/docs/SRS/SRS.pdf}
 
 \begin{figure}[H] 
 \centering
@@ -124,7 +124,7 @@ A14 & User testing for different hand sizes and shapes & MLF1, NFR4 & Using diff
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-B1 & Testing if different webcams or cameras impact coordinates at the same position & CFR1, CFR2 & Sign the sentence “how do you do” alphabetically through 5 different cameras & The same set of coordinates for all 5 & The same set of coordinates for all 5 & Pass\\ \hline
+B1 & Testing if different webcams or cameras impact coordinates at the same position & CFR1, CFR2 & Sign the sentence “how do you do” alphabet -ically through 5 different cameras & The same set of coordinates for all 5 & The same set of coordinates for all 5 & Pass\\ \hline
 B2 & Testing if the coordinates (x,y) of each joint is accurately recorded & MLFR2 & Repeatedly recording the gesture “a” at the center of the screen & The same set of coordinates should be written to CSV file every time the gesture is recorded & The same set of coordinates should be written to CSV file every time the gesture is recorded & Pass\\ \hline
 B3 & Testing if the coordinates (x,y) of each joint is accurately recorded for two handed gestures & MLFR3, MLFR2 & Repeatedly recording the gesture “F” at the center of the screen & The same set of coordinates should be written to CSV file every time the gesture is recorded & The same set of coordinates should be written to CSV file every time the gesture is recorded & Pass\\ \hline
 B4 & Testing for range normalization between [-1,1] & MLFR2 & Testing the joints at the edge of the frame & No coordinate recorded exceeds [-1, 1] & No coordinate recorded exceeds [-1, 1] & Pass\\ \hline
