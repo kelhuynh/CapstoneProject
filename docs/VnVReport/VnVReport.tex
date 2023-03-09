@@ -308,69 +308,30 @@ gestures in a wide range of real-world scenarios.
 \newpage
 \section{Non-Functional Quality 2}
 
-\begin{comment} 
-
-\begin{figure}[H] 
-\centering
-\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{angle_y.PNG} 
-\caption{Angled y} 
-\label{Fig.Angled y} 
-\end{figure}
-
-\begin{figure}[H] 
-\centering
-\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{lowlight_y.PNG} 
-\caption{Low Light y} 
-\label{Fig.Low Light y} 
-\end{figure}
-
-\begin{figure}[H] 
-\centering
-\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{normal_y.PNG} 
-\caption{Normal y} 
-\label{Fig.Normal y} 
-\end{figure}
-
-\begin{figure}[H] 
-\centering
-\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{tiltedl_y.PNG} 
-\caption{Tilted Left} 
-\label{Fig.Tilted Left} 
-\end{figure}
-
-\begin{figure}[H] 
-\centering
-\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{tiltedr_y.PNG} 
-\caption{Tilted Right} 
-\label{Fig.Tilted Right} 
-\end{figure}
-
-\end{comment}
-
 \begin{figure}[!ht]
-\minipage{0.48\textwidth}
+\minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{angled_y.png}
   \caption{Angled y}\label{fig:Angled y}
 \endminipage\centering
-\minipage{0.48\textwidth}
+\minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{low_light_y.png}
   \caption{Low Light y}\label{fig:Low Light y}
 \endminipage\hfill
 \end{figure}
 
 \begin{figure}[!ht]
-\minipage{0.48\textwidth}
+\minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{normal_y.png}
   \caption{Normal y}\label{fig:Normal y}
 \endminipage\centering
-\minipage{0.48\textwidth}
+\minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{left_y.png}
   \caption{Tilted Left}\label{fig:Tilted Left}
 \endminipage\hfill
 \end{figure}
 
 \begin{figure}[!ht]
-\minipage{0.48\textwidth}
+\minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{right_y.png}
   \caption{Tilted Right}\label{fig:Tilted Right}
 \endminipage\hfill
@@ -414,7 +375,7 @@ model is able to draw a distinction between similar gestures.
 
 \begin{figure}[h]
   \minipage{0.48\textwidth}
-    \includegraphics[width=\linewidth]{coverage_report_hmtl.png}
+    \includegraphics[width=\linewidth]{coverage_report_html.png}
     \caption{HTML Output}\label{fig:Coverage Report - HTML}
   \endminipage\hfill
   \minipage{0.48\textwidth}
@@ -453,7 +414,7 @@ graduate attribute of Reflection.  Please answer the following question:
   projects?  If there weren't any differences, how was your team able to clearly
   predict a feasible amount of effort and the right tasks needed to build the
   evidence that demonstrates the required quality?  (It is expected that most
-  teams will have had to deviate from their original VnV Plan.)
+  teams will have had to deviate from their original VnV Plan.)\\
 
   Robert Zhu: One of the things we didn’t consider during the VnV plan was how the 
   GUI would be created and tested. During the VnV planning, the scope of the plan was 
@@ -464,7 +425,7 @@ graduate attribute of Reflection.  Please answer the following question:
   the different functions of the code and the issues that occur from it. In future 
   projects this should be anticipated since the user experience is an important 
   requirement especially in this project where providing visual feedback to the user 
-  in real-time is necessary for improving their performance and accuracy in hand signs.
+  in real-time is necessary for improving their performance and accuracy in hand signs.\\
   
   Mirza Nafi Hasan: Many things had changed from our VnV Plan. In our VnV plan, a lot 
   of the test cases covered only the basic functionality of our project. Since we have 
@@ -474,7 +435,7 @@ graduate attribute of Reflection.  Please answer the following question:
   if two joints are on top of each other? Or if two hands are on top of each other? We 
   were able to get a better idea of these edge cases once we had started writing the 
   code. We would likely be able to identify some more tests we need to account for 
-  before starting development for future projects.
+  before starting development for future projects.\\
 
   Kelvin Huynh: When we created our VnV Plan, we mentioned the use of the PyTest framework for 
   the purposes of automated testing. However, at the time we failed to consider how we would create 
@@ -482,7 +443,9 @@ graduate attribute of Reflection.  Please answer the following question:
   VnV report, we were not able to implement the use of this tool in full capacity. Instead, we opted to 
   just do manual testing while considering as many test cases as possible. In future projects, this issue 
   could easily be circumvented if we actively thought of potential test cases and developed automated testing 
-  scripts during the development process as needed.
+  scripts during the development process as needed.\\
+
+  Zifan Meng: One of the differences between the VnV plan and the actual VnV process is that the VnV plan did not  account for the differentiation between static hand gestures and motion gestures. However, during the development process, we realized that differentiating static gestures and motion gestures was crucial, due to the fact that American Sign Language involves a large amount of motions. Therefore, the key point history mode was developed and implemented for recognizing and translating motions. Corresponding test plans are also designed and executed to test whether the program can detect motions. Although it is difficult to anticipate every potential change that could arise, this experience indicates the importance of carefully considering the requirements of the project. We will continue to develop modularized programs so that the program is flexible and adaptable for possible modifications.\\
 
 \end{enumerate}
 
