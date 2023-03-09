@@ -7,6 +7,9 @@
 \usepackage{longtable}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{comment}
+\usepackage[demo]{graphicx}
+\usepackage{babel,blindtext}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -284,9 +287,26 @@ RDP2 & H8
 		
 \section{Non-Functional Quality 1}	
 
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{correlation.PNG} 
+\caption{Angled y} 
+\label{Fig.Correlation} 
+\end{figure}
+
+The pictures above are some examples of our test for the robustness of the machine learning 
+module following a rigorous evaluation process.. We introduced various types of noise and 
+perturbations as our input for this test. This includes obscuring parts of the hand, changing
+the lighting, and a different orientation. We measured the robustness using these conditions
+and fine-tuned the model by retraining it using the perturbed data. Finally, we validated the
+performance by testing with a different set of users, as seen above in the images, with different
+hand sizes and gestures to help ensure that the model is robust and reliable for recognizing hand
+gestures in a wide range of real-world scenarios.
 
 
 \section{Non-Functional Quality 2}
+
+\begin{comment} 
 
 \begin{figure}[H] 
 \centering
@@ -322,6 +342,43 @@ RDP2 & H8
 \caption{Tilted Right} 
 \label{Fig.Tilted Right} 
 \end{figure}
+
+\end{comment}
+
+\blindtext
+
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{angle_y.png}
+  \caption{Angled y}\label{fig:Angled y}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{lowlight_y.png}
+  \caption{Low Light y}\label{fig:Low Light y}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{normal_y.png}
+  \caption{Normal y}\label{fig:Normal y}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{tiltedl_y.png}
+  \caption{Tilted Left}\label{fig:Tilted Left}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{tiltedr_y.png}
+  \caption{Tilted Right}\label{fig:Tilted Right}
+\endminipage\hfill
+
+\end{figure}
+
+
+\blindtext
 
 \section{Changes due to Testing}
 
@@ -369,6 +426,16 @@ graduate attribute of Reflection.  Please answer the following question:
   projects this should be anticipated since the user experience is an important 
   requirement especially in this project where providing visual feedback to the user 
   in real-time is necessary for improving their performance and accuracy in hand signs.
+  
+  Mirza Nafi Hasan: Many things had changed from our VnV Plan. In our VnV plan, a lot 
+  of the test cases covered only the basic functionality of our project. Since we have 
+  gotten into the development, we have started to realize the details that we would need 
+  to focus on. For example, in our VnV plan, we have a test case for detecting hand 
+  gestures (TC-MLFR1). However, we failed to consider the edge cases, like what happens
+  if two joints are on top of each other? Or if two hands are on top of each other? We 
+  were able to get a better idea of these edge cases once we had started writing the 
+  code. We would likely be able to identify some more tests we need to account for 
+  before starting development for future projects.
 \end{enumerate}
 
 \end{document}
