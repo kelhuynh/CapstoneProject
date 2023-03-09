@@ -66,7 +66,7 @@ Date 2 & 1.1 & Notes\\
 
 \begin{figure}[H] 
 \centering
-\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{upper_cases.PNG} 
+\includegraphics[width=\textwidth,height=0.95\textheight,keepaspectratio]{upper_cases.PNG} 
 \caption{Upper Case} 
 \label{Fig.Upper Case} 
 \end{figure}
@@ -83,17 +83,14 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document ...
-
 \section{Purpose}
 The purpose of this document is to outline the testing that was done during the development 
 of the ASL translator. These tests were conducted to ensure that the ASL translator is able 
 to perform as expected and is usable in a real-life setting. This document summarizes the 
 results of those tests.
 
-\section{Test Cases}
-
 \newpage
+\section{Test Cases}
 \centerline{Tests for Motion Tracking Module}
 
 \renewcommand{\arraystretch}{1.2}
@@ -337,6 +334,7 @@ gestures in a wide range of real-world scenarios.
 \endminipage\hfill
 \end{figure}
 \minipage{1\textwidth}
+~\\
 The pictures above are some examples of our test for the robustness of the machine 
 learning module following a rigorous evaluation process.. We introduced various types 
 of noise and perturbations as our input for this test. This includes obscuring parts 
@@ -353,20 +351,20 @@ From the failures of test cases G2 and H2, it was determined that the program’
 likely due to hardware limitations with single core processing. Thus, the approach that we decided to take was to rewrite the 
 program such that the Raspberry Pi is able to utilize Python’s multiprocessing library to alleviate performance issues. As of 
 writing this, this solution is still being worked on and is not guaranteed to work. There are also potentially other solutions 
-to use slightly more powerful hardware such as mobile devices or another board, though the main concern would be the portability requirement NFR6.
-
+to use slightly more powerful hardware such as mobile devices or another board, though the main concern would be the portability requirement NFR6.\\
+~\\
 In addition, from test cases D2 and D6, the program fails to detect the difference between its modes KeypointClassification 
 (regular static gesture), PointHistoryClassification (motion gesture), and idle (where no gestures should be detected). At the 
 moment, both modes operate at the same exact time which may cause confusion for the user and cause issues with the text to speech 
 module. Therefore, changes to the program as a result of the tests would include a method that provides better distinction between 
-the two modes.
-
+the two modes.\\
+~\\
 Furthermore from the test cases for the training module, we encountered an oversight with how training would occur when signing with 
 both hands. We have it currently set up so that you would press a key to record the coordinates of your hand gestures. But in doing so, 
 we failed to realize how this would work when performing signs that required the use of both hands. As a result of this circumstance, we 
 are now working on implementing a change to the GUI that enables automated recording of these gestures where a keypress will start a timer 
-of 10 seconds then record a data point every 5 seconds. These values are subject to change and will be adjusted as needed.
-
+of 10 seconds then record a data point every 5 seconds. These values are subject to change and will be adjusted as needed.\\
+~\\
 From test case D1, we can conclude that the accuracy of the model for similar gestures is also one aspect that is inadequate in quality. 
 Therefore the change that would be made based on non-functional quality 1, would be to add more data points such that the machine learning 
 model is able to draw a distinction between similar gestures.
@@ -382,16 +380,18 @@ model is able to draw a distinction between similar gestures.
     \includegraphics[width=\linewidth]{coverage_report_terminal.png}
     \caption{Terminal Output}\label{fig:Coverage Report - Terminal}
   \endminipage\hfill
-\end{figure}
-
-The images above are code coverage reports generated using Coverage.py which utilizes the PyTest Unit Testing Framework. 
-While the code coverage is not 100\%, it is reasonable enough at 92\% as not every single line of code will be hit upon execution. 
+\end{figure}\\
+~\\
+The images above are code coverage reports generated using Coverage.py which utilizes the PyTest Unit Testing Framework. \\
+~\\
+While the code coverage is not 100\%, it is reasonable enough at 92\% as not every single line of code will be hit upon execution. \\
+~\\
 This is especially true because there are portions of code which would require manual input from the user before they can be executed.
 
 
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
-
+~\\
 The pictures above are some examples of our test for the robustness of the machine learning module following a 
 rigorous evaluation process.. We introduced various types of noise and perturbations as our input for this test.
  This includes obscuring parts of the hand, changing the lighting, and a different orientation. We measured 
@@ -448,6 +448,8 @@ graduate attribute of Reflection.  Please answer the following question:
   Jiahui Chen: By cross referencing to the VnV plan, one of the differences is that the test cases written in the VnV plan did not cover all the modules or functionalities that need to be tested. They were too general and did not correspond to the specific modules.Therefore, in the VnV Report, we redesigned the test cases based on modules to make sure all the important testing criteria are covered. This problem happened because at the beginning of the development, we missed out some functionalities of the modules and they were added during the development process. And we also changed some of the functions for the device when we realized the initial ideas or design could not be implemented well. For example, the text-to-speech module was added to replace the external speaker and the testing for the text-to-speech module needs to be conducted. We might still anticipate some changes to testing plans or testing cases in the future with the continuous development and improvement of the device. But this can be easily solved by adding more testing cases for the new functions or modules.\\
 
   Zifan Meng: One of the differences between the VnV plan and the actual VnV process is that the VnV plan did not  account for the differentiation between static hand gestures and motion gestures. However, during the development process, we realized that differentiating static gestures and motion gestures was crucial, due to the fact that American Sign Language involves a large amount of motions. Therefore, the key point history mode was developed and implemented for recognizing and translating motions. Corresponding test plans are also designed and executed to test whether the program can detect motions. Although it is difficult to anticipate every potential change that could arise, this experience indicates the importance of carefully considering the requirements of the project. We will continue to develop modularized programs so that the program is flexible and adaptable for possible modifications.\\
+  
+  Runze Zhu: A difference we encountered was the use of the Raspberry Pi not being able to run our program to the same level as a desktop or laptop computer and it struggles with the demanding application. This can be due to the amount of memory and the speed of the SD card being used. In the future we can learn to anticipate these issues by considering a single-board computer such as the Nvidia Jetson Nano, which was specially designed for computer vision, machine learning and robotics. While they are more expensive, they offer more powerful hardware and better performance for our use cases.
 
 \end{enumerate}
 
