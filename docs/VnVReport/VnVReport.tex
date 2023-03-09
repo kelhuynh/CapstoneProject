@@ -292,7 +292,7 @@ RDP2 & H8
 \begin{figure}[H] 
 \centering
 \includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{correlation.PNG} 
-\caption{Angled y} 
+\caption{Correlation Graph} 
 \label{Fig.Correlation} 
 \end{figure}
 
@@ -347,37 +347,35 @@ gestures in a wide range of real-world scenarios.
 
 \end{comment}
 
-%\blindtext
-
-\begin{figure}[h]
+\begin{figure}[!ht]
 \minipage{0.48\textwidth}
   \includegraphics[width=\linewidth]{angled_y.png}
   \caption{Angled y}\label{fig:Angled y}
-\endminipage\hfill
+\endminipage\centering
 \minipage{0.48\textwidth}
   \includegraphics[width=\linewidth]{low_light_y.png}
   \caption{Low Light y}\label{fig:Low Light y}
 \endminipage\hfill
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \minipage{0.48\textwidth}
   \includegraphics[width=\linewidth]{normal_y.png}
   \caption{Normal y}\label{fig:Normal y}
-\endminipage\hfill
+\endminipage\centering
 \minipage{0.48\textwidth}
   \includegraphics[width=\linewidth]{left_y.png}
   \caption{Tilted Left}\label{fig:Tilted Left}
 \endminipage\hfill
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \minipage{0.48\textwidth}
   \includegraphics[width=\linewidth]{right_y.png}
   \caption{Tilted Right}\label{fig:Tilted Right}
 \endminipage\hfill
 \end{figure}
-
+\minipage{1\textwidth}
 The pictures above are some examples of our test for the robustness of the machine 
 learning module following a rigorous evaluation process.. We introduced various types 
 of noise and perturbations as our input for this test. This includes obscuring parts 
@@ -386,9 +384,7 @@ using these conditions and fine-tuned the model by retraining it using the pertu
 Finally, we validated the performance by testing with a different set of users, as seen above 
 in the images, with different hand sizes and gestures to help ensure that the model is robust 
 and reliable for recognizing hand gestures in a wide range of real-world scenarios.
-
-
-%\blindtext
+\endminipage
 
 \section{Changes due to Testing}
 
