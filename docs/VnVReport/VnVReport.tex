@@ -86,8 +86,10 @@ Date 2 & 1.1 & Notes\\
 This document ...
 
 \section{Purpose}
-The purpose of this document is to outline the testing that was done during the development of the ASL translator. These tests were conducted to ensure that the ASL translator is able to perform as expected and is usable in a real-life setting. This document summarizes the results of those tests.
-
+The purpose of this document is to outline the testing that was done during the development 
+of the ASL translator. These tests were conducted to ensure that the ASL translator is able 
+to perform as expected and is usable in a real-life setting. This document summarizes the 
+results of those tests.
 
 \section{Test Cases}
 
@@ -374,8 +376,16 @@ gestures in a wide range of real-world scenarios.
   \includegraphics[width=\linewidth]{right_y.png}
   \caption{Tilted Right}\label{fig:Tilted Right}
 \endminipage\hfill
-
 \end{figure}
+
+The pictures above are some examples of our test for the robustness of the machine 
+learning module following a rigorous evaluation process.. We introduced various types 
+of noise and perturbations as our input for this test. This includes obscuring parts 
+of the hand, changing the lighting, and a different orientation. We measured the robustness
+using these conditions and fine-tuned the model by retraining it using the perturbed data. 
+Finally, we validated the performance by testing with a different set of users, as seen above 
+in the images, with different hand sizes and gestures to help ensure that the model is robust 
+and reliable for recognizing hand gestures in a wide range of real-world scenarios.
 
 
 %\blindtext
