@@ -1,650 +1,456 @@
-\documentclass[12pt]{article}
+\documentclass[12pt, titlepage]{article}
 
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
-\usepackage{caption}
-\usepackage{appendix,float}
-\usepackage{fullpage}
-\usepackage{outlines}
-\usepackage[none]{hyphenat}
-\usepackage[document]{ragged2e}
-\usepackage[square, numbers]{natbib}
-\usepackage[nottoc, notlot, numbib, section]{tocbibind}
+\usepackage{lscape}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{comment}
+\usepackage[demo]{graphicx}
+\usepackage{babel,blindtext}
 \hypersetup{
     colorlinks,
-    citecolor=blue,
+    citecolor=black,
     filecolor=black,
     linkcolor=red,
     urlcolor=blue
 }
-\renewcommand\bibname{References}
+\usepackage[round]{natbib}
 
-\usepackage{enumitem}
-\setlist[enumerate,2]{label=\roman*)}
-\setlist[enumerate,3]{label=\alph*)}
-
-\input{../Comments}
-\input{../Common}
+\input{Comments}
+\input{Common}
 
 \begin{document}
 
-\title{Project Title: System Verification and Validation Plan for \progname{}} 
+\title{Verification and Validation Report: \progname} 
 \author{\authname}
-
-\date{November 02, 2022}
-
+\date{\today}
 	
 \maketitle
 
 \pagenumbering{roman}
-
-\newpage
-
-\tableofcontents
-
-\listoftables
-
-\newpage
 
 \section{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-November 02, 2022 & 1.0 Everyone\\
+Date 1 & 1.0 & Notes\\
 Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
 
-\newpage
+~\newpage
 
 \section{Symbols, Abbreviations and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|X}
-\toprule
-\textbf{Term, Abbreviation, or Acronym} & \textbf{Description}\\
-\midrule
-ASL
-& Shorthand for American Sign Language. It is a form of sign language primarily used in the US and in parts of Canada\\ \hline
-CFR
-& Shorthand for Camera Functional Requirement\\ \hline
-CV
-& Shorthand for computer vision, computer vision is an interdisciplinary scientific field that deals with how computers can gain high-level understanding 
-from digital images or videos\\ \hline
-FPS
-& Shorthand for frames per second. It is the measure of how many frames are displayed within a second. This is a camera performance metric.\\ \hline
-MLFR
-& Shorthand for Machine Learning Functional Requirement\\ \hline
-NFR
-& Shorthand for Non-Functional Requirement\\ \hline
-OpenASL
-& This is the name of the project which is to create a sign language translator. The objective and purpose of this project can be found in the \emph{Problem Statement}
-\citep{ProbState} and \emph{SRS} \citep{SRS} documentation of the project respectively\\ \hline
-OpenCV
-& Shorthand for computer vision, computer vision is an interdisciplinary scientific field that deals with how computers can gain high-level understanding 
-from digital images or videos\\ \hline
-RDP
-& Shorthand for Real-time Data Processing\\ \hline
-SRS
-& Shorthand for System Requirement Specification\\ \hline
-TC
-& Shorthand for Test Case\\
-\bottomrule
-\end{tabularx}
-\captionof{table}{Symbols, Abbreviations, and Acronyms}
+\begin{tabular}{l l} 
+  \toprule		
+  \textbf{symbol} & \textbf{description}\\
+  \midrule 
+  T & Test\\
+  \bottomrule
+\end{tabular}\\
+
+\wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{lower_cases.PNG} 
+\caption{Lower Case} 
+\label{Fig.Lower Case} 
+\end{figure}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.95\textheight,keepaspectratio]{upper_cases.PNG} 
+\caption{Upper Case} 
+\label{Fig.Upper Case} 
+\end{figure}
+
+\newpage
+
+\tableofcontents
+
+\listoftables %if appropriate
+
+\listoffigures %if appropriate
 
 \newpage
 
 \pagenumbering{arabic}
 
-\section{General Information}
-
-\subsection{Summary}
-The VnV plan is designed to provide a detailed plan, including the approach and timeline, for the testing of the ASL translator.
-
-\subsection{Objectives}
-
-The objectives to be fulfilled by utilizing the VnV plan are as follows:\\
-\begin{itemize}
-  \item Building confidence that the software was implemented correctly for the purpose of the project
-  \item Ensuring that OpenASL displays adequate usability for its intended purpose. See \emph{Problem Statement} \citep{ProbState} documentation
-\end{itemize}
-
-\subsection{Relevant Documentation}
-
-The relevant documentation used to formulate the VnV plan include:\\
-\begin{itemize}
-  \item Problem Statement \citep{ProbState}
-  \item Development Plan \citep{DevPlan}
-  \item SRS \citep{SRS}
-  \item Hazard Analysis \citep{Hazard}
-\end{itemize}
-
-\section{Plan}
-This section goes over the verification and validation team for OpenASL with their responsibilities over the project. Additionally, 
-the following sections are tested such as SRS, design, and implementation, along with the automation tools and software validation used
-to perform these tests. 
-
-\subsection{Verification and Validation Team}
-
-\renewcommand{\arraystretch}{1.2}
-\noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|X}
-\toprule
-\textbf{Name} & \textbf{Responsibility}\\
-\midrule
-Robert Zhu
-& White/Black Box Testing; Manual SRS Verification\\ \hline
-Zifan Meng
-& OpenCV Verification; Manual code Verification\\ \hline
-Jiahui Chen
-& End-to-End Testing; Manual SRS Verification\\ \hline
-Kelvin Huynh
-& Machine Learning Verification; Manual code Verification\\ \hline
-Runze Zhu
-& White/Black Box Testing; End-to-End Testing\\ \hline
-Mirza Nafi Hasan
-& Performance Testing; Manual code Verification\\ \hline
-Classmate Peer Review
-& Provide peer reviews for our project\\ \hline
-Dr. Spencer Smith / TAs
-& Provide reviews and feedback for our project\\
-\bottomrule
-\end{tabularx}
-\captionof{table}{Verification and Validation Team Members and Roles}
-
-\subsection{SRS Verification Plan}
-The approaches for the SRS verification plan can be peer reviews from other teams, reviews from our group and reviews from TAs. An SRS checklist will be used to verify all the requirements for the project. The requirements will be verified using the system tests that are listed in detail in the SystemTest Description section.
-
-
-\subsection{Design Verification Plan}
-Similar to the SRS verification plan, the approaches involve peer reviews from teammates and other teams and the reviews from TAs. Their feedback can be utilized to verify our design. In addition, the checklists for MG and MIS are also approaches for the design verification to ensure that the actual device is implemented under the project’s goal and scope.
-
-\subsection{Implementation Verification Plan}
-Implementation verification is the process of reviewing, testing and verifying that the device is working correctly under the desired performance. Both dynamic and static techniques will be utilized for the verification. The dynamic techniques include the system tests that are listed in the next section for the implementation of the functional and nonfunctional requirements for the device. 
-Unit tests should also be performed during the implementation verification plan. In terms of the static techniques, code inspection and code walkthrough should be done for every single line of code that will be added to the main script by at least two team members before uploading. And for any new changes that need to be fixed in the program, the whole team should review and agree with the new implementation before uploading the new changes to avoid the potential risk and problem for the project.
-\subsection{Automated Testing and Verification Tools}
-
-As stated in the Development Plan \citep{DevPlan}, unit testing is planned to be accomplished through the use of the Pytest Unit Testing framework. Code coverage can also 
-be determined using this same framework using the pytest-cov plugin. The framework would enable us to utilize automated testing; however, unit tests have 
-not been developed for the current phase of the project.\\
-~\\
-For performance testing, there are options available such as the utilization of OpenCV’s getTickCount() and getTickFrequency() which can be used to 
-calculate the FPS of the camera. In addition, there is also the use of Python’s own time library function, time.perf\_counter(), enabling us to measure 
-the execution time of our code.\\
-~\\
-In terms of code verification, the code for the project will loosely follow the \href{https://peps.python.org/pep-0008/}{PEP8 Python coding standard}. 
-The linter that the project will use is the Flake8 linter for Python which will enable us to conform to this coding standard and catch syntactic errors that 
-the code may have.
-
-\subsection{Software Validation Plan}
-
-The software will be validated through blackbox and white box  testing. The whitebox testing is used to validate the inner working of the project such as coding. The only input for our device is the hand gestures from the users, so the blackbox testing can be adopted to ensure that the correct word is outputted. Various inputs are needed for the validation process and it can be achieved by having different users perform different hand gestures.
-
-\section{System Test Description}
-	
-\subsection{Tests for Functional Requirements}
-
-
-\subsubsection{Hardware}
-		
-%\paragraph{Title for Test}
-  
-\begin{enumerate}
-  
-\item{TC-CFR1: Camera Detection\\}
-  
-Control: Manual, Dynamic, Functional
-            
-Initial State: Camera is placed in front of the user
-            
-Input: User performs hand gestures
-            
-Output: Send the image to the algorithm and it is recognized
-  
-Test Case Derivation: The image will be processed and translated into its corresponding hand gesture.
-            
-How test will be performed: The tester uses a variety of different gestures in sequence that the algorithm has learned.
-
-\item{TC-CFR2: Raspberry Pi\\}
-  
-Control: Manual, Static, Functional
-            
-Initial State: Raspberry Pi is placed with the camera
-            
-Input: Translated text from the algorithm
-            
-Output: The Raspberry Pi will act as a speaker to play the translation in English
-  
-Test Case Derivation: After the algorithm is input to the Raspberry, it should process it correctly and “readout” the translated text in English.
-            
-How test will be performed: Some English sentences will be chosen for the text, the users will perform the sign languages for the selected sentences and listen to the outputs provided by Raspberry Pi and compare them with the input sentences.
- 
-\end{enumerate}
-  
-\subsubsection{Machine Learning}
-  
-\begin{enumerate}
-  
-\item{TC-MLFR1: Joint recognition\\}
-  
-Control: Manual, Dynamic, Functional
-              
-Initial State: Camera is placed in front of the user
-              
-Input: User performs hand gestures
-              
-Output: User\textquotesingle s hand gesture with joint lines overlaid on top
-    
-Test Case Derivation: The system is able to capture the camera\textquotesingle s vision by recognizing the joints on the user\textquotesingle s hand.
-    
-How test will be performed: The tester will raise their hand to the camera in any orientation following ASL phrases/words.
-  
-\item{TC-MLFR2: Display coordinates in space\\}
-  
-Control: Manual, Dynamic, Functional
-              
-Initial State: Camera is placed in front of the user
-              
-Input: User performs hand gestures
-              
-Output: Displays the x,y,z coordinates of each joint relative to the camera
-    
-Test Case Derivation: These system uses these coordinates to calibrate and enhance predictive accuracy.
-    
-How test will be performed: The tester will use any type of hand motion with both hands and compare the results of each joint to the displayed coordinates over each iteration of the algorithm.
-  
-\item{TC-MLFR3: Detecting multiple pairs of hands\\}
-  
-Control: Manual, Dynamic, Functional
-              
-Initial State: Camera is placed in front of the user
-              
-Input: User will place two hands in front of the camera
-              
-Output: Both hands will have joints overlaid on top and following movement
-    
-Test Case Derivation: The system will separate and identify both hands from each other.
-    
-How test will be performed: The user/tester will raise both their hands in front of the camera.
-  
-\item{TC-MLFR4: Detecting multiple pairs of hands\\}
-  
-Control: Manual, Dynamic, Functional
-              
-Initial State: Multiple users are standing in front of the camera
-              
-Input: Multiple pairs of hands will be placed for detection
-              
-Output: The system will tell the user that it is detecting more than one pair of hands and stop tracking
-    
-   Case Derivation: The system is created for a single user, thus multiple users are not supported for translation at the same time.
-    
-How test will be performed: More than 2 hands will perform multiple signs at the same time in front of the camera performing any type of gesture.
-  
-\item{TC-MLFR5: Trainable Model\\}
-  
-Control: Manual, Dynamic, Functional
-              
-Initial State: User input is labeled incorrectly
-              
-Input: User will press a key to enter learning mode, a second key to identify the classifier to be retrained, a third key repeatedly while changing hand positions to store the coordinates of the correct gesture into the dataset, and a fourth key to exit learning mode and start the model retraining process with the new data points
-              
-Output: When the user signs in front of the camera again, the model should be updated and classify the previously unknown sign correctly
-    
-Test Case Derivation: The system should be enabled for expandability to increase its vocabulary and adapt to users\textquotesingle \ habits.
-    
-How test will be performed: Sign a word that is not in the dataset to create a new classifier.
-  
-\end{enumerate}
-  
-\subsubsection{Real-time Data Processing}
-  
-\begin{enumerate}
-  
-\item{TC-RDP1: Process data in real-time\\}
-  
-Control: Manual, Dynamic, Performance
-                
-Initial State: Nothing displayed on graphic output
-                
-Input: User will perform a gesture that the system recognizes
-                
-Output: ML model will classify the gesture based on training data used and label the gesture accordingly
-      
-Test Case Derivation: The system should react within proper reason and provide a label within an acceptable time frame.
-      
-How test will be performed: Users will perform multiple signs in front of the camera to simulate the changing of input in real-time.
-  
-\item{TC-RDP2: Text-to-Speech in real-time\\}
-  
-Control: Manual, Dynamic, Performance
-                
-Initial State: Nothing displayed on graphic output
-                
-Input: User will perform a gesture that the system recognizes
-                
-Output: ML model will classify the gesture and label it. Then the system will put that label through a text-to-speech system to say the word out loud
-      
-Test Case Derivation: The system should say the respective word associated to the gesture within an acceptable time frame.
-      
-How test will be performed: Users will perform signs in front of the camera to simulate the changing of input in real-time.
-  
-\end{enumerate}
-
-\subsection{Tests for Nonfunctional Requirements}
-
-\subsubsection{Accuracy Requirement}
-
-\begin{enumerate}
-
-\item{TC-NFR1: Translation Accuracy\\}
-
-Control: Manual
-					
-Initial State: Camera is placed in front of the user
-					
-Input: A sequence of user’s hand gestures
-					
-Output: The screen displays words/phrases/sentences corresponding to the user's hand gestures, results should have acceptable accuracy.
-					
-How test will be performed: Users will sign in front of the device for a short period of time. After that, users will look at the screen and verify that the results are accurate enough for people to understand.
-
-\end{enumerate}
-
-\subsubsection{Usability Requirement}
-
-\begin{enumerate}
-
-\item{TC-NFR2: Understandability\\}
-
-Control: Manual
-					
-Initial State: Users do not know how to use the device
-					
-Input: Users will read through instructions
-					
-Output: Users will understand how to use the device
-					
-How test will be performed: Users will read the instructions before using the device. They will then try all functions of the device, rate the understandability of the instructions on a scale of 1 to 10 and provide feedback through a survey.
-
-\item{TC-NFR3: Ease of use\\}
-
-Control: Manual
-					
-Initial State: User is working with the device for the first time
-					
-Input: Users will read the instructions and learn how to use the device
-					
-Output: Users will learn to work with the translator on their own without any difficulties\\
-How the test will be performed: Multiple new users will be given the device along with its instructions, and we will compare how long it takes each user to learn the device and use its main functionalities.
-					
-
-
-\end{enumerate}
-
-\subsubsection{Portability Requirement}
-
-\begin{enumerate}
-
-\item{TC-NFR4: Portability\\}
-
-Control: Manual
-					
-How test will be performed: Users will carry the device and perform some everyday activities. Users can then rate the experience on a scale of 1 to 10 and provide feedback on the portability of the device through a survey.
-
-\end{enumerate}
-
-\subsubsection{Cultural Requirements (Future Implementation)}
-
-\begin{enumerate}
-
-\item{TC-NFR5: Cultural Requirement\\}
-
-Control: Manual
-
-Initial State: Users are working with the ASL translator
-					
-Input: Users perform different styles of sign language 
-					
-Output: The translator will output the translation in English
-					
-How test will be performed: The test will be performed by letting users perform different forms of sign languages (other than ASL) in front of the camera, and check if the corresponding output is the correct translation.
-
-\end{enumerate}
+\section{Purpose}
+The purpose of this document is to outline the testing that was done during the development 
+of the ASL translator. These tests were conducted to ensure that the ASL translator is able 
+to perform as expected and is usable in a real-life setting. This document summarizes the 
+results of those tests.
 
 \newpage
-
-\subsection{Traceability Between Test Cases and Requirements}
-
-Requirement IDs CFR1, CFR2, MLFR1, MLFR2, MLFR3, MLFR4, MLFR5, MLFR6, MLFR7 can be found in the \emph{SRS} \citep{SRS} documentation\\
-~\\
+\section{Test Cases}
+\centerline{Tests for Motion Tracking Module}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{tabularx}{\textwidth}{p{0.2\linewidth}|p{0.2\linewidth}|p{0.46\linewidth}}
-\toprule
-\textbf{Test Case ID} & \textbf{Requirement ID} & \textbf{Requirement Description}\\
-\midrule
-TC-CFR1 & CFR1 & The camera detects hand gestures and capture images\\ \hline
-TC-CFR2 & N/A & The Raspberry Pi will receive the translated text from the algorithm and play out the translation in English\\ \hline
-TC-MLFR1 & CFR1, MLFR1, MLFR5 & The system recognizes joints of the user’s hand\\ \hline
-TC-MLFR2 & MLFR2, MLFR6 & The system recognizes x, y, z coordinates of each joint relative to the camera\\ \hline
-TC-MLFR3 & MLFR3 & The system identifies and separates two hands from each other\\ \hline
-TC-MLFR4 & MLFR1, MLFR3 & The system identifies more than two hands and notifies users\\ \hline
-TC-MLFR5 & MLFR7 & The model updates the database in learning mode\\ \hline
-TC-RDP1 & MLFR4, MLFR5 & The model processes data in real-time according to user’s continuous input\\ \hline
-TC-RDP2 & MLFR6 & The system provides text-to-speech translation in real-time\\ \hline
-TC-NFR1 & TC-NFR1 & The system provides results that have acceptable accuracy\\ \hline
-TC-NFR2 & TC-NFR2 & New users quickly understands how to use the device\\ \hline
-TC-NFR3 & TC-NFR3 & Instructions are easily understandable\\ \hline
-TC-NFR4 & TC-NFR4 & The device is small and portable\\ \hline
-TC-NFR5 & TC-NFR5 & The system has the ability of translating different forms of sign languages\\
-\bottomrule
-\end{tabularx}
-\captionof{table}{Traceability Between Test Cases and Requirements}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+A1 & Testing for joint tracking when hiding joints & MLFR1, MLFR5, NFR2 & Hand Gesture for “m” and “n” (covering thumb) & Able to recognize hidden joints & Able to recognize hidden joints & Pass\\ \hline
+A2 & Testing hand detection for hand at the edges of the camera detection area & CFR1 & Hand gesture for “a”, “b”, “c” & a b c & a b c & Pass\\ \hline
+A3 & Testing if joint lines are properly aligned with the user’s joints and move accordingly at the center & MLFR1, MLFR6, NFR2 & Moving hand from one side of the screen to the other in rapid succession & Able to overlay joint lines on user’s hand continually and is centered on the hand & Able to overlay joint lines on user’s hand continually and is centered on the hand & Pass\\ \hline
+A4 & Testing if a joint overlay will be placed on more than two hands & MLFR1, MLFR3, NFR2 & Having a third hand in the frame after the initial two & Unable to detect the third hand & Unable to detect the third hand & Pass\\ \hline
+A5 & Testing if detected joints are from one individual (the user) & MLFR1, NFR1, NFR3 & Have two people with one hand each in the frame & Detects the hand from one person as opposed to two & Detects both the hands of both people & Fail\\ \hline
+A6 & Testing hand detection at a distance of 2 m & CFR1 & Hand gesture for “a”, “b”, “c” & a b c & a b c & Pass\\ \hline
+A7 & Testing hand detection with multiple hands & CFR1 & Hand gestures for “z”, “x”, “y” & z x y & z x y & Pass\\ \hline
+A8 & Testing for joint tracking when overlapping hands & MLFR1, MLFR3, MLFR5 & Hand Gesture for “S”, “M”, “N”, “R” & Able to separate different hand joints from each other & Able to separate different hand joints from each other & Pass\\ \hline
+A9 & Switching from translating mode to training mode stop detecting hand gestures & N/A & Pressing either 2 or 3 & The interface no longer tries to record hand motion & The interface no longer tries to record hand motion & Pass\\ \hline
+A10 & Testing for precision tracking & MLFR1 & Making small rotations and tremors & The joint overlay makes small movements & The joint overlay makes small movements & Pass\\ \hline
+A11 & Testing for gesture recognition if the hands hand in placing with different angles & CFR1 & Hand gestures for “a”, “b”, “c” with different angles for the position of the hand & “a”, “b”, “c” & “a”, “b”, “c” & Pass\\ \hline
+A12 & Testing for occlusion handling & MLFR1 & Partially hiding half of the hand behind a desk & The joint overlay is able to predict the rest of the hand & Joints overlay becomes disjointed and stretches & Fail\\ \hline
+A13 & Testing the durability for accuracy and reliability & NFR1, MLFR1 & Keeping the program open for over an hour and testing for similar results & The joint overlay works as intended & The frame rate decreased leading to poor performance & Fail\\ \hline
+A14 & User testing for different hand sizes and shapes & MLF1 & Using different people’s hands to test the accuracy of the string “a”, “”b”, “c”, “d” & Able to translate a b c d everytime & Able to translate a b c d everytime & Pass
+\hline
+\caption{Tests for Motion Tracking Module}
+\end{longtable}
 
 \newpage
+\centerline{Tests for Coordinate Normalization Module}
 
-% \section{Unit Test Description}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+B1 & Testing if different webcams or cameras impact coordinates at the same position & CFR1, CFR2 & Sign the sentence “how do you do” alphabetically through 5 different cameras & The same set of coordinates for all 5 & The same set of coordinates for all 5 & Pass\\ \hline
+B2 & Testing if the coordinates (x,y) of each joint is accurately recorded & MLFR2 & Repeatedly recording the gesture “a” at the center of the screen & The same set of coordinates should be written to CSV file every time the gesture is recorded & The same set of coordinates should be written to CSV file every time the gesture is recorded & Pass\\ \hline
+B3 & Testing if the coordinates (x,y) of each joint is accurately recorded for two handed gestures & MLFR3, MLFR2 & Repeatedly recording the gesture “F” at the center of the screen & The same set of coordinates should be written to CSV file every time the gesture is recorded & The same set of coordinates should be written to CSV file every time the gesture is recorded & Pass\\ \hline
+B4 & Testing for range normalization between [-1,1] & MLFR2 & Testing the joints at the edge of the frame & No coordinate recorded exceeds [-1, 1] & No coordinate recorded exceeds [-1, 1] & Pass\\ \hline
+B5 & Testing for scaling normalization for hand size to be consistent & MLFR2 & Testing using different sizes to hands & All coordinates recorded from each set of hands are generally the same & All coordinates recorded from each set of hands are generally the same & Pass
+\hline
+\caption{Tests for Coordinate Normalization Module}
+\end{longtable}
 
-% \wss{Reference your MIS and explain your overall philosophy for test case
-%   selection.}  
-% \wss{This section should not be filled in until after the MIS has
-%   been completed.}
+\newpage
+\centerline{Tests for Coordinate Export Module}
 
-% \subsection{Unit Testing Scope}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+C1 & Testing if the relative coordinates (x,y) is written to the CSV file & RDP1, NFR5 & Hand gesture for “a” & Coordinates with identifier “0” (identifier for the letter “a”) are written to the CSV file & Coordinates with identifier “0” were written to the CSV file & Pass\\ \hline
+C2 & Testing if the point history coordinates (x,y) is written to the CSV file & RDP1, NFR5 & Hand gesture for “j” & Multiple coordinates with identifier “9” (identifier for the letter “j”) are written to the CSV file & Multiple coordinates with identifier “9” get written to the CSV file & Pass\\ \hline
+C3 & Testing to see if a coordinate for each hand joint is written to the CSV file & RDP1 & Hand gesture for “b” & 43 coordinates are written to the CSV file, first the identifier (for the gesture, ie ‘a’, ‘b’, etc.) followed by an x,y coordinate for each joint (21 * 2 + 1 = 43) & 43 coordinates are written to the CSV file every time a gesture is recorded & Pass
+\hline
+\caption{Tests for Coordinate Export Module}
+\end{longtable}
 
-% \wss{What modules are outside of the scope.  If there are modules that are
-%   developed by someone else, then you would say here if you aren't planning on
-%   verifying them.  There may also be modules that are part of your software, but
-%   have a lower priority for verification than others.  If this is the case,
-%   explain your rationale for the ranking of module importance.}
+\newpage
+\centerline{Tests for Machine Learning Module}
 
-% \subsection{Tests for Functional Requirements}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+D1 & Testing hand detection for similar looking gestures & CFR1, RDP1 & Hand gesture for “m” & m & n & Fail\\ \hline
+D2 & Testing hand detection for motion (no input) & CFR1, RDP1 & Static hand gestures (no motions) & no output & z/d & Fail\\ \hline
+D3 & Testing hand detection for motion & CFR1, RDP1 & Hand motion for “z” & z & z & Pass\\ \hline
+D4 & Testing if gestures that require movement are able to be recognized (motion gestures) & MLFR4, MLFR6, RDP1 & Signing“j” and “z” & j z & j z & Pass\\ \hline
+D5 & Test model accuracy by signing different sequences of gestures / introducing variance into the system & MLFR4, NFR1, RDP1 & Sign letters in sequence of a,b,c,d then sign with d, f, z, j & a,b,c,d
+d,f,z,j
+with 100\% accuracy
+ & a,b,c,d
+d,f,z,j
+ & Pass\\ \hline
+D6 & Testing gesture recognition between point history (movement gestures) and keypoint history (static gestures” & MLFR4 & Sign letters in sequence “a”, “b”, “j”, “c”, “z” & a b j c z & j a j z b c z & Fail
+\hline
+\caption{Tests for Machine Learning Module}
+\end{longtable}
 
-% \wss{Most of the verification will be through automated unit testing.  If
-%   appropriate specific modules can be verified by a non-testing based
-%   technique.  That can also be documented in this section.}
+\newpage
+\centerline{Tests for Training Module}
 
-% \subsubsection{Module 1}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+E1 & Mode Selection & N/A & Program is in “Normal Mode”, press number “2” on keyboard & Program goes into “Training Mode” & Program goes into “Training Mode” & Pass\\ \hline
+E2 & Test if a .tflite file can be generated from the CSV files & MLFR5, NFR5 & A CSV file with data points from different ASL gestures & A .tflite file that can be used to  recognize the gestures that were recorded & A .tflite file that can be used to  recognize the gestures that were recorded & Pass\\ \hline
+E3 & Testing if retraining by adding new data points can change recognition & MLFR7, NFR1, NFR5 & Adding 50 accurate data points to the gesture “Hello” & The accuracy prediction increases & The accuracy prediction decrease from 60\% to 80\% & Pass\\ \hline
+E4 & Testing for gesture variation based on user habits through retraining & MLFR7, NFR1, NFR3, NFR7 & Retraining the model with a different method of signing “Hello” & Hello & Hello & Pass
+\hline
+\caption{Tests for Training Module}
+\end{longtable}
 
-% \wss{Include a blurb here to explain why the subsections below cover the module.
-%   References to the MIS would be good.  You will want tests from a black box
-%   perspective and from a white box perspective.  Explain to the reader how the
-%   tests were selected.}
+\newpage
+\centerline{Tests for Text to Speech Module}
 
-% \begin{enumerate}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+F1 & Text-to-speech in real-time for individual letters & RDP1, RDP2 & Hand gestures for “a”, “b” and “c”, then hand gesture for “Speak” & Audio output for letters “a”, “b” and “c” & Audio output for letters “a”, “b” and “c” & Pass\\ \hline
+F2 & Text-to-speech in real-time for sentence & RDP1, RDP2 & Hand gesture for “I love you”, then hand gesture for “Speak” & Audio output for “I love you” & Audio output for “I love you” & Pass\\ \hline
+F3 & Testing hand detection for a series of hand gestures (fast) & MLFR7, CFR1 & A series of hand gestures performed in a very fast speed & Letters for corresponding hand gestures & Some letters are missing & Fail (need to increase fps)\\ \hline
+F4 & Test if gesture for “Speak” does not work when in training mode & RDP2, MLFR5 & Program is started, in training mode, and gestures are performed, then gesture “Speak” is performed & No audio output & No audio output & Pass
+\hline
+\caption{Tests for Text to Speech Module}
+\end{longtable}
 
-% \item{test-id1\\}
+\newpage
+\centerline{Tests for Hardware}
 
-% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-%   be automatic}
-					
-% Initial State: 
-					
-% Input: 
-					
-% Output: \wss{The expected result for the given inputs}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+G1 & Camera is set up on the Raspberry Pi & CFR1 & Raspistill command to take a picture & A picture & A picture & Pass\\ \hline
+G2 & Test if the Raspberry Pi can capture the input from the camera and translate ASL in real time & ??? & Program is started on the Raspberry Pi & The Raspberry Pi should be able to use the camera to detect and translate ASL in real time & The Raspberry Pi camera does not display the video with an adequate frame rate, making translation undoable & Fail\\ \hline
+G3 & Real-time video is captured and displayed on screen & CFR1, CFR2 & Views in front of the camera & Views in front of the camera are displayed & Views in front of the camera are displayed & Pass
+\hline
+\caption{Tests for Hardware}
+\end{longtable}
 
-% Test Case Derivation: \wss{Justify the expected value given in the Output field}
+\newpage
+\centerline{Text and String Display}
 
-% How test will be performed: 
-					
-% \item{test-id2\\}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+H1 & Real-time text display for hand gestures (normal speed) & RDP1 & hand gestures for “d” and “a” performed in a reasonable speed & Output the corresponding letters “d” and “a” besides user’s hand & Output the corresponding letters “d” and “a” besides user’s hand & Pass\\ \hline
+H2 & Real-time text display for hand gestures (super fast) & RDP1 & hand gestures performed in a super fast speed & Letters for corresponding hand gestures & Some letters output are missing & Fail (need to increase fps)\\ \hline
+H3 & String display for one hand gesture & MLFR6, MLFR4, NFR1 & hand gestures for “d” & “d” is displayed as string at the bottom of the screen & “d” is displayed as string at the bottom of the screen & Pass\\ \hline
+H4 & String display for a series of hand gestures (slow speed) & MLFR6, MLFR4, NFR1 & hand gestures for “d” and “a” and “I love you” with a pause of 4 seconds & “d a I love you” is displayed as string at the bottom of the screen & “d d a a I love you I love you” is displayed as string at the bottom of the screen & Fail\\ \hline
+H5 & String display for a series of hand gestures (normal speed) & MLFR6, MLFR4, NFR1 & hand gestures for “d” and “a” and “I love you” with a pause of 1 to 2 seconds & “d a I love you” is displayed as string at the bottom of the screen & “d a I love you” is displayed as string at the bottom of the screen
+& Pass\\ \hline
+H6 & String display for a series of hand gestures (fast speed) & MLFR6, MLFR4, NFR1 & hand gestures for “d” and “a” and “I love you” without pause & “d a I love you” is displayed as string at the bottom of the screen & “d I love you” is displayed as string at the bottom of the screen & Fail\\ \hline
+H7 & Modifying string display & N/A & Pressing “Backspace” or “Space” & “Backspace” deletes a character in string, “Space” adds a space in string & “Backspace” deletes a character in string, “Space” adds a space in string & Pass\\ \hline
+H8 & String display is cleared after audio output & RDP1, RDP2 & Hand gestures are performed, and then perform hand gesture for “Speak” & Current string is cleared & Current string is cleared & Pass\\ \hline
+H9 & Test if gestures are not written to string when in training mode & N/A & Program is started, in training mode, and gestures are being performed & Nothing is being added to the string and nothing is displayed at the bottom & Nothing is added to the string and nothing is displayed at the bottom & Pass
+\hline
+\caption{Text and String Display}
+\end{longtable}
 
-% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-%   be automatic}
-					
-% Initial State: 
-					
-% Input: 
-					
-% Output: \wss{The expected result for the given inputs}
+\newpage
+\centerline{Tests for Nonfunctional Requirements accuracy, usability, portability, cultural}
 
-% Test Case Derivation: \wss{Justify the expected value given in the Output field}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
+\hline
+I1 & Test if GUI is displayed on screen & N/A & Program is started and camera is turned on & The resolution, FPS, mode, and current text are displayed on screen & The resolution, FPS, mode, and current text are displayed on screen & Pass\\ \hline
+I2 & Test if output is accurate for variations in user gestures & NFR7 & Trying three variations of “Hello” & Hello & Hello & Pass\\ \hline
+I3 & Usability: the ease of use of a user without the knowledge of ASL & N/A & Instructions and example hand gestures are provided to the user & The user should know how to use the ASL device and can input some sample ASL words after reading the instructions. & The user is able to use the ASL device and input some sample ASL words after reading the instructions & Pass
+\hline
+\caption{Tests for Nonfunctional Requirements accuracy, usability, portability, cultural}
+\end{longtable}
 
-% How test will be performed: 
+\section{Trace to Requirements}
 
-% \item{...\\}
-    
-% \end{enumerate}
-
-% \subsubsection{Module 2}
-
-% ...
-
-% \subsection{Tests for Nonfunctional Requirements}
-
-% \wss{If there is a module that needs to be independently assessed for
-%   performance, those test cases can go here.  In some projects, planning for
-%   nonfunctional tests of units will not be that relevant.}
-
-% \wss{These tests may involve collecting performance data from previously
-%   mentioned functional tests.}
-
-% \subsubsection{Module ?}
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.22\linewidth}|p{0.6\linewidth}}
+\hline
+\textbf{Requirements} & \textbf{ID}\\
+\hline
+CFR1 & A2 A6 A7 A11 B1 D1 D2 D3 G1 G3\\ \hline
+CFR2 & B1 G3\\ \hline
+MLFR1 & A1 A3 A4 A5 A8 A10 A12 A13\\ \hline
+MLFR2 & B2 B3 B4 B5\\ \hline
+MLFR3 & A2 A4 A8 B3\\ \hline
+MLFR4 & D4 D5 D6\\ \hline
+MLFR5 & A1 A8 E2\\ \hline
+MLFR6 & A3 D4\\ \hline
+MLFR7 & E3 E4\\ \hline
+NFR1 & A5 A13 D5 E3 E4\\ \hline
+NFR2 & A1 A2 A4\\ \hline
+NFR3 & A5 E4\\ \hline
+NFR4 & A14 B 5\\ \hline
+NFR5 & C1 C2 E2 E3\\ \hline
+NFR6 & G2\\ \hline
+NFR7 & E4\\ \hline
+RDP1 & C1 C2 C3 D1 D2 D3 D4 D5\\ \hline
+RDP2 & H8
+\hline
+\caption{Trace to Requirements}
+\end{longtable}
 		
-% \begin{enumerate}
+\section{Non-Functional Quality 1}	
 
-% \item{test-id1\\}
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{correlation.PNG} 
+\caption{Correlation Graph} 
+\label{Fig.Correlation} 
+\end{figure}
 
-% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-%   be automatic}
-					
-% Initial State: 
-					
-% Input/Condition: 
-					
-% Output/Result: 
-					
-% How test will be performed: 
-					
-% \item{test-id2\\}
+The pictures above are some examples of our test for the robustness of the machine learning 
+module following a rigorous evaluation process.. We introduced various types of noise and 
+perturbations as our input for this test. This includes obscuring parts of the hand, changing
+the lighting, and a different orientation. We measured the robustness using these conditions
+and fine-tuned the model by retraining it using the perturbed data. Finally, we validated the
+performance by testing with a different set of users, as seen above in the images, with different
+hand sizes and gestures to help ensure that the model is robust and reliable for recognizing hand
+gestures in a wide range of real-world scenarios.
 
-% Type: Functional, Dynamic, Manual, Static etc.
-					
-% Initial State: 
-					
-% Input: 
-					
-% Output: 
-					
-% How test will be performed: 
+\newpage
+\section{Non-Functional Quality 2}
 
-% \end{enumerate}
+\begin{figure}[!ht]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{angled_y.png}
+  \caption{Angled y}\label{fig:Angled y}
+\endminipage\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{low_light_y.png}
+  \caption{Low Light y}\label{fig:Low Light y}
+\endminipage\hfill
+\end{figure}
 
-% \subsubsection{Module ?}
+\begin{figure}[!ht]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{normal_y.png}
+  \caption{Normal y}\label{fig:Normal y}
+\endminipage\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{left_y.png}
+  \caption{Tilted Left}\label{fig:Tilted Left}
+\endminipage\hfill
+\end{figure}
 
-% ...
+\begin{figure}[!ht]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{right_y.png}
+  \caption{Tilted Right}\label{fig:Tilted Right}
+\endminipage\hfill
+\end{figure}
+\minipage{1\textwidth}
 
-% \subsection{Traceability Between Test Cases and Modules}
+The pictures above are some examples of our test for the robustness of the machine 
+learning module following a rigorous evaluation process.. We introduced various types 
+of noise and perturbations as our input for this test. This includes obscuring parts 
+of the hand, changing the lighting, and a different orientation. We measured the robustness
+using these conditions and fine-tuned the model by retraining it using the perturbed data. 
+Finally, we validated the performance by testing with a different set of users, as seen above 
+in the images, with different hand sizes and gestures to help ensure that the model is robust 
+and reliable for recognizing hand gestures in a wide range of real-world scenarios.
+\endminipage
 
-% \wss{Provide evidence that all of the modules have been considered.}
-				
-\bibliographystyle{abbrvnat}
+\section{Changes due to Testing}
 
+From the failures of test cases G2 and H2, it was determined that the program’s performance on a Raspberry Pi is inadequate; 
+likely due to hardware limitations with single core processing. Thus, the approach that we decided to take was to rewrite the 
+program such that the Raspberry Pi is able to utilize Python’s multiprocessing library to alleviate performance issues. As of 
+writing this, this solution is still being worked on and is not guaranteed to work. There are also potentially other solutions 
+to use slightly more powerful hardware such as mobile devices or another board, though the main concern would be the portability requirement NFR6.
+
+In addition, from test cases D2 and D6, the program fails to detect the difference between its modes KeypointClassification 
+(regular static gesture), PointHistoryClassification (motion gesture), and idle (where no gestures should be detected). At the 
+moment, both modes operate at the same exact time which may cause confusion for the user and cause issues with the text to speech 
+module. Therefore, changes to the program as a result of the tests would include a method that provides better distinction between 
+the two modes.
+
+Furthermore from the test cases for the training module, we encountered an oversight with how training would occur when signing with 
+both hands. We have it currently set up so that you would press a key to record the coordinates of your hand gestures. But in doing so, 
+we failed to realize how this would work when performing signs that required the use of both hands. As a result of this circumstance, we 
+are now working on implementing a change to the GUI that enables automated recording of these gestures where a keypress will start a timer 
+of 10 seconds then record a data point every 5 seconds. These values are subject to change and will be adjusted as needed.
+
+From test case D1, we can conclude that the accuracy of the model for similar gestures is also one aspect that is inadequate in quality. 
+Therefore the change that would be made based on non-functional quality 1, would be to add more data points such that the machine learning 
+model is able to draw a distinction between similar gestures.
+
+\section{Code Coverage Metrics}
+
+\begin{figure}[h]
+  \minipage{0.48\textwidth}
+    \includegraphics[width=\linewidth]{coverage_report_html.png}
+    \caption{HTML Output}\label{fig:Coverage Report - HTML}
+  \endminipage\hfill
+  \minipage{0.48\textwidth}
+    \includegraphics[width=\linewidth]{coverage_report_terminal.png}
+    \caption{Terminal Output}\label{fig:Coverage Report - Terminal}
+  \endminipage\hfill
+\end{figure}\\
+~\\
+The images above are code coverage reports generated using Coverage.py which utilizes the PyTest Unit Testing Framework. \\
+~\\
+While the code coverage is not 100\%, it is reasonable enough at 92\% as not every single line of code will be hit upon execution. \\
+~\\
+This is especially true because there are portions of code which would require manual input from the user before they can be executed.
+
+
+\bibliographystyle{plainnat}
 \bibliography{../../refs/References}
+~\\
+The pictures above are some examples of our test for the robustness of the machine learning module following a 
+rigorous evaluation process.. We introduced various types of noise and perturbations as our input for this test.
+ This includes obscuring parts of the hand, changing the lighting, and a different orientation. We measured 
+ the robustness using these conditions and fine-tuned the model by retraining it using the perturbed data. 
+ Finally, we validated the performance by testing with a different set of users, as seen above in the images,
+  with different hand sizes and gestures to help ensure that the model is robust and reliable for recognizing 
+  hand gestures in a wide range of real-world scenarios.
 
-\newpage
+\newpage{}
+\section*{Appendix --- Reflection}
 
-\section{Appendix}
+The information in this section will be used to evaluate the team members on the
+graduate attribute of Reflection.  Please answer the following question:
 
-\subsection{User Experience Survey Questions}
-\begin{itemize}
-  \item On a scale of 1-10, how easy was it to learn the functions of the device (10 = very easy to learn, 1 = very difficult to learn)? Was there anything in 
-  particular that you found confusing about the device?
-  \item Does the system translate your signs fast enough? Was there any delay in its processing?
-  \item At any point, did you have to slow down your signing for the machine to correctly process your signing?
-  \item On a scale of 1-10, how portable would you say the device is? (10 = very portable, 1 = not portable at all) Was there anything in particular that made 
-  the device less portable? (too large and bulky, too fragile, connections get loose, etc.)
-  \item Does the hand tracking require you to reposition the camera repeatedly? Is this a major inconvenience?
-\end{itemize}
+\begin{enumerate}
+  \item In what ways was the Verification and Validation (VnV) Plan different
+  from the activities that were actually conducted for VnV?  If there were
+  differences, what changes required the modification in the plan?  Why did
+  these changes occur?  Would you be able to anticipate these changes in future
+  projects?  If there weren't any differences, how was your team able to clearly
+  predict a feasible amount of effort and the right tasks needed to build the
+  evidence that demonstrates the required quality?  (It is expected that most
+  teams will have had to deviate from their original VnV Plan.)\\
 
-\subsection{Reflection}
-\begin{outline}[enumerate]
-  \1 What knowledge and skills will the team collectively need to acquire to successfully complete the verification and validation of your project?
-  examples of possible knowledge and skills include dynamic testing knowledge, static testing knowledge, specific tool usage, etc. You should look to
-  identify at least one item for each team member\\
-    \2 Jiahui Chen: TestProject\\
-    In order to successfully complete the verification and validation plans for the project, knowledge of TestProject is needed for end-to-end testing. End-to-end testing 
-    is a software testing method to test the workflow of the application from the beginning to the end to ensure the application performs as expected. TestProject, a Python 
-    testing framework. will be used for the end-to-end testing in our project. TestProject can develop automation framework easily for generic purposes with the Python open 
-    source SDK, it can also support PyTest which will be used for unit testing.\\
-    \2 Kelvin Huynh: Pytest Framework\\
-    One aspect of the VnV plan is unit testing, although there are no unit tests planned for the current phase of the project, it is still important to understand how to 
-    automate and conduct unit tests. Unit testing by definition is testing of individual components of the system to ensure each component is working as intended. We can 
-    achieve proper automated unit testing through the use of the PyTest unit testing framework and definition of test cases. The framework itself is simple to use, it follows 
-    three core principles for most unit tests: Arrange, Act and Assert. So learning the syntax for the framework itself should not be a challenge; the challenge comes from 
-    developing potentially complex unit tests.\\
-    \2 Nafi Hasan: Confusion Matrix\\
-    One major component of our project is the machine learning model. Our device will rely on this model to accurately determine which sign language gestures are
-    being performed in order to translate it correctly. In order to accomplish this, we will need to ensure that the machine learning model we are using is able to 
-    correctly identify various sign language gestures. This is where a confusion matrix will be useful for testing and validation. A confusion matrix is a table that is 
-    used to assess errors within machine learning models that are used for classification, specifically hand gestures in our case. The confusion matrix will provide
-    various metrics such as accuracy, precision, how well the model can predict positives and negatives, among others.\\
-    \2 Robert Zhu: Black Box Testing\\
-    As this project involves the usage of a unique type of language that is not fluently performed by any member of our team, focusing on the user’s perspective and 
-    seeing if the system delivers on its promises for quick and accurate translations becomes paramount. Black box testing is a method that helps in this regard as it tests 
-    a system with no prior knowledge of its internal workings and exercises a system end-to-end. Our stakeholders do not need to learn any implementation and can test non-functional 
-    requirements such as user intuitiveness.\\
-    \2 Zifan Meng: Static Testing\\
-    The correctness and robustness of the code is the key to the success of this project. Whether it's the machine learning model or coding for Raspberry Pi, if the code is unstable or performs poorly, we won't be able to achieve our intended goals. Static testing is a software testing method that examines the program and associated documents before the program is executed. In comparison to dynamic testing, static testing examines the structure of the program, analyzes the performance, maintains code specification for better readability, modularity and extensibility. Furthermore, static testing is usually more efficient than dynamic testing, especially in the early phase of the project, or for dynamic language like Python.\\
-    \2 Runze Zhu: White Box Testing\\
-    In this project, in order to ensure that the program can be implemented properly and reduce the possible drawbacks of possible bugs, it’s necessary to analyze the code structure rather than just test the functionality. Therefore, white box testing should be performed during the design process. It can help us keep the code understandable through the whole design process as it can be performed from an early stage of the program without the need of any interface, it can also keep us optimizing the code throughout removing errors and extra lines and make the test cases easy to automate.\\
-
-
-
-  \1 For each of the knowledge areas and skills identified in the previous question, what are at least two approaches to acquiring the knowledge or
-  mastering the skill? Of the identified approaches, which will each team member pursue, and why did they make this choice?\\
-    \2 Jiahui Chen: TestProject\\
-    Some approaches to acquire the knowledge of TestProject are self-study online tutorials such as watching the tutorials on Test Automation, take courses on udemy or ask 
-    other teams who are proficient on TestProject for help. The approach that our team will pursue is watching online tutorials on our own. Because we can find all the 
-    knowledge we need for the project and there are many tutorial websites and videos available on the websites. And online tutorials offer a more flexible learning time.\\
-    \2 Kelvin Huynh: Pytest Framework\\
-    In order to successfully develop unit tests for the system, it is necessary to understand the usual types of tests that one would conduct on systems such as cameras 
-    utilizing OpenCV or a machine learning model. In order to acquire this knowledge it is possible to look into online tutorials utilizing sample machine learning code to 
-    generate test cases. Another approach could be to read and understand the fundamentals of machine learning as sometimes static inputs may produce the wrong results due 
-    to error. This is especially crucial because unit testing for machine learning depends on the accuracy of the model. The approach that I would prefer involves a combination 
-    of the two, this is because understanding common unit test cases will help us to develop unit tests and understanding how to deal with the complex nature of ML models 
-    during testing will help us improve our model’s accuracy.\\
-    \2 Nafi Hasan: Confusion Matrix\\
-    In order to learn more and utilize the confusion matrix, some approaches we can use include finding tutorials online. There are several guides and explanations online
-    that cover what exactly a confusion matrix is, and how to go about implementing it. Another potential approach could be to ask others who are knowledgeable with machine 
-    learning about confusion matrices. While online tutorials are helpful, they can be quite confusing, so having someone who we can ask more specific questions to can be a 
-    great asset in learning more about this verification method. Of these two approaches, I think the preferred method would be to use online tutorials, although we will 
-    likely use a combination of the two. Online tutorials are very easy to find and there are plenty of them available. Many of them also provide examples that make it 
-    easier to see exactly how to generate the matrix and explain how to interpret the output.\\
-    \2 Robert Zhu: Black Box Testing\\
-    One of the approaches for learning more about black box testing and its techniques, such as decision table testing, is through the many software courses that the university 
-    provides that deal with software development and documentation. Another approach is through online videos and websites that provide tutorials on the importance of Black box testing. 
-    In our case, reviewing previous courses will provide the most valuable method in acquiring skills as previous projects give context and real experience to mitigating failure in 
-    the system at the user’s end.\\
-    \2 Zifan Meng: Static Testing\\
-    For our project, Python is the main language, therefore one approach to apply static testing is to learn how to utilize the built in static testing function (Inspect Code) of Pycharm. This function automatically inspects code according to \href{https://peps.python.org/pep-0008/}{PEP8 Python coding standard}, it can find problems like bad structure, unlocalized string, memory leak, etc. There are many tutorials and documents about configuring and using Pycharm, it can be learnt quickly and applied easily. Another approach for static testing is an analyzer called Cppcheck, this analyzer is designed specifically for C or C++, if we use C or C++ for the Raspberry Pi, then this tool can be used. Cppcheck is very user friendly, there aren’t many configurations needed for using it, therefore, looking through documents provided by the designer is sufficient for learning features of this analyzer.\\
-    \2 Runze Zhu: White Box Testing\\
-    One of the potential approaches that we can use to learn about white box testing is going through the software tutorials that can be found online. There are many online classes and introductions that provides detailed explanation on the definition of white box testing and how to perform it while coding. Another possible approach is ask software developers tha are experienced with testing. Since white box testing is commonly used through design process, most programers should be familiar with it and can offer constructive comments to us. At this stage, we can try to start with reading online materials since the resources are rich, if we have problem in understanding a specific part of the testing, we can also go to ask people who are knowledgeable.
-
+  Robert Zhu: One of the things we didn’t consider during the VnV plan was how the 
+  GUI would be created and tested. During the VnV planning, the scope of the plan was 
+  focused on machine learning and the newly purchased Raspberry Pi that required many 
+  test cases to ensure that the gestures would be correctly translated using the new 
+  hardware. The GUI requirements were less critical during the development process, 
+  however during testing, we needed to think about how the user is about to access 
+  the different functions of the code and the issues that occur from it. In future 
+  projects this should be anticipated since the user experience is an important 
+  requirement especially in this project where providing visual feedback to the user 
+  in real-time is necessary for improving their performance and accuracy in hand signs.\\
   
-\end{outline}
+  Mirza Nafi Hasan: Many things had changed from our VnV Plan. In our VnV plan, a lot 
+  of the test cases covered only the basic functionality of our project. Since we have 
+  gotten into the development, we have started to realize the details that we would need 
+  to focus on. For example, in our VnV plan, we have a test case for detecting hand 
+  gestures (TC-MLFR1). However, we failed to consider the edge cases, like what happens
+  if two joints are on top of each other? Or if two hands are on top of each other? We 
+  were able to get a better idea of these edge cases once we had started writing the 
+  code. We would likely be able to identify some more tests we need to account for 
+  before starting development for future projects.\\
+
+  Kelvin Huynh: When we created our VnV Plan, we mentioned the use of the PyTest framework for 
+  the purposes of automated testing. However, at the time we failed to consider how we would create 
+  specific unit tests and their pass/fail conditions. Given the time constraint on the creation of the 
+  VnV report, we were not able to implement the use of this tool in full capacity. Instead, we opted to 
+  just do manual testing while considering as many test cases as possible. In future projects, this issue 
+  could easily be circumvented if we actively thought of potential test cases and developed automated testing 
+  scripts during the development process as needed.\\
+  
+  Jiahui Chen: By cross referencing to the VnV plan, one of the differences is that the test cases written in the VnV plan did not cover all the modules or functionalities that need to be tested. They were too general and did not correspond to the specific modules.Therefore, in the VnV Report, we redesigned the test cases based on modules to make sure all the important testing criteria are covered. This problem happened because at the beginning of the development, we missed out some functionalities of the modules and they were added during the development process. And we also changed some of the functions for the device when we realized the initial ideas or design could not be implemented well. For example, the text-to-speech module was added to replace the external speaker and the testing for the text-to-speech module needs to be conducted. We might still anticipate some changes to testing plans or testing cases in the future with the continuous development and improvement of the device. But this can be easily solved by adding more testing cases for the new functions or modules.\\
+
+  Zifan Meng: One of the differences between the VnV plan and the actual VnV process is that the VnV plan did not  account for the differentiation between static hand gestures and motion gestures. However, during the development process, we realized that differentiating static gestures and motion gestures was crucial, due to the fact that American Sign Language involves a large amount of motions. Therefore, the key point history mode was developed and implemented for recognizing and translating motions. Corresponding test plans are also designed and executed to test whether the program can detect motions. Although it is difficult to anticipate every potential change that could arise, this experience indicates the importance of carefully considering the requirements of the project. We will continue to develop modularized programs so that the program is flexible and adaptable for possible modifications.\\
+  
+  Runze Zhu: A difference we encountered was the use of the Raspberry Pi not being able to run our program to the same level as a desktop or laptop computer and it struggles with the demanding application. This can be due to the amount of memory and the speed of the SD card being used. In the future we can learn to anticipate these issues by considering a single-board computer such as the Nvidia Jetson Nano, which was specially designed for computer vision, machine learning and robotics. While they are more expensive, they offer more powerful hardware and better performance for our use cases.
+
+\end{enumerate}
+
 \end{document}
