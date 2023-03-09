@@ -334,7 +334,7 @@ gestures in a wide range of real-world scenarios.
 \endminipage\hfill
 \end{figure}
 \minipage{1\textwidth}
-
+~\\
 The pictures above are some examples of our test for the robustness of the machine 
 learning module following a rigorous evaluation process.. We introduced various types 
 of noise and perturbations as our input for this test. This includes obscuring parts 
@@ -351,20 +351,20 @@ From the failures of test cases G2 and H2, it was determined that the program’
 likely due to hardware limitations with single core processing. Thus, the approach that we decided to take was to rewrite the 
 program such that the Raspberry Pi is able to utilize Python’s multiprocessing library to alleviate performance issues. As of 
 writing this, this solution is still being worked on and is not guaranteed to work. There are also potentially other solutions 
-to use slightly more powerful hardware such as mobile devices or another board, though the main concern would be the portability requirement NFR6.
-
+to use slightly more powerful hardware such as mobile devices or another board, though the main concern would be the portability requirement NFR6.\\
+~\\
 In addition, from test cases D2 and D6, the program fails to detect the difference between its modes KeypointClassification 
 (regular static gesture), PointHistoryClassification (motion gesture), and idle (where no gestures should be detected). At the 
 moment, both modes operate at the same exact time which may cause confusion for the user and cause issues with the text to speech 
 module. Therefore, changes to the program as a result of the tests would include a method that provides better distinction between 
-the two modes.
-
+the two modes.\\
+~\\
 Furthermore from the test cases for the training module, we encountered an oversight with how training would occur when signing with 
 both hands. We have it currently set up so that you would press a key to record the coordinates of your hand gestures. But in doing so, 
 we failed to realize how this would work when performing signs that required the use of both hands. As a result of this circumstance, we 
 are now working on implementing a change to the GUI that enables automated recording of these gestures where a keypress will start a timer 
-of 10 seconds then record a data point every 5 seconds. These values are subject to change and will be adjusted as needed.
-
+of 10 seconds then record a data point every 5 seconds. These values are subject to change and will be adjusted as needed.\\
+~\\
 From test case D1, we can conclude that the accuracy of the model for similar gestures is also one aspect that is inadequate in quality. 
 Therefore the change that would be made based on non-functional quality 1, would be to add more data points such that the machine learning 
 model is able to draw a distinction between similar gestures.
