@@ -54,6 +54,20 @@ Date 2 & 1.1 & Notes\\
 
 \wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
 
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{lower_cases.PNG} 
+\caption{Lower Case} 
+\label{Fig.Lower Case} 
+\end{figure}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{upper_cases.PNG} 
+\caption{Upper Case} 
+\label{Fig.Upper Case} 
+\end{figure}
+
 \newpage
 
 \tableofcontents
@@ -89,7 +103,7 @@ A4 & Testing if a joint overlay will be placed on more than two hands & MLFR1, M
 A5 & Testing if detected joints are from one individual (the user) & MLFR1, NFR1, NFR3 & Have two people with one hand each in the frame & Detects the hand from one person as opposed to two & Detects both the hands of both people & Fail\\ \hline
 A6 & Testing hand detection at a distance of 2 m & CFR1 & Hand gesture for “a”, “b”, “c” & a b c & a b c & Pass\\ \hline
 A7 & Testing hand detection with multiple hands & CFR1 & Hand gestures for “z”, “x”, “y” & z x y & z x y & Pass\\ \hline
-A8 & Testing for joint tracking when overlapping hands & MLFR1,MLFR3, MLFR5 & Hand Gesture for “S”, “M”, “N”, “R” & Able to separate different hand joints from each other & Able to separate different hand joints from each other & Pass\\ \hline
+A8 & Testing for joint tracking when overlapping hands & MLFR1, MLFR3, MLFR5 & Hand Gesture for “S”, “M”, “N”, “R” & Able to separate different hand joints from each other & Able to separate different hand joints from each other & Pass\\ \hline
 A9 & Switching from translating mode to training mode stop detecting hand gestures & N/A & Pressing either 2 or 3 & The interface no longer tries to record hand motion & The interface no longer tries to record hand motion & Pass\\ \hline
 A10 & Testing for precision tracking & MLFR1 & Making small rotations and tremors & The joint overlay makes small movements & The joint overlay makes small movements & Pass\\ \hline
 A11 & Testing for gesture recognition if the hands hand in placing with different angles & CFR1 & Hand gestures for “a”, “b”, “c” with different angles for the position of the hand & “a”, “b”, “c” & “a”, “b”, “c” & Pass\\ \hline
@@ -269,7 +283,12 @@ RDP2 & H8
 \end{longtable}
 		
 \section{Non-Functional Quality 1}	
-
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=1\textheight,keepaspectratio]{coorelation.PNG} 
+\caption{Coorelation} 
+\label{Fig.Coorelation} 
+\end{figure}
 
 
 \section{Non-Functional Quality 2}
@@ -308,6 +327,15 @@ RDP2 & H8
 \caption{Tilted Right} 
 \label{Fig.Tilted Right} 
 \end{figure}
+
+\section{Changes due to Testing}
+
+
+\section{Automated Testing}
+
+
+\section{Code Coverage Metrics}
+
 
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
