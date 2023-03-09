@@ -393,10 +393,22 @@ and reliable for recognizing hand gestures in a wide range of real-world scenari
 \section{Changes due to Testing}
 
 
-\section{Automated Testing}
-
-
 \section{Code Coverage Metrics}
+
+\begin{figure}[h]
+  \minipage{0.48\textwidth}
+    \includegraphics[width=\linewidth]{coverage_report_hmtl.png}
+    \caption{Angled y}\label{fig:Coverage Report - HTML}
+  \endminipage\hfill
+  \minipage{0.48\textwidth}
+    \includegraphics[width=\linewidth]{coverage_report_terminal.png}
+    \caption{Low Light y}\label{fig:Coverage Report - Terminal}
+  \endminipage\hfill
+\end{figure}
+
+The images above are code coverage reports generated using Coverage.py which utilizes the PyTest Unit Testing Framework. 
+While the code coverage is not 100\%, it is reasonable enough at 92\% as not every single line of code will be hit upon execution. 
+This is especially true because there are portions of code which would require manual input from the user before they can be executed.
 
 
 \bibliographystyle{plainnat}
@@ -446,6 +458,15 @@ graduate attribute of Reflection.  Please answer the following question:
   were able to get a better idea of these edge cases once we had started writing the 
   code. We would likely be able to identify some more tests we need to account for 
   before starting development for future projects.
+
+  Kelvin Huynh: When we created our VnV Plan, we mentioned the use of the PyTest framework for 
+  the purposes of automated testing. However, at the time we failed to consider how we would create 
+  specific unit tests and their pass/fail conditions. Given the time constraint on the creation of the 
+  VnV report, we were not able to implement the use of this tool in full capacity. Instead, we opted to 
+  just do manual testing while considering as many test cases as possible. In future projects, this issue 
+  could easily be circumvented if we actively thought of potential test cases and developed automated testing 
+  scripts during the development process as needed.
+
 \end{enumerate}
 
 \end{document}
