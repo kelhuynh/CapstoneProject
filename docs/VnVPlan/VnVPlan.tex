@@ -199,19 +199,19 @@ Control: Manual, Dynamic, Functional
             
 Initial State: Camera is placed in front of the user
             
-Input: User performs hand gestures
+Input: User starts the program
             
-Output: Send the image to the algorithm and it is recognized
+Output: The camera is opened and displays an image of the user
   
-Test Case Derivation: The image will be processed and translated into its corresponding hand gesture.
+Test Case Derivation: The camera must be functional in order to detect hand motion.
             
-How test will be performed: The tester uses a variety of different gestures in sequence that the algorithm has learned.
+How test will be performed: The user will try to start the program to see if the camera is able to capture video.
 
-\item{TC-CFR2: Raspberry Pi\\}
+\item{TC-CFR2: Raspberry Pi Speaker\\}
   
 Control: Manual, Static, Functional
             
-Initial State: Raspberry Pi is placed with the camera
+Initial State: Raspberry Pi is placed with the camera and headphones/speaker
             
 Input: Translated text from the algorithm
             
@@ -233,7 +233,7 @@ Control: Manual, Dynamic, Functional
               
 Initial State: Camera is placed in front of the user
               
-Input: User performs hand gestures
+Input: User performs hand gestures (ex. hand gestures for a, b, or c)
               
 Output: User\textquotesingle s hand gesture with joint lines overlaid on top
     
@@ -247,7 +247,7 @@ Control: Manual, Dynamic, Functional
               
 Initial State: Camera is placed in front of the user
               
-Input: User performs hand gestures
+Input: User performs hand gestures (ex. hand gesture for m, n, p)
               
 Output: Displays the x,y,z coordinates of each joint relative to the camera
     
@@ -269,7 +269,7 @@ Test Case Derivation: The system will separate and identify both hands from each
     
 How test will be performed: The user/tester will raise both their hands in front of the camera.
   
-\item{TC-MLFR4: Detecting multiple pairs of hands\\}
+\item{TC-MLFR4: Detecting multiple pairs of hands from multiple users\\}
   
 Control: Manual, Dynamic, Functional
               
@@ -309,7 +309,7 @@ Control: Manual, Dynamic, Performance
                 
 Initial State: Nothing displayed on graphic output
                 
-Input: User will perform a gesture that the system recognizes
+Input: User will perform a gesture for a letter of the alphabet
                 
 Output: ML model will classify the gesture based on training data used and label the gesture accordingly
       
@@ -323,7 +323,7 @@ Control: Manual, Dynamic, Performance
                 
 Initial State: Nothing displayed on graphic output
                 
-Input: User will perform a gesture that the system recognizes
+Input: User will perform a gesture that corresponds to the letter of the alphabet
                 
 Output: ML model will classify the gesture and label it. Then the system will put that label through a text-to-speech system to say the word out loud
       
@@ -345,7 +345,7 @@ Control: Manual
 					
 Initial State: Camera is placed in front of the user
 					
-Input: A sequence of user’s hand gestures
+Input: A sequence of user’s hand gestures (ex. hand gestures for a, d, h, p, y)
 					
 Output: The screen displays words/phrases/sentences corresponding to the user's hand gestures, results should have acceptable accuracy.
 					
