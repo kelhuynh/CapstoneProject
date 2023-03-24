@@ -4,6 +4,9 @@ import os
 from matplotlib import pyplot as plt
 import time
 import mediapipe as mp
+import pyttsx3
+from collections import deque
+import tensorflow as tf
 #from sklearn.model_selection import train_test_split
 #from tensorflow.python.keras.utils import to_categorical
 #from tensorflow.python.keras.models import Sequential
@@ -13,6 +16,20 @@ import mediapipe as mp
 
 mp_holistic = mp.solutions.holistic # Holistic model
 mp_drawing = mp.solutions.drawing_utils # Drawing utilities
+model = tf.keras.models.load_model('action.h5')
+
+next_frame = 0
+prev_frame = 0
+tts = ""
+history_len = 16
+num = 0
+mode = 0
+frame_count = 0
+count = 0
+text = ""
+prev_key = 0
+finger_gesture_history = deque(maxlen=history_len)
+
 
 def mediapipe_detection(image, model):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # COLOR CONVERSION BGR 2 RGB
@@ -55,7 +72,7 @@ def sel_mode(key, mode):
          mode = 1
     return num, mode
 
-def __ui(self, image, frames, mode, num):
+def ui(image, frames, mode, text_string):
     text = "FPS: {}  Resolution: {}x{}".format(frames, image.shape[1], image.shape[0])
     text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
     text_w, text_h = text_size
@@ -63,37 +80,30 @@ def __ui(self, image, frames, mode, num):
     cv2.putText(image, text, (638 - text_w, 2 + text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         
     if mode == 0:
-        text_size, _ = cv2.getTextSize('Press 2 to Training Mode, 3 to Point History, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+        text_size, _ = cv2.getTextSize('Press 2 to Training Mode ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
         cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-        cv2.putText(image, 'Press 2 to Training Mode, 3 to Point History, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'Press 2 to Training Mode, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
-        text_size, _ = cv2.getTextSize("The current string is: " + self.tts, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+        text_size, _ = cv2.getTextSize("The current string is: " + text_string, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
         cv2.rectangle(image, (0, 475 - text_h), (text_w, 480), (0,0,0), -1)
-        cv2.putText(image, "The current string is: " + self.tts, (0, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(image, "The current string is: " + text_string, (0, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
     elif mode == 1:
-        text_size, _ = cv2.getTextSize('Press 1 for Translation, 3 to Point History, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+        text_size, _ = cv2.getTextSize('Press 1 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
         cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-        cv2.putText(image, 'Press 1 for Translation, 3 to Point History, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
-
-    elif mode == 2:
-        text_size, _ = cv2.getTextSize('Press 1 for Translation, 2 to Training Mode, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
-        text_w, text_h = text_size
-        cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-        cv2.putText(image, 'Press 1 for Translation, 2 to Training Mode, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'Press 1 for Translation, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
     return
 
-def __textBuilder(self, tts, text, frame):
-        
+def textBuilder(tts, text, frame):
     if (frame%40) == 0: #Modify this value for string record frequency
-         tts = tts + text + " "
-
+        if len(tts.split()) == 0 or text != tts.split()[-1]: # Check if last word is different from new word
+            tts = tts + text + " "
     return tts
     
-def __textToSpeech(self, tts, text):
+def textToSpeech(tts, text):
 
     if text == "Speak": #Read the current string and clear string
         engine = pyttsx3.init()
@@ -137,6 +147,20 @@ for action in actions:
         except:
             pass """
 
+sequence = []
+sentence = ['']
+predictions = []
+threshold = 0.5
+
+colors = [(245,117,16), (117,245,16), (16,117,245)]
+def prob_viz(res, actions, input_frame, colors):
+    output_frame = input_frame.copy()
+    for num, prob in enumerate(res):
+        cv2.rectangle(output_frame, (0,60+num*40), (int(prob*100), 90+num*40), colors[num], -1)
+        cv2.putText(output_frame, actions[num], (0, 85+num*40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+        
+    return output_frame
+
 cap = cv2.VideoCapture(0)
 # Set mediapipe model 
 with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
@@ -146,46 +170,132 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
             break
         num, mode = sel_mode(key, mode)
 
-    # NEW LOOP
-    # Loop through actions
-    for action in actions:
-        # Loop through sequences aka videos
-        for sequence in range(dirmax, dirmax+no_sequences+1):
-            # Loop through video length aka sequence length
-            for frame_num in range(sequence_length):
+        # Read feed
+        ret, frame = cap.read()
 
-                # Read feed
-                ret, frame = cap.read()
+        # Make detections
+        image, results = mediapipe_detection(frame, holistic)
+        
+        # Draw landmarks
+        draw_styled_landmarks(image, results)
 
-                # Make detections
-                image, results = mediapipe_detection(frame, holistic)
+        if mode == 0: #Testing mode
+            # 2. Prediction logic
+            keypoints = extract_keypoints(results)
+            sequence.append(keypoints)
+            sequence = sequence[-30:]
 
-                # Draw landmarks
-                draw_styled_landmarks(image, results)
+            if len(sequence) == 30:
+                res = model.predict(np.expand_dims(sequence, axis=0))[0]
+                #print(actions[np.argmax(res)])
+                predictions.append(np.argmax(res))
                 
-                # NEW Apply wait logic
-                if frame_num == 0: 
-                    cv2.putText(image, 'STARTING COLLECTION', (120,200), 
-                               cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255, 0), 4, cv2.LINE_AA)
-                    cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
-                               cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
-                    # Show to screen
-                    cv2.imshow('OpenCV Feed', image)
-                    cv2.waitKey(500)
-                else: 
-                    cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
-                               cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
-                    # Show to screen
-                    cv2.imshow('OpenCV Feed', image)
-                
-                # NEW Export keypoints
-                keypoints = extract_keypoints(results)
-                npy_path = os.path.join(DATA_PATH, action, str(sequence), str(frame_num))
-                np.save(npy_path, keypoints)
+            #3. Viz logic
+                if np.unique(predictions[-10:])[0]==np.argmax(res): 
+                    if res[np.argmax(res)] > threshold: 
+                        
+                        if len(sentence) > 0: 
+                            if actions[np.argmax(res)] != sentence[-1]:
+                                sentence.append(actions[np.argmax(res)])
+                        else:
+                            sentence.append(actions[np.argmax(res)])
 
-                # Break gracefully
-                if cv2.waitKey(10) & 0xFF == ord('q'):
-                    break
-                    
+                if len(sentence) > 5: 
+                    sentence = sentence[-5:]
+
+                image = prob_viz(res, actions, image, colors)
+        
+            next_frame = time.time()
+            fps = 1/(next_frame-prev_frame)
+            prev_frame = next_frame
+            frame_count = frame_count + 1 #Frame Counter
+            fps = int(fps)
+            fps = str(fps)
+            
+            tts = textBuilder(tts, sentence[-1], frame_count)
+            tts = textToSpeech(tts, sentence[-1]) 
+            ui(image, str(fps), mode, tts)
+
+            if key == 46: #Press '.' to clear string
+                tts = ""
+                
+            if key == 8: #Press 'Backspace' to clear last character
+                tts = tts[:-1]
+                
+            if key == 32: #Press 'Space
+                tts = tts + " "
+             
+            #cv2.rectangle(image, (0,0), (640, 40), (245, 117, 16), -1)
+            #cv2.putText(image, ' '.join(sentence), (3,30), 
+            #cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            
+            # Show to screen
+            cv2.imshow('OpenCV Feed', image)
+
+        elif mode == 1:
+            start_folder = 0
+            for action in actions: 
+                dirmax = np.max(np.array(os.listdir(os.path.join(DATA_PATH, action))).astype(int))
+                for sequence in range(1,no_sequences+1):
+                    try: 
+                        os.makedirs(os.path.join(DATA_PATH, action, str(dirmax+sequence)))
+                    except:
+                        pass
+            # NEW LOOP
+            # Loop through actions
+            for action in actions:
+                # Loop through sequences aka videos
+                for sequence in range(dirmax, dirmax+no_sequences+1):
+                    # Loop through video length aka sequence length
+                    for frame_num in range(sequence_length):
+
+                        # Read feed
+                        ret, frame = cap.read()
+
+                        # Make detections
+                        image, results = mediapipe_detection(frame, holistic)
+
+                        # Draw landmarks
+                        draw_styled_landmarks(image, results)
+                        
+                        # NEW Apply wait logic
+                        if frame_num == 0: 
+                            cv2.putText(image, 'STARTING COLLECTION', (120,200), 
+                                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255, 0), 4, cv2.LINE_AA)
+                            cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+                            # Show to screen
+                            cv2.imshow('OpenCV Feed', image)
+                            cv2.waitKey(500)
+                        else: 
+                            cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+                            # Show to screen
+                            cv2.imshow('OpenCV Feed', image)
+                        
+                        # NEW Export keypoints
+                        keypoints = extract_keypoints(results)
+                        npy_path = os.path.join(DATA_PATH, action, str(sequence), str(frame_num))
+                        np.save(npy_path, keypoints)
+
+                        # Break gracefully
+                        #if cv2.waitKey(10) & 0xFF == ord('q'):
+                            #break
+
+        '''if (mode == 1):
+            text_size, _ = cv2.getTextSize("Added 0000 points for a", cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+            text_w, text_h = text_size
+            cv2.rectangle(image, (635 - text_w, 475 - text_h), (640, 480), (0,0,0), -1)
+            if (97 <= key <= 122):
+                if prev_key != key:
+                    count = 1
+                    text = "Added {} points for {}".format(count,chr(key))                     
+                else:
+                    count += 1
+                    text = "Added {} points for {}".format(count,chr(key))
+                prev_key = key
+            cv2.putText(image, text, (636 - text_w, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)'''
+
+    cv2.imshow('OpenCV Feed', image)              
     cap.release()
     cv2.destroyAllWindows()
