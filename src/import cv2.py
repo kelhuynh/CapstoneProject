@@ -29,6 +29,10 @@ count = 0
 text = ""
 prev_key = 0
 finger_gesture_history = deque(maxlen=history_len)
+global spot
+spot = 0
+global tooLong
+short = True
 
 
 def mediapipe_detection(image, model):
@@ -80,6 +84,10 @@ def ui(image, frames, mode, text_string):
     cv2.putText(image, text, (638 - text_w, 2 + text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         
     if mode == 0:
+        global spot
+        multiplier = 1
+        line1 = ''
+        line2 = ''
         text_size, _ = cv2.getTextSize('Press 2 to Training Mode ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
         cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
@@ -87,9 +95,22 @@ def ui(image, frames, mode, text_string):
 
         text_size, _ = cv2.getTextSize("The current string is: " + text_string, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
-        cv2.rectangle(image, (0, 475 - text_h), (text_w, 480), (0,0,0), -1)
-        cv2.putText(image, "The current string is: " + text_string, (0, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
-
+        if (text_w > 640):
+            multiplier = 2
+            if spot == 0:
+                spot = len(text_string.split()) - 1
+            for i in range(0, spot):
+                line1 = line1 + text_string.split()[i] + ' '
+            for i in range(spot, len(text_string.split())):
+                line2 = line2 + text_string.split()[i] + ' '
+            text2_size, _ = cv2.getTextSize(line2, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+            text2_w, text2_h = text2_size
+            if ((640 - text2_w) < 10 or text2_w > 640): short = False
+        else: line1 = text_string
+        cv2.rectangle(image, (0, 480 - (text_h + 5) * multiplier), (text_w, 480), (0,0,0), -1)
+        cv2.putText(image, "The current string is: " + line1, (0, 476 - 12 * (multiplier - 1)), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(image, line2, (0, 476 - 12 * (multiplier - 2)), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+        
     elif mode == 1:
         text_size, _ = cv2.getTextSize('Press 1 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
@@ -99,7 +120,7 @@ def ui(image, frames, mode, text_string):
 
 def textBuilder(tts, text, frame):
     if (frame%40) == 0: #Modify this value for string record frequency
-        if len(tts.split()) == 0 or text != tts.split()[-1]: # Check if last word is different from new word
+       # if len(tts.split()) == 0 or text != tts.split()[-1]: # Check if last word is different from new word
             tts = tts + text + " "
     return tts
     
@@ -114,6 +135,10 @@ def textToSpeech(tts, text):
         engine.runAndWait()
         engine.stop()
         tts = ""
+        global spot
+        spot = 0
+        global short
+        short = True
 
     return tts
 
@@ -212,7 +237,8 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
             fps = int(fps)
             fps = str(fps)
             
-            tts = textBuilder(tts, sentence[-1], frame_count)
+            if short:
+                tts = textBuilder(tts, sentence[-1], frame_count)
             tts = textToSpeech(tts, sentence[-1]) 
             ui(image, str(fps), mode, tts)
 
