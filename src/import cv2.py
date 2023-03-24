@@ -156,26 +156,11 @@ no_sequences = 30
 # Videos are going to be 30 frames in length
 sequence_length = 30
 
-# Folder start
-start_folder = 0
-for action in actions: 
-    dirmax = np.max(np.array(os.listdir(os.path.join(DATA_PATH, action))).astype(int))
-    for sequence in range(1,no_sequences+1):
-        try: 
-            os.makedirs(os.path.join(DATA_PATH, action, str(dirmax+sequence)))
-        except:
-            pass
-""" for action in actions: 
-    for sequence in range(no_sequences):
-        try: 
-            os.makedirs(os.path.join(DATA_PATH, action, str(sequence)))
-        except:
-            pass """
-
 sequence = []
 sentence = ['']
 predictions = []
 threshold = 0.5
+exit_flag = False
 
 colors = [(245,117,16), (117,245,16), (16,117,245)]
 def prob_viz(res, actions, input_frame, colors):
@@ -271,8 +256,13 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
             # Loop through actions
             for action in actions:
                 # Loop through sequences aka videos
+                if exit_flag:
+                    mode = 0
+                    break
                 for sequence in range(dirmax, dirmax+no_sequences+1):
                     # Loop through video length aka sequence length
+                    if exit_flag:
+                        break
                     for frame_num in range(sequence_length):
 
                         # Read feed
@@ -305,8 +295,9 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                         np.save(npy_path, keypoints)
 
                         # Break gracefully
-                        #if cv2.waitKey(10) & 0xFF == ord('q'):
-                            #break
+                        if cv2.waitKey(10) & 0xFF == ord('q'):
+                            exit_flag = True
+                            break
 
         '''if (mode == 1):
             text_size, _ = cv2.getTextSize("Added 0000 points for a", cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
