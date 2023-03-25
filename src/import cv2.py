@@ -297,7 +297,6 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                     
                     # NEW Export keypoints
                     keypoints = extract_keypoints(results)
-                    if sequence == -1: sequence = 0
                     npy_path = os.path.join(DATA_PATH, action, str(sequence), str(frame_num))
                     np.save(npy_path, keypoints)
 
