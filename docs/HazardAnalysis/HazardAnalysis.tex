@@ -9,9 +9,11 @@
 \usepackage[document]{ragged2e}
 \usepackage{fullpage}
 \usepackage{tabu}
+\usepackage{enumitem}
 
 \input{../Comments}
 \input{../Common}
+
 
 \title{Hazard Analysis\\\progname}
 \author{\authname}
@@ -55,19 +57,37 @@ sign language in an educational setting.\\
 \section{Scope and Purpose}
 
 The purpose of this document is to identify hazards that may occur when using the ASL Translator specifically in the components, their causes and consequences on user 
-operation, hazard mitigation, and their respective requirements.\\
+operation, hazard mitigation, and their respective requirements. The scope of this document will span from the time that the user performs their sign language to the
+time that the inputted sign is translated. This will include motion tracking, ML processing \\
 
 \section{System Boundaries}
 
-The device being referred to in the hazard analysis consists of the following components:
+The system boundaries for the hazard analysis includes the Raspberry Pi, of which the software will be installed in, and the components of the software itself. These components
+are listed below:
 
-1. A Raspberry Pi\\
-2. A camera\\
-3. A machine learning model for ASL\\
-4. A hand tracking script\\
+\begin{enumerate}
+    \item Video Capture using a Camera
+\end{enumerate}
 
-The system boundaries include the raspberry pi, its machine learning model and hand tracking script, and the camera. Despite the choice of raspberry pi model and camera model being influenced by the user and out of control of the developers, it is important to include these components as they are core to the system’s operation. Therefore, a hazard analysis on these components will still be included.
+\hspace*{9mm}This component enables users' sign language to be captured in real-time.
 
+\begin{enumerate}[resume]
+    \item Motion Tracking
+\end{enumerate}
+
+\hspace*{9mm}\hangindent=9mm This component processes the hand joint coordinates retrieved from the video capture component into data that can be used by the machine learning model.
+
+\begin{enumerate}[resume]
+    \item Machine Learning Model for ASL Processing
+\end{enumerate}
+
+\hspace*{9mm}\hangindent=9mm This component analyzes the coordinate data and identifies the sign being displayed through comparison to the data it was trained with during supervised learning.
+
+\begin{enumerate}[resume]
+    \item Text to Speech
+\end{enumerate}
+
+\hspace*{9mm}\hangindent=9mm This component utilizes the sign identification from the machine learning model to playback the translated gesture through a speaker.
 
 \section{Definition of Hazard}
 
@@ -103,7 +123,7 @@ Below is the FMEA table for the project.
 
 \tabulinesep=1.2mm
 \hspace*{-1cm}\begin{longtabu} to \textwidth {|p{0.1\linewidth}|p{0.125\linewidth}|p{0.125\linewidth}|p{0.125\linewidth}|p{0.255\linewidth}|p{0.05\linewidth}|p{0.05\linewidth}|}
-\caption{Failure Modes and Effects Analysis}\\
+\caption{Failure Modes and Effects Analysis}\label{TblFMEA}\\
 \firsthline
 \multicolumn{1}{|c|}{Component} & \multicolumn{1}{c|}{Failure Modes}          & \multicolumn{1}{c|}{Effects of Failure}          & \multicolumn{1}{c|}{Causes of Failure} & \multicolumn{1}{c|}{Recommended Action} & \multicolumn{1}{c|}{Req.} & \multicolumn{1}{c|}{Ref.} \\
 \hline \endfirsthead
