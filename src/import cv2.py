@@ -242,6 +242,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
             
             # Show to screen
             cv2.imshow('OpenCV Feed', image)
+            cv2.setWindowProperty('OpenCV Feed', cv2.WND_PROP_TOPMOST, 1)
 
         elif mode == 1:
             start_folder = 0
