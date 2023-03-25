@@ -120,7 +120,7 @@ def ui(image, frames, mode, text_string):
 
 def textBuilder(tts, text, frame):
     if (frame%40) == 0: #Modify this value for string record frequency
-       # if len(tts.split()) == 0 or text != tts.split()[-1]: # Check if last word is different from new word
+       if len(tts.split()) == 0 or text != tts.split()[-1]: # Check if last word is different from new word
             tts = tts + text + " "
     return tts
     
@@ -256,7 +256,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                         pass
             else:  # New Action -> First time runthrough
                 actions = np.append(actions, action)
-                np.savetxt('actions.txt', actions, fmt='%s')  
+                np.savetxt('/Users/Robert/Desktop/CapstoneProject/src/actions.txt', actions, fmt='%s')  
                 os.mkdir(os.path.join(DATA_PATH, action))
 
                 dirmax = 0
