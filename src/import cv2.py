@@ -304,6 +304,11 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                     if cv2.waitKey(10) & 0xFF == ord('q'):
                         exit_flag = True
                         break
+            
+            mode = 0
+            sequence = []
+            sentence = ['']
+            predictions = []
 
         '''if (mode == 1):
             text_size, _ = cv2.getTextSize("Added 0000 points for a", cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
