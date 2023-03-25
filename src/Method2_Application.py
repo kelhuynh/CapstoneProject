@@ -142,7 +142,47 @@ def textToSpeech(tts, text):
 
     return tts
 
+def UserInput(image):
+    font = cv2.FONT_HERSHEY_SIMPLEX
+# Set the initial text to an empty string
+    text = ""
+    while True:
+    # Remove previous text from the image
+        image = np.zeros((480, 640, 3), dtype=np.uint8)
+    # Display the current text on the screen
+        cv2.putText(image,
+                   "Enter an available word or new word to train: " + text,
+                 org=(0, 476 - 12),
+                    fontFace=font,
+                    fontScale=0.4,
+                    color=(0, 0, 255),
+                    thickness=1)
+        text_size, _ = cv2.getTextSize('Press 1 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+        text_w, text_h = text_size
+        cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
+        cv2.putText(image, 'Press 1 for Translation, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
+        # Wait for a key press
+        key = cv2.waitKey(1)
+
+        # If the key pressed is a letter or a space, add it to the text
+        if (key == 32) or (key >= 65 and key <= 122):
+            text += chr(key)
+
+        # If the key pressed is backspace, delete the last character
+        elif key == 8:
+            text = text[:-1]
+
+        # If the key pressed is enter, exit the loop and return the text
+        elif key == 13:
+            break
+
+        #elif key == 49:
+            #mode = 0
+        cv2.imshow('OpenCV Feed', image)
+        
+    return text
+    
 # Path for exported data, numpy arrays
 cwd = os.getcwd()
 DATA_PATH = os.path.join('MP_Data') 
@@ -190,6 +230,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         draw_styled_landmarks(image, results)
 
         if mode == 0: #Testing mode
+            exit_flag = False
             # 2. Prediction logic
             keypoints = extract_keypoints(results)
             sequence.append(keypoints)
@@ -246,7 +287,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
 
         elif mode == 1:
             start_folder = 0
-            action = input("Enter the word you want to train ")
+            action = UserInput(image)
             if action in actions:
                 dirmax = np.max(np.array(os.listdir(os.path.join(DATA_PATH, action))).astype(int))
                 for sequence in range(1,no_sequences+1):
@@ -255,6 +296,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                     except:
                         pass
             else:  # New Action -> First time runthrough
+
                 actions = np.append(actions, action)
                 np.savetxt('actions.txt', actions, fmt='%s')  
                 os.mkdir(os.path.join(DATA_PATH, action))
@@ -280,18 +322,23 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
 
                     # Draw landmarks
                     draw_styled_landmarks(image, results)
+
+                    text_size, _ = cv2.getTextSize('Press 1 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+                    text_w, text_h = text_size
+                    cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
+                    cv2.putText(image, 'Press 1 for Translation, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
                     
                     # NEW Apply wait logic
                     if frame_num == 0: 
                         cv2.putText(image, 'STARTING COLLECTION', (120,200), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255, 0), 4, cv2.LINE_AA)
-                        cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
+                        cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15, 476 - 12), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
                         # Show to screen
                         cv2.imshow('OpenCV Feed', image)
                         cv2.waitKey(500)
                     else: 
-                        cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
+                        cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15, 476 - 12), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
                         # Show to screen
                         cv2.imshow('OpenCV Feed', image)
@@ -302,7 +349,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                     np.save(npy_path, keypoints)
 
                     # Break gracefully
-                    if cv2.waitKey(10) & 0xFF == ord('q'):
+                    if cv2.waitKey(10) & 0xFF == ord('1'):
                         exit_flag = True
                         break
             
