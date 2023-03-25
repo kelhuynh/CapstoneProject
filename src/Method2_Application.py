@@ -182,6 +182,34 @@ def UserInput(image):
         cv2.imshow('OpenCV Feed', image)
         
     return text
+
+def countdown_timer(cap, countdown_time):
+    # Set the font and text size for the countdown timer
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    font_scale = 2
+    font_color = (0, 0, 255)
+
+    # Capture initial frame
+    ret, frame = cap.read()
+    
+    # Display initial image
+    cv2.imshow('OpenCV Feed', frame)
+
+    # Loop through the countdown timer
+    for i in range(countdown_time, 0, -1):
+        # Capture new frame
+        ret, frame = cap.read()
+
+        # Clear the display image and display the current countdown time
+        text = 'Starting in {}...'.format(i)
+        text_size, _ = cv2.getTextSize(text, font, font_scale, 2)
+        text_x = (frame.shape[1] - text_size[0]) // 2
+        text_y = (frame.shape[0] + text_size[1]) // 2
+        cv2.putText(frame, text, (text_x, text_y), font, font_scale, font_color, 2)
+
+        # Display the image and wait for 1 second
+        cv2.imshow('OpenCV Feed', frame)
+        cv2.waitKey(1000)
     
 # Path for exported data, numpy arrays
 cwd = os.getcwd()
@@ -307,6 +335,9 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                         os.makedirs(os.path.join(DATA_PATH, action, str(dirmax+sequence)))
                     except:
                         pass
+            
+            #Timer
+            countdown_timer(cap, 3)
 
             for sequence in range(dirmax, dirmax+no_sequences+1):
                 # Loop through video length aka sequence length
@@ -323,11 +354,12 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                     # Draw landmarks
                     draw_styled_landmarks(image, results)
 
-                    text_size, _ = cv2.getTextSize('Press 1 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+                    text_size, _ = cv2.getTextSize('Press 1 for Translation', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
                     text_w, text_h = text_size
                     cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-                    cv2.putText(image, 'Press 1 for Translation, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
-                    
+                    cv2.putText(image, 'Press 1 for Translation', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+                
+
                     # NEW Apply wait logic
                     if frame_num == 0: 
                         cv2.putText(image, 'STARTING COLLECTION', (120,200), 
