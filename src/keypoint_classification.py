@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 
 RANDOM_SEED = 51
 
-dataset = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint.csv'
-model_save_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint_classifier.hdf5'
+dataset = os.getcwd() + '\\model\\keypoint_classifier\\keypoint.csv'
+model_save_path = os.getcwd() + '\\model\\keypoint_classifier\\keypoint_classifier.hdf5'
 
 NUM_CLASSES = 37  # Change as more signs are added
 
