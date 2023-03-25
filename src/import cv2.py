@@ -148,7 +148,7 @@ cwd = os.getcwd()
 DATA_PATH = os.path.join('MP_Data') 
 
 # Actions that we try to detect
-actions = np.array(['hello', 'thanks', 'iloveyou'])
+actions = np.loadtxt("actions.txt", dtype='str')
 
 # Thirty videos worth of data
 no_sequences = 30
@@ -245,59 +245,66 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
 
         elif mode == 1:
             start_folder = 0
-            for action in actions: 
+            action = input("Enter the word you want to train ")
+            if action in actions:
                 dirmax = np.max(np.array(os.listdir(os.path.join(DATA_PATH, action))).astype(int))
                 for sequence in range(1,no_sequences+1):
                     try: 
                         os.makedirs(os.path.join(DATA_PATH, action, str(dirmax+sequence)))
                     except:
                         pass
-            # NEW LOOP
-            # Loop through actions
-            for action in actions:
-                # Loop through sequences aka videos
+            else:  # New Action -> First time runthrough
+                actions = np.append(actions, action)
+                np.savetxt('actions.txt', actions, fmt='%s')  
+                os.mkdir(os.path.join(DATA_PATH, action))
+
+                dirmax = 0
+                for sequence in range(0,no_sequences+1):
+                    try: 
+                        os.makedirs(os.path.join(DATA_PATH, action, str(dirmax+sequence)))
+                    except:
+                        pass
+
+            for sequence in range(dirmax, dirmax+no_sequences+1):
+                # Loop through video length aka sequence length
                 if exit_flag:
-                    mode = 0
                     break
-                for sequence in range(dirmax, dirmax+no_sequences+1):
-                    # Loop through video length aka sequence length
-                    if exit_flag:
+                for frame_num in range(sequence_length):
+
+                    # Read feed
+                    ret, frame = cap.read()
+
+                    # Make detections
+                    image, results = mediapipe_detection(frame, holistic)
+
+                    # Draw landmarks
+                    draw_styled_landmarks(image, results)
+                    
+                    # NEW Apply wait logic
+                    if frame_num == 0: 
+                        cv2.putText(image, 'STARTING COLLECTION', (120,200), 
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255, 0), 4, cv2.LINE_AA)
+                        cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+                        # Show to screen
+                        cv2.imshow('OpenCV Feed', image)
+                        cv2.waitKey(500)
+                    else: 
+                        cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+                        # Show to screen
+                        cv2.imshow('OpenCV Feed', image)
+                    
+                    # NEW Export keypoints
+                    keypoints = extract_keypoints(results)
+                    if sequence == -1: sequence = 0
+                    npy_path = os.path.join(DATA_PATH, action, str(sequence), str(frame_num))
+                    np.save(npy_path, keypoints)
+
+                    # Break gracefully
+                    if cv2.waitKey(10) & 0xFF == ord('q'):
+                        exit_flag = True
                         break
-                    for frame_num in range(sequence_length):
-
-                        # Read feed
-                        ret, frame = cap.read()
-
-                        # Make detections
-                        image, results = mediapipe_detection(frame, holistic)
-
-                        # Draw landmarks
-                        draw_styled_landmarks(image, results)
-                        
-                        # NEW Apply wait logic
-                        if frame_num == 0: 
-                            cv2.putText(image, 'STARTING COLLECTION', (120,200), 
-                                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255, 0), 4, cv2.LINE_AA)
-                            cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
-                            # Show to screen
-                            cv2.imshow('OpenCV Feed', image)
-                            cv2.waitKey(500)
-                        else: 
-                            cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15,12), 
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
-                            # Show to screen
-                            cv2.imshow('OpenCV Feed', image)
-                        
-                        # NEW Export keypoints
-                        keypoints = extract_keypoints(results)
-                        npy_path = os.path.join(DATA_PATH, action, str(sequence), str(frame_num))
-                        np.save(npy_path, keypoints)
-
-                        # Break gracefully
-                        if cv2.waitKey(10) & 0xFF == ord('q'):
-                            exit_flag = True
-                            break
 
         '''if (mode == 1):
             text_size, _ = cv2.getTextSize("Added 0000 points for a", cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)

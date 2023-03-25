@@ -8,7 +8,7 @@ from keras.layers import LSTM, Dense
 from keras.callbacks import TensorBoard
 
 DATA_PATH = os.path.join('MP_Data') 
-actions = np.array(['hello', 'thanks', 'iloveyou'])
+actions = np.loadtxt("actions.txt", dtype='str')
 
 # Thirty videos worth of data
 no_sequences = 30
