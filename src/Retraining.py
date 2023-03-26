@@ -45,7 +45,7 @@ model.add(Dense(actions.shape[0], activation='softmax'))
 #es_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=20, mode='min', verbose=1)
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 #model.fit(X_train, y_train, epochs=500, callbacks=[tb_callback, cp_callback, es_callback])
-model.fit(X_train, y_train, epochs=150, callbacks=[tb_callback])
+model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback])
 
 from sklearn.metrics import multilabel_confusion_matrix, accuracy_score
 yhat = model.predict(X_test)
