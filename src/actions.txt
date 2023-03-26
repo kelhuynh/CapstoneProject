@@ -1,5 +1,6 @@
 hello
 thanks
-iloveyou
 noinput
+iloveyou
 a
+b
