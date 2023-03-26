@@ -1,3 +1,7 @@
 hello
 thanks
 iloveyou
+a
+b
+j
+z

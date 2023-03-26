@@ -41,8 +41,10 @@ model.add(LSTM(64, return_sequences=False, activation='relu'))
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(actions.shape[0], activation='softmax'))
+cp_callback = tf.keras.callbacks.ModelCheckpoint('action.h5', verbose=1, save_weights_only=False)
+es_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=20, mode='min', verbose=1)
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
-model.fit(X_train, y_train, epochs=500, callbacks=[tb_callback])
+model.fit(X_train, y_train, epochs=500, callbacks=[tb_callback, cp_callback, es_callback])
 
 from sklearn.metrics import multilabel_confusion_matrix, accuracy_score
 yhat = model.predict(X_test)
