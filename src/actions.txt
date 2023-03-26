@@ -1,7 +1,5 @@
 hello
 thanks
 iloveyou
+noinput
 a
-b
-j
-z
