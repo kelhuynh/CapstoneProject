@@ -10,3 +10,7 @@ seeyoulater
 me
 father
 mother
+yes
+no
+help
+please
