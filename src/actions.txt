@@ -1,4 +1,3 @@
-hello
 thanks
 noinput
 iloveyou
@@ -6,3 +5,8 @@ a
 b
 c
 d
+hello
+seeyoulater
+me
+father
+mother

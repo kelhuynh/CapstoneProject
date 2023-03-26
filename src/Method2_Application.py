@@ -119,9 +119,12 @@ def ui(image, frames, mode, text_string):
     return
 
 def textBuilder(tts, text, frame):
-    if (frame%5) == 0: #Modify this value for string record frequency
+    if (frame%20) == 0: #Modify this value for string record frequency
        if len(tts.split()) == 0 or text != tts.split()[-1]: # Check if 2last word is different from new word
-            tts = tts + text + " "
+            if text == "noinput":
+                pass
+            else:
+                tts = tts + text + " "
     return tts
     
 def textToSpeech(tts, text):
