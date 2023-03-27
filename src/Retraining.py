@@ -4,8 +4,9 @@ import os
 from sklearn.model_selection import train_test_split
 from keras.utils import to_categorical
 from keras.models import Sequential
-from keras.layers import LSTM, Dense
+from keras.layers import LSTM, Dense, Dropout
 from keras.callbacks import TensorBoard
+from keras import regularizers
 
 DATA_PATH = os.path.join('MP_Data') 
 actions = np.loadtxt("actions.txt", dtype='str')
@@ -32,20 +33,22 @@ y = to_categorical(labels).astype(int)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05)
 
 
-log_dir = os.path.join('Logs')
-tb_callback = TensorBoard(log_dir=log_dir)
-model = Sequential()
-model.add(LSTM(64, return_sequences=True, activation='relu', input_shape=(30,258)))
-model.add(LSTM(128, return_sequences=True, activation='relu'))
-model.add(LSTM(64, return_sequences=False, activation='relu'))
-model.add(Dense(64, activation='relu'))
-model.add(Dense(32, activation='relu'))
+log_dir = os.path.join('Logs') 
+tb_callback = TensorBoard(log_dir=log_dir) 
+model = Sequential() 
+model.add(LSTM(64, kernel_regularizer=regularizers.l2(0.01), return_sequences=True, activation='relu', input_shape=(30,258))) 
+model.add(Dropout(0.2)) 
+model.add(LSTM(128, kernel_regularizer=regularizers.l2(0.01), return_sequences=True, activation='relu')) 
+model.add(Dropout(0.2)) 
+model.add(LSTM(64, kernel_regularizer=regularizers.l2(0.01), return_sequences=False, activation='relu')) 
+model.add(Dense(64, kernel_regularizer=regularizers.l2(0.01), activation='relu')) 
+model.add(Dense(32, kernel_regularizer=regularizers.l2(0.01), activation='relu'))
 model.add(Dense(actions.shape[0], activation='softmax'))
-#cp_callback = tf.keras.callbacks.ModelCheckpoint('action.h5', verbose=1, save_weights_only=False)
-#es_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=20, mode='min', verbose=1)
+cp_callback = tf.keras.callbacks.ModelCheckpoint('action.h5', verbose=1, save_weights_only=False)
+es_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=20, mode='min', verbose=1)
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
-#model.fit(X_train, y_train, epochs=500, callbacks=[tb_callback, cp_callback, es_callback])
-model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback])
+model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback, cp_callback, es_callback])
+#model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback])
 
 from sklearn.metrics import multilabel_confusion_matrix, accuracy_score
 yhat = model.predict(X_test)

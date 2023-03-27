@@ -14,5 +14,6 @@ yes
 no
 help
 please
-say
 cat
+again
+milk
