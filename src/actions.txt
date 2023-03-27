@@ -14,3 +14,5 @@ yes
 no
 help
 please
+say
+cat

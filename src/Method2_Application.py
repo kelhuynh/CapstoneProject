@@ -125,11 +125,15 @@ def textBuilder(tts, text, frame):
                 pass
             else:
                 tts = tts + text + " "
+                """ engine = pyttsx3.init()
+                engine.say(text)
+                engine.runAndWait()
+                engine.stop() """
     return tts
     
 def textToSpeech(tts, text):
 
-    if text == "Speak": #Read the current string and clear string
+    if text == "speak": #Read the current string and clear string
         engine = pyttsx3.init()
         engine.setProperty('rate', 125)
         voices = engine.getProperty('voices') 
