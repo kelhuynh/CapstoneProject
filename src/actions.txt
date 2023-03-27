@@ -1,5 +1,4 @@
 thanks
-noinput
 iloveyou
 a
 b
@@ -17,3 +16,4 @@ please
 cat
 again
 milk
+noinput
