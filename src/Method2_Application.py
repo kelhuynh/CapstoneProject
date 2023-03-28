@@ -211,7 +211,7 @@ def countdown_timer(cap, countdown_time):
         text = 'Starting in {}...'.format(i)
         text_size, _ = cv2.getTextSize(text, font, font_scale, 2)
         text_x = (frame.shape[1] - text_size[0]) // 2
-        text_y = (frame.shape[0] + text_size[1]) // 2
+        text_y = (frame.shape[0] + text_size[1]) // 2   
         cv2.putText(frame, text, (text_x, text_y), font, font_scale, font_color, 2)
 
         # Display the image and wait for 1 second
@@ -248,7 +248,7 @@ def prob_viz(res, actions, input_frame, colors):
 
 cap = cv2.VideoCapture(0)
 # Set mediapipe model 
-with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+with mp_holistic.Holistic(min_detection_confidence=0.6, min_tracking_confidence=0.5) as holistic:
     while cap.isOpened():
         key = cv2.waitKey(10)
         if key == 27:

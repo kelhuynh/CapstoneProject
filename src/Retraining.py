@@ -30,6 +30,9 @@ for action in actions:
         labels.append(label_map[action])
 X = np.array(sequences)
 y = to_categorical(labels).astype(int)
+#mean = np.mean(X)
+#std = np.std(X)
+#X = (X - mean) / std
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05)
 
 
@@ -46,7 +49,7 @@ model.add(Dense(32, kernel_regularizer=regularizers.l2(0.01), activation='relu')
 model.add(Dense(actions.shape[0], activation='softmax'))
 cp_callback = tf.keras.callbacks.ModelCheckpoint('action.h5', verbose=1, save_weights_only=False)
 es_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=20, mode='min', verbose=1)
-model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
+model.compile(optimizer='Nadam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback, cp_callback, es_callback])
 #model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback])
 
