@@ -7,6 +7,8 @@ import mediapipe as mp
 import pyttsx3
 from collections import deque
 import tensorflow as tf
+from HandTrack_sub import Track
+
 #from sklearn.model_selection import train_test_split
 #from tensorflow.python.keras.utils import to_categorical
 #from tensorflow.python.keras.models import Sequential
@@ -43,15 +45,17 @@ def mediapipe_detection(image, model):
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR) # COLOR COVERSION RGB 2 BGR
     return image, results
 def draw_landmarks(image, results):
-    mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS) # Draw pose connections
+    if (mode != 2):
+        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS) # Draw pose connections
     mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS) # Draw left hand connections
     mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS) # Draw right hand connections
 def draw_styled_landmarks(image, results):
     # Draw pose connections
-    mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
-                             mp_drawing.DrawingSpec(color=(80,22,10), thickness=2, circle_radius=4), 
-                             mp_drawing.DrawingSpec(color=(80,44,121), thickness=2, circle_radius=2)
-                             ) 
+    if (mode != 2):
+        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
+                                mp_drawing.DrawingSpec(color=(80,22,10), thickness=2, circle_radius=4), 
+                                mp_drawing.DrawingSpec(color=(80,44,121), thickness=2, circle_radius=2)
+                                ) 
     # Draw left hand connections
     mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS, 
                              mp_drawing.DrawingSpec(color=(121,22,76), thickness=2, circle_radius=4), 
@@ -74,6 +78,8 @@ def sel_mode(key, mode):
           mode = 0
     if key == 50:  # 2 - Train keypoint
          mode = 1
+    if key == 51:
+        mode = 2
     return num, mode
 
 def ui(image, frames, mode, text_string):
@@ -88,10 +94,10 @@ def ui(image, frames, mode, text_string):
         multiplier = 1
         line1 = ''
         line2 = ''
-        text_size, _ = cv2.getTextSize('Press 2 to Training Mode ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+        text_size, _ = cv2.getTextSize('Press 2 for Training Mode or 3 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
         cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-        cv2.putText(image, 'Press 2 to Training Mode, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'Press 2 for Training Mode or 3 for Translation, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
         text_size, _ = cv2.getTextSize("The current string is: " + text_string, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
@@ -112,10 +118,10 @@ def ui(image, frames, mode, text_string):
         cv2.putText(image, line2, (0, 476 - 12 * (multiplier - 2)), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         
     elif mode == 1:
-        text_size, _ = cv2.getTextSize('Press 1 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+        text_size, _ = cv2.getTextSize('Press 1 or 2 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
         cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-        cv2.putText(image, 'Press 1 for Translation, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'Press 1 or 2 for Translation, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
     return
 
 def textBuilder(tts, text, frame):
@@ -164,10 +170,10 @@ def UserInput(image):
                     fontScale=0.4,
                     color=(0, 0, 255),
                     thickness=1)
-        text_size, _ = cv2.getTextSize('Press 1 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+        text_size, _ = cv2.getTextSize('Press 1 or 2 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
         cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-        cv2.putText(image, 'Press 1 for Translation, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'Press 1 or 2 for Translation, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
         # Wait for a key press
         key = cv2.waitKey(1)
@@ -391,8 +397,19 @@ with mp_holistic.Holistic(min_detection_confidence=0.6, min_tracking_confidence=
                     if cv2.waitKey(10) & 0xFF == ord('1'):
                         exit_flag = True
                         break
-            
+
             mode = 0
+            sequence = []
+            sentence = ['']
+            predictions = []
+            
+        elif (mode == 2):
+            handTrack = Track(True)
+            tts, mode = handTrack.motionTrack(cap, tts)  
+
+            if mode == 4:
+                break
+
             sequence = []
             sentence = ['']
             predictions = []
