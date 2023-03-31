@@ -17,7 +17,7 @@ from HandTrack_sub import Track
 
 
 mp_holistic = mp.solutions.holistic # Holistic model
-mp_drawing = mp.solutions.drawing_utils # Drawing utilities32
+mp_drawing = mp.solutions.drawing_utils # Drawing utilities
 model = tf.keras.models.load_model('action.h5')
 
 next_frame = 0
@@ -94,10 +94,10 @@ def ui(image, frames, mode, text_string):
         multiplier = 1
         line1 = ''
         line2 = ''
-        text_size, _ = cv2.getTextSize('Press 2 for Training Mode or 3 for Static, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+        text_size, _ = cv2.getTextSize('Press 2 for Training Mode or 3 for Translation, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
         cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-        cv2.putText(image, 'Press 2 for Training Mode or 3 for Static, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(image, 'Press 2 for Training Mode or 3 for Translation, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
         text_size, _ = cv2.getTextSize("The current string is: " + text_string, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
@@ -413,13 +413,6 @@ with mp_holistic.Holistic(min_detection_confidence=0.6, min_tracking_confidence=
             sequence = []
             sentence = ['']
             predictions = []
-
-        elif (mode == 3):
-            handTrack = Track(True)
-            tts, mode = handTrack.motionTrack(cap, tts)
-
-            if mode == 4:
-                break
 
         '''if (mode == 1):
             text_size, _ = cv2.getTextSize("Added 0000 points for a", cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)

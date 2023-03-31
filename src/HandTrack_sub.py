@@ -57,7 +57,13 @@ class Track:
             while cap.isOpened():
 
                 key = cv2.waitKey(10)
-                if key == 51:
+                if key == 49:
+                    self.mode = 0
+                    return self.tts, self.mode
+                elif key == 50:
+                    self.mode = 1
+                    return self.tts, self.mode
+                elif key == 51:
                     self.mode = 0
                     #return self.tts, self.mode
                 elif key == 52:
@@ -66,9 +72,6 @@ class Track:
                 elif key == 27:
                     self.mode = 4
                     return self.tts, self.mode
-                elif key == 49:
-                    self.mode = 0
-                    return self.tts, self.mode
 
                 success, image = cap.read()  # Success = feed established
                 if not success:
@@ -76,6 +79,7 @@ class Track:
                     continue
 
                 # Performance Optimization
+                image = cv2.flip(image, 1)
                 debug_image = copy.deepcopy(image)
 
                 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -248,13 +252,13 @@ class Track:
     def __makeCSV(self, number, mode, landmark_list, point_history_list):
         if mode == 0:
             pass
-        if mode == 1 and (0 <= number <= 26):
-            csv_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint.csv'
+        if mode == 1 and (0 <= number <= 36):
+            csv_path = os.getcwd() + '\\model\\keypoint_classifier\\keypoint.csv'
             with open(csv_path, 'a', newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([number, *landmark_list])
         if mode == 2 and (0 <= number <= 26):
-            csv_path = os.getcwd() + '\\src\\model\\point_history_classifier\\point_history.csv'
+            csv_path = os.getcwd() + '\\model\\point_history_classifier\\point_history.csv'
             with open(csv_path, 'a', newline="") as f:
                 writer = csv.writer(f)
                 writer.writerow([number, *point_history_list])
@@ -418,7 +422,7 @@ class Track:
             text_size, _ = cv2.getTextSize('Press 1 for Dynamic, 4 for Training, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
             cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-            cv2.putText(image, 'Press 1 for Dyanmic, 4 for Training, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(image, 'Press 1 for Dynamic, 4 for Training, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
             text_size, _ = cv2.getTextSize("The current string is: " + self.tts, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
@@ -426,16 +430,16 @@ class Track:
             cv2.putText(image, "The current string is: " + self.tts, (0, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
         elif mode == 1:
-            text_size, _ = cv2.getTextSize('Press 1 for Dynamic, 3 for Static, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
+            text_size, _ = cv2.getTextSize('Press 1 for Translation, 3 to Point History, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
             cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-            cv2.putText(image, 'Press 1 for Translation, 3 for Static, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(image, 'Press 1 for Translation, 3 to Static, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
         elif mode == 2:
             text_size, _ = cv2.getTextSize('Press 1 for Translation, 2 to Training Mode, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
             cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
-            cv2.putText(image, 'Press 1 for Translation, 2 to Training Mode, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(image, 'Press 1 for Translation, 2 to Static, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         return
 
     def __textBuilder(self, tts, text, frame):
