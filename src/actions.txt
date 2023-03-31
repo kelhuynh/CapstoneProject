@@ -1,7 +1,5 @@
 hello
-help
 please
-cat
 milk
 noinput
 want
@@ -9,5 +7,3 @@ time
 what
 me
 thanks
-yes
-no
