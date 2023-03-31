@@ -74,6 +74,10 @@ def extract_keypoints(results):
 
 def sel_mode(key, mode):
     num = -1
+    if 97 <= key <= 122:  # a - z on keyboard Select class
+        num = key - 97  #0-25
+    if 65 <= key <= 90:
+        num = key - 39    
     if key == 49:  # 1 - Normal operation
           mode = 0
     if key == 50:  # 2 - Train keypoint
@@ -253,6 +257,7 @@ def prob_viz(res, actions, input_frame, colors):
     return output_frame """
 
 cap = cv2.VideoCapture(0)
+training = Track(True)
 # Set mediapipe model 
 with mp_holistic.Holistic(min_detection_confidence=0.6, min_tracking_confidence=0.5) as holistic:
     while cap.isOpened():
@@ -404,11 +409,14 @@ with mp_holistic.Holistic(min_detection_confidence=0.6, min_tracking_confidence=
             predictions = []
             
         elif (mode == 2):
-            handTrack = Track(True)
-            tts, mode = handTrack.motionTrack(cap, tts)  
 
-            if mode == 4:
-                break
+            processedImage = holistic.process(image)
+
+            training.coordinateExtract(num, processedImage, image)
+            
+
+        if mode == 4:
+            break
 
             sequence = []
             sentence = ['']

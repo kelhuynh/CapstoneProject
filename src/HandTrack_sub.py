@@ -249,19 +249,11 @@ class Track:
 
         return temp_point_history
 
-    def __makeCSV(self, number, mode, landmark_list, point_history_list):
-        if mode == 0:
-            pass
-        if mode == 1 and (0 <= number <= 36):
-            csv_path = os.getcwd() + '\\model\\keypoint_classifier\\keypoint.csv'
-            with open(csv_path, 'a', newline="") as f:
-                writer = csv.writer(f)
-                writer.writerow([number, *landmark_list])
-        if mode == 2 and (0 <= number <= 26):
-            csv_path = os.getcwd() + '\\model\\point_history_classifier\\point_history.csv'
-            with open(csv_path, 'a', newline="") as f:
-                writer = csv.writer(f)
-                writer.writerow([number, *point_history_list])
+    def __makeCSV(self, number, landmark_list):
+        csv_path = os.getcwd() + '\\model\\keypoint_classifier\\keypoint.csv'
+        with open(csv_path, 'a', newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow([number, *landmark_list])
         return
 
     def __draw_bounding_rect(self, use_brect, image, brect):
@@ -448,4 +440,16 @@ class Track:
             tts = tts + text + " "
 
         return tts
+
+    def coordinateExtract(self, number, results, image):
+        
+        for left_hand, right_hand in zip(results.left_hand_landmarks, results.right_hand_landmarks):
+
+            hand_landmarks = left_hand.extend(right_hand)
+            # Normalize Joint Coordinates
+            self.landmark_list = self.__calc_landmark_list(image, hand_landmarks)
+            pre_processed_landmark_list = self.__pre_process_landmark(self.landmark_list)
+
+            # Dataset Generation
+            self.__makeCSV(number, pre_processed_landmark_list)
     
