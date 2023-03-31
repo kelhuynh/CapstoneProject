@@ -8,7 +8,7 @@ RANDOM_SEED = 51
 dataset = os.getcwd() + '\\model\\keypoint_classifier\\keypoint.csv'
 model_save_path = os.getcwd() + '\\model\\keypoint_classifier\\keypoint_classifier.hdf5'
 
-NUM_CLASSES = 37  # Change as more signs are added
+NUM_CLASSES = 27  # Change as more signs are added
 
 x_dataset = np.loadtxt(dataset, delimiter=',', dtype='float32', usecols=list(range(1, (21 * 2) + 1)))
 y_dataset = np.loadtxt(dataset, delimiter=',', dtype='int32', usecols=(0))
@@ -51,7 +51,7 @@ print(np.squeeze(predict_result))
 print(np.argmax(np.squeeze(predict_result)))
 
 model.save(model_save_path, include_optimizer=False)
-tflite_save_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint_classifier.tflite'
+tflite_save_path = os.getcwd() + '\\model\\keypoint_classifier\\keypoint_classifier.tflite'
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
