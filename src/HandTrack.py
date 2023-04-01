@@ -39,11 +39,11 @@ class Track:
         self.prev_key = 0
         self.keypoint_classifier = KeyPointClassifier()
         self.point_history_classifier = PointHistoryClassifier()
-        with open(os.getcwd()+'\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
+        with open(os.getcwd()+'\\src\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
             self.keypoint_classifier_labels = csv.reader(f)
             self.keypoint_classifier_labels = [row[0] for row in self.keypoint_classifier_labels]
         
-        with open(os.getcwd()+'\\model\\point_history_classifier\\point_history_classifier_label.csv', encoding='utf-8-sig') as f:
+        with open(os.getcwd()+'\\src\\model\\point_history_classifier\\point_history_classifier_label.csv', encoding='utf-8-sig') as f:
             self.point_history_classifier_labels = csv.reader(f)
             self.point_history_classifier_labels = [row[0] for row in self.point_history_classifier_labels]
 

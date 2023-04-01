@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 
 RANDOM_SEED = 51
 
-dataset = os.getcwd() + '\\model\\keypoint_classifier\\keypoint.csv'
-model_save_path = os.getcwd() + '\\model\\keypoint_classifier\\keypoint_classifier.hdf5'
+dataset = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint.csv'
+model_save_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint_classifier.hdf5'
 
 NUM_CLASSES = 27  # Change as more signs are added
 
@@ -16,9 +16,8 @@ x_train, x_test, y_train, y_test = train_test_split(x_dataset, y_dataset, train_
 
 model = tf.keras.models.Sequential([
     tf.keras.layers.Input((21 * 2, )),
-    tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(20, activation='relu'),
-    tf.keras.layers.Dropout(0.4),
+    tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(10, activation='relu'),
     tf.keras.layers.Dense(NUM_CLASSES, activation='softmax')
 ])
@@ -37,10 +36,10 @@ model.compile(
 model.fit(
     x_train,
     y_train,
-    epochs=1000,
+    epochs=400,
     batch_size=128,
     validation_data=(x_test, y_test),
-    callbacks=[cp_callback, es_callback]
+    callbacks=[cp_callback]
 )
 
 val_loss, val_acc = model.evaluate(x_test, y_test, batch_size=128)
@@ -51,7 +50,7 @@ print(np.squeeze(predict_result))
 print(np.argmax(np.squeeze(predict_result)))
 
 model.save(model_save_path, include_optimizer=False)
-tflite_save_path = os.getcwd() + '\\model\\keypoint_classifier\\keypoint_classifier.tflite'
+tflite_save_path = os.getcwd() + '\\src\\model\\keypoint_classifier\\keypoint_classifier.tflite'
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
