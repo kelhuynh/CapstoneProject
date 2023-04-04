@@ -20,6 +20,7 @@ no_sequences = 30
 sequence_length = 30
 
 # Map dataset to gesture labels
+# TODO: optimize label mapping, this part is most of the execution time
 label_map = {label: num for num, label in enumerate(actions)}
 sequences, labels = [], []
 for action in actions:
@@ -48,17 +49,17 @@ model.add(LSTM(64, kernel_regularizer=regularizers.l2(0.01), return_sequences=Fa
 model.add(Dense(64, kernel_regularizer=regularizers.l2(0.01), activation='relu'))
 model.add(Dense(32, kernel_regularizer=regularizers.l2(0.01), activation='relu'))
 model.add(Dense(actions.shape[0], activation='softmax'))
-# cp_callback = tf.keras.callbacks.ModelCheckpoint('action.h5', verbose=1, save_weights_only=False)
-# es_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=20, mode='min', verbose=1)
+#cp_callback = tf.keras.callbacks.ModelCheckpoint('action.h5', verbose=1, save_weights_only=False)  # noqa: E265
+#es_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=20, mode='min', verbose=1)  # noqa: E265
 model.compile(optimizer='Nadam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
-# model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback, cp_callback, es_callback])
+#model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback, cp_callback, es_callback])  # noqa: E265
 model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback])
 
 # Create confusion matrix for analysis of model accuracy
 yhat = model.predict(X_test)
 ytrue = np.argmax(y_test, axis=1).tolist()
 yhat = np.argmax(yhat, axis=1).tolist()
-# multilabel_confusion_matrix(ytrue, yhat)
+#multilabel_confusion_matrix(ytrue, yhat)  # noqa: E265
 print(multilabel_confusion_matrix(ytrue, yhat))
 
 model.save('action.h5')
