@@ -18,6 +18,14 @@ import pyttsx3
 class Track:
 
     def __init__(self, use_brect):
+        """
+        Initialize Track object
+
+        :param use_brect:
+            Boolean that enables/disables bounding rectangle
+        """
+
+        # Instantiate Track object properties
         self.next_frame = 0
         self.prev_frame = 0
         self.mp_drawing = mp.solutions.drawing_utils
@@ -36,6 +44,8 @@ class Track:
         self.count = 0
         self.text = ""
         self.prev_key = 0
+
+        # Instantiate Keypoint classification and PointHistory classification
         self.keypoint_classifier = KeyPointClassifier()
         self.point_history_classifier = PointHistoryClassifier()
         with open(os.getcwd() + '\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
@@ -46,7 +56,17 @@ class Track:
             self.point_history_classifier_labels = csv.reader(f)
             self.point_history_classifier_labels = [row[0] for row in self.point_history_classifier_labels]
 
-    def motionTrack(self, cap, words):
+    def motionTrack(self, cap, words: str):
+        '''
+        Initialize video capture
+
+        :param cap:
+            a cv2 VideoCapture object
+        :param words:
+            a string to be used for text to speech
+        :returns:
+            None
+        '''
         self.tts = words
         with self.mp_hands.Hands(
                 model_complexity=0,
@@ -166,6 +186,17 @@ class Track:
                 cv2.imshow('OpenCV Feed', debug_image)
 
     def __calc_bounding_rect(self, image, landmarks):
+        '''
+        Defines bounding rectangle for gesture
+
+        :param image:
+            an image frame read from a cv2 VideoCapture object
+        :param landmarks:
+            hand landmarks from data processed by a Mediapipe model
+        :returns:
+            an array of coordinates define the bounding rectangle around a gesture
+        '''
+
         image_width, image_height = image.shape[1], image.shape[0]
 
         landmark_array = np.empty((0, 2), int)
@@ -183,6 +214,17 @@ class Track:
         return [x, y, x + w, y + h]
 
     def __calc_landmark_list(self, image, landmarks):
+        '''
+        Shapes joint coordinate data for use in application
+
+        :param image:
+            an image frame read from a cv2 VideoCapture object
+        :param landmarks:
+            hand landmarks from data processed by a Mediapipe model
+        :returns:
+            an array with coordinate data in desired format for processing
+        '''
+
         image_width, image_height = image.shape[1], image.shape[0]
 
         landmark_point = []
@@ -198,6 +240,15 @@ class Track:
         return landmark_point
 
     def __pre_process_landmark(self, landmark_list):
+        '''
+        Makes a copy of an array of coordinates corresponding to hand joints and normalizes the coordinates
+
+        :param landmark_list:
+            an array returned from __calc_landmark_list
+        :returns:
+            an array of joint coordinate data that has been normalized
+        '''
+
         temp_landmark_list = copy.deepcopy(landmark_list)
 
         # Convert to relative coordinates
@@ -217,6 +268,14 @@ class Track:
         max_value = max(list(map(abs, temp_landmark_list)))
 
         def normalize_(n):
+            '''
+            Normalizes coordinate points against the max value in the array
+
+            :param n:
+                a float value corresponding to one hand joint coordinate
+            :returns:
+                a normalized hand joint coordinate
+            '''
             return n / max_value
 
         temp_landmark_list = list(map(normalize_, temp_landmark_list))
@@ -224,6 +283,17 @@ class Track:
         return temp_landmark_list
 
     def __pre_process_point_history(self, img, point_history):
+        '''
+        Makes a copy of a 2D-array of coordinates corresponding to prior and currently detected hand joints and normalizes the coordinates
+
+        :param img:
+            an image frame read from a cv2 VideoCapture object
+        :param landmark_list:
+            an array containing past hand joint coordinates
+        :returns:
+            an array of joint coordinate data that has been normalized
+        '''
+
         img_width, img_height = img.shape[1], img.shape[0]
         temp_point_history = copy.deepcopy(point_history)
 
@@ -241,6 +311,21 @@ class Track:
         return temp_point_history
 
     def __makeCSV(self, number, mode, landmark_list, point_history_list):
+        '''
+        Exports normalized coordinate data into corresponding csv file depending on mode
+
+        :param number:
+            an integer corresponding to the label classification of the data to be exported
+        :param mode:
+            an integer that details the current mode of operation
+        :param landmark_list:
+            an array of normalized keypoint data for static detection
+        :param point_history_list:
+            an array of normalized hand joint data for motion detection
+        :returns:
+            None
+        '''
+
         if mode == 0:
             pass
         if mode == 1 and (0 <= number <= 36):
@@ -256,13 +341,36 @@ class Track:
         return
 
     def __draw_bounding_rect(self, use_brect, image, brect):
+        '''
+        Overlay for bounding rectangle
+
+        :param use_brect:
+            Boolean that determines whether a bounding rectangle should be drawn or not
+        :param image:
+            an image frame read from a cv2 VideoCapture object
+        :param brect:
+            an array containing the coordinates of the bounding box
+        :returns:
+            an image frame that has been overlaid with the bounding rectangle
+        '''
+
         if use_brect:
-            # Outer rectangles
+            # Outer rectangles / bounding box
             cv2.rectangle(image, (brect[0], brect[1]), (brect[2], brect[3]), (0, 0, 0), 1)
 
         return image
 
     def __draw_landmarks(self, image, landmark_point):
+        '''
+        Customized hand joint overlay
+
+        :param image:
+            an image frame read from a cv2 VideoCapture object
+        :param landmark_point:
+            an array of joint coordinate data
+        :returns:
+            an image that has been overlaid with connecting lines and circles depicting hand joint locations
+        '''
         if len(landmark_point) > 0:
             # Thumb
             cv2.line(image, tuple(landmark_point[2]), tuple(landmark_point[3]), (0, 0, 0), 6)
@@ -387,6 +495,23 @@ class Track:
         return image
 
     def __draw_info_text(self, image, brect, handedness, hand_sign_text, hand_gesture_text):
+        '''
+        Draws hand gesture classification onto the image frame
+
+        :param image:
+            an image frame read from a cv2 VideoCapture object
+        :param brect:
+            an array containing coordinate data for a bounding box
+        :param handedness:
+            a property of processed data from Mediapipe hands model. This determines whether the left or right hand was used by the user to sign
+        :param hand_sign_text:
+            a string that identifies the static gesture that was captured
+        :param hand_gesture_text:
+            a string that identifies the motion gesture that was captured
+        :returns:
+            an image that has been overlaid with information about the captured gesture
+        '''
+
         cv2.rectangle(image, (brect[0], brect[1]), (brect[2], brect[1] - 22), (0, 0, 0), -1)
 
         info_text = handedness.classification[0].label[0:]
@@ -395,14 +520,22 @@ class Track:
             info_text = info_text + ':' + hand_sign_text
         cv2.putText(image, info_text, (brect[0] + 5, brect[1] - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
 
-        """if hand_gesture_text != "":
-            cv2.putText(image, "Gesture:" + hand_gesture_text, (10, 60),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), 4, cv2.LINE_AA)
-            cv2.putText(image, "Gesture:" + hand_gesture_text, (10, 60),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2, cv2.LINE_AA)"""
         return image
 
-    def __ui(self, image, frames, mode, num):
+    def __ui(self, image, frames: str, mode: int, num: int):
+        '''
+        Defines the user interface to be shown when capturing video input
+
+        :param image:
+            an image frame read from a cv2 VideoCapture object
+        :param frames:
+            a string that contains the number of frames read from a VideoCapture object
+        :param mode:
+            an integer that defines the current operation mode of the translator
+        :param num:
+        :returns:
+            None
+        '''
         text = "FPS: {}  Resolution: {}x{}".format(frames, image.shape[1], image.shape[0])
         text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
@@ -433,7 +566,19 @@ class Track:
             cv2.putText(image, 'Press 1 for Translation, 2 to Static, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         return
 
-    def __textBuilder(self, tts, text, frame):
+    def __textBuilder(self, tts: str, text: str, frame):
+        '''
+        Builds the text to speech string
+
+        :param tts:
+            the string to be appended to
+        :param text:
+            the text to be appended to tts
+        :param frame:
+            an integer containing the number of frames counted
+        :returns:
+            a new text to speech string
+        '''
 
         if (frame % 40) == 0:  # Modify this value for string record frequency
             tts = tts + text + " "
