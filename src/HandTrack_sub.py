@@ -15,7 +15,6 @@ from model import PointHistoryClassifier
 import pyttsx3
 
 
-
 class Track:
 
     def __init__(self, use_brect):
@@ -39,11 +38,11 @@ class Track:
         self.prev_key = 0
         self.keypoint_classifier = KeyPointClassifier()
         self.point_history_classifier = PointHistoryClassifier()
-        with open(os.getcwd()+'\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
+        with open(os.getcwd() + '\\model\\keypoint_classifier\\keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
             self.keypoint_classifier_labels = csv.reader(f)
             self.keypoint_classifier_labels = [row[0] for row in self.keypoint_classifier_labels]
-        
-        with open(os.getcwd()+'\\model\\point_history_classifier\\point_history_classifier_label.csv', encoding='utf-8-sig') as f:
+
+        with open(os.getcwd() + '\\model\\point_history_classifier\\point_history_classifier_label.csv', encoding='utf-8-sig') as f:
             self.point_history_classifier_labels = csv.reader(f)
             self.point_history_classifier_labels = [row[0] for row in self.point_history_classifier_labels]
 
@@ -65,10 +64,8 @@ class Track:
                     return self.tts, self.mode
                 elif key == 51:
                     self.mode = 0
-                    #return self.tts, self.mode
                 elif key == 52:
                     self.mode = 1
-                    #return self.tts, self.mode
                 elif key == 27:
                     self.mode = 4
                     return self.tts, self.mode
@@ -131,45 +128,42 @@ class Track:
                         if self.mode == 0:
                             self.tts = self.__textBuilder(self.tts, self.keypoint_classifier_labels[hand_sign_id], self.frame_count)
                             debug_image = self.__draw_info_text(debug_image, brect, handedness, self.keypoint_classifier_labels[hand_sign_id], self.point_history_classifier_labels[most_common_fg_id[0][0]])
-                    
+
                 else:
                     self.point_history.append([0, 0])
 
                 self.next_frame = time.time()
-                self.fps = 1/(self.next_frame-self.prev_frame)
+                self.fps = 1 / (self.next_frame - self.prev_frame)
                 self.prev_frame = self.next_frame
-                self.frame_count = self.frame_count + 1 #Frame Counter
+                self.frame_count = self.frame_count + 1  # Frame Counter
                 self.fps = int(self.fps)
                 self.fps = str(self.fps)
-                #self.fps = str(self.count) Testing Code for Frame Counter
 
                 self.__ui(debug_image, str(self.fps), self.mode, self.num)
-                if key == 46: #Press '.' to clear string
+                if key == 46:  # Press '.' to clear string
                     self.tts = ""
-                
-                if key == 8: #Press 'Backspace' to clear last character
+
+                if key == 8:  # Press 'Backspace' to clear last character
                     self.tts = self.tts[:-1]
-                
-                if key == 32: #Press 'Space' to add a space
+
+                if key == 32:  # Press 'Space' to add a space
                     self.tts = self.tts + " "
 
                 if (self.mode == 1):
                     text_size, _ = cv2.getTextSize("Added 0000 points for a", cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
                     text_w, text_h = text_size
-                    cv2.rectangle(debug_image, (635 - text_w, 475 - text_h), (640, 480), (0,0,0), -1)
+                    cv2.rectangle(debug_image, (635 - text_w, 475 - text_h), (640, 480), (0, 0, 0), -1)
                     if (97 <= key <= 122):
                         if self.prev_key != key:
                             self.count = 1
-                            self.text = "Added {} points for {}".format(self.count,chr(key))
+                            self.text = "Added {} points for {}".format(self.count, chr(key))
                         else:
                             self.count += 1
-                            self.text = "Added {} points for {}".format(self.count,chr(key))
+                            self.text = "Added {} points for {}".format(self.count, chr(key))
                         self.prev_key = key
                     cv2.putText(debug_image, self.text, (636 - text_w, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
-
                 cv2.imshow('OpenCV Feed', debug_image)
-
 
     def __calc_bounding_rect(self, image, landmarks):
         image_width, image_height = image.shape[1], image.shape[0]
@@ -239,13 +233,10 @@ class Track:
             if index == 0:
                 base_x, base_y = point[0], point[1]
 
-            temp_point_history[index][0] = (temp_point_history[index][0] - base_x) /img_width
-            temp_point_history[index][1] = (temp_point_history[index][1] - base_y) /img_height
+            temp_point_history[index][0] = (temp_point_history[index][0] - base_x) / img_width
+            temp_point_history[index][1] = (temp_point_history[index][1] - base_y) / img_height
 
-
-        temp_point_history = list(
-            itertools.chain.from_iterable(temp_point_history))
-
+        temp_point_history = list(itertools.chain.from_iterable(temp_point_history))
 
         return temp_point_history
 
@@ -415,37 +406,36 @@ class Track:
         text = "FPS: {}  Resolution: {}x{}".format(frames, image.shape[1], image.shape[0])
         text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
         text_w, text_h = text_size
-        cv2.rectangle(image, (636 - text_w, 0), (640, 4 + text_h), (0,0,0), -1)
+        cv2.rectangle(image, (636 - text_w, 0), (640, 4 + text_h), (0, 0, 0), -1)
         cv2.putText(image, text, (638 - text_w, 2 + text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
-        
+
         if mode == 0:
             text_size, _ = cv2.getTextSize('Press 1 for Dynamic, 4 for Training, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
-            cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
+            cv2.rectangle(image, (0, 0), (0 + text_w, 2 + text_h), (0, 0, 0), -1)
             cv2.putText(image, 'Press 1 for Dynamic, 4 for Training, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
             text_size, _ = cv2.getTextSize("The current string is: " + self.tts, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
-            cv2.rectangle(image, (0, 475 - text_h), (text_w, 480), (0,0,0), -1)
+            cv2.rectangle(image, (0, 475 - text_h), (text_w, 480), (0, 0, 0), -1)
             cv2.putText(image, "The current string is: " + self.tts, (0, 476), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
         elif mode == 1:
             text_size, _ = cv2.getTextSize('Press 1 for Translation, 3 to Point History, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
-            cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
+            cv2.rectangle(image, (0, 0), (0 + text_w, 2 + text_h), (0, 0, 0), -1)
             cv2.putText(image, 'Press 1 for Translation, 3 to Static, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
 
         elif mode == 2:
             text_size, _ = cv2.getTextSize('Press 1 for Translation, 2 to Training Mode, ESC to Exit Program', cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)
             text_w, text_h = text_size
-            cv2.rectangle(image, (0,0), (0 + text_w, 2 + text_h), (0,0,0), -1)
+            cv2.rectangle(image, (0, 0), (0 + text_w, 2 + text_h), (0, 0, 0), -1)
             cv2.putText(image, 'Press 1 for Translation, 2 to Static, ESC to Exit Program', (0, text_h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         return
 
     def __textBuilder(self, tts, text, frame):
-        
-        if (frame%40) == 0: #Modify this value for string record frequency
+
+        if (frame % 40) == 0:  # Modify this value for string record frequency
             tts = tts + text + " "
 
         return tts
-    
