@@ -38,6 +38,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 March 8, 2023 & 1.0 & Everyone - Initial VnV Report Draft\\
+April 4, 2023 & 2.0 & Everyone - Rev 1
 \bottomrule
 \end{tabularx}
 
@@ -99,20 +100,20 @@ results of those tests.
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-A1 & Testing for joint tracking when hiding joints & MLFR1, MLFR5, NFR2 & Hand Gesture for “m” and “n” (covering thumb) & Able to recognize hidden joints & Able to recognize hidden joints & Pass\\ \hline
-A2 & Testing hand detection for hand at the edges of the camera detection area & CFR1 & Hand gesture for “a”, “b”, “c” & a b c & a b c & Pass\\ \hline
-A3 & Testing if joint lines are properly aligned with the user’s joints and move accordingly at the center & MLFR1, MLFR6, NFR2 & Moving hand from one side of the screen to the other in rapid succession & Able to overlay joint lines on user’s hand continually and is centered on the hand & Able to overlay joint lines on user’s hand continually and is centered on the hand & Pass\\ \hline
-A4 & Testing if a joint overlay will be placed on more than two hands & MLFR1, MLFR3, NFR2 & Having a third hand in the frame after the initial two & Unable to detect the third hand & Unable to detect the third hand & Pass\\ \hline
-A5 & Testing if detected joints are from one individual (the user) & MLFR1, NFR1, NFR3 & Have two people with one hand each in the frame & Detects the hand from one person as opposed to two & Detects both the hands of both people & Fail\\ \hline
-A6 & Testing hand detection at a distance of 2 m & CFR1 & Hand gesture for “a”, “b”, “c” & a b c & a b c & Pass\\ \hline
-A7 & Testing hand detection with multiple hands & CFR1 & Hand gestures for “z”, “x”, “y” & z x y & z x y & Pass\\ \hline
-A8 & Testing for joint tracking when overlapping hands & MLFR1, MLFR3, MLFR5 & Hand Gesture for “S”, “M”, “N”, “R” & Able to separate different hand joints from each other & Able to separate different hand joints from each other & Pass\\ \hline
-A9 & Switching from translating mode to training mode stop detecting hand gestures & N/A & Pressing either 2 or 3 & The interface no longer tries to record hand motion & The interface no longer tries to record hand motion & Pass\\ \hline
-A10 & Testing for precision tracking & MLFR1 & Making small rotations and tremors & The joint overlay makes small movements & The joint overlay makes small movements & Pass\\ \hline
-A11 & Testing for gesture recognition if the hands hand in placing with different angles & CFR1 & Hand gestures for “a”, “b”, “c” with different angles for the position of the hand & “a”, “b”, “c” & “a”, “b”, “c” & Pass\\ \hline
-A12 & Testing for occlusion handling & MLFR1 & Partially hiding half of the hand behind a desk & The joint overlay is able to predict the rest of the hand & Joints overlay becomes disjointed and stretches & Fail\\ \hline
-A13 & Testing the durability for accuracy and reliability & NFR1, MLFR1 & Keeping the program open for over an hour and testing for similar results & The joint overlay works as intended & The frame rate decreased leading to poor performance & Fail\\ \hline
-A14 & User testing for different hand sizes and shapes & MLF1, NFR4 & Using different people’s hands to test the accuracy of the string “a”, “”b”, “c”, “d” & Able to translate a b c d everytime & Able to translate a b c d everytime & Pass
+A1 & Testing for joint tracking when hiding joints & GFR1, GFR2, GFR4, GFR5 & Hand Gesture for “m” and “n” (covering thumb) & Able to recognize hidden joints & Able to recognize hidden joints & Pass\\ \hline
+A2 & Testing hand detection for hand at the edges of the camera detection area & GFR4, GFR5, GFR3 & Hand gesture for “a”, “b”, “c” & a b c & a b c & Pass\\ \hline
+A3 & Testing if joint lines are properly aligned with the user’s joints and move accordingly at the center & GFR2, GFR4, GFR5 & Moving hand from one side of the screen to the other in rapid succession & Able to overlay joint lines on user’s hand continually and is centered on the hand & Able to overlay joint lines on user’s hand continually and is centered on the hand & Pass\\ \hline
+A4 & Testing if a joint overlay will be placed on more than two hands & GFR2, GFR4, GFR5 & Having a third hand in the frame after the initial two & Unable to detect the third hand & Unable to detect the third hand & Pass\\ \hline
+A5 & Testing if detected joints are from one individual (the user) & GFR5, NFR1, NFR3 & Have two people with one hand each in the frame & Detects the hand from one person as opposed to two & Detects both the hands of both people & Fail\\ \hline
+A6 & Testing hand detection at a distance of 2 m & GFR1, GFR3 & Hand gesture for “a”, “b”, “c” & a b c & a b c & Pass\\ \hline
+A7 & Testing hand detection with multiple hands & GFR1, GFR3, GFR5 & Hand gestures for “z”, “x”, “y” & z x y & z x y & Pass\\ \hline
+A8 & Testing for joint tracking when overlapping hands & GFR5, GFR4, GFR1 & Hand Gesture for “S”, “M”, “N”, “R” & Able to separate different hand joints from each other & Able to separate different hand joints from each other & Pass\\ \hline
+A9 & Switching from translating mode to training mode stop detecting hand gestures & UIFR1 & Pressing either 2 or 3 & The interface no longer tries to record hand motion & The interface no longer tries to record hand motion & Pass\\ \hline
+A10 & Testing for precision tracking & GFR6, GFR7 & Making small rotations and tremors & The joint overlay makes small movements & The joint overlay makes small movements & Pass\\ \hline
+A11 & Testing for gesture recognition if the hands hand in placing with different angles & GFR1 GFR3 GFR6 & Hand gestures for “a”, “b”, “c” with different angles for the position of the hand & “a”, “b”, “c” & “a”, “b”, “c” & Pass\\ \hline
+A12 & Testing for occlusion handling & GFR1, GFR2, GFR4 & Partially hiding half of the hand behind a desk & The joint overlay is able to predict the rest of the hand & Joints overlay becomes disjointed and stretches & Fail\\ \hline
+A13 & Testing the durability for accuracy and reliability & NFR1, GFR6 & Keeping the program open for over an hour and testing for similar results & The joint overlay works as intended & The frame rate decreased leading to poor performance & Fail\\ \hline
+A14 & User testing for different hand sizes and shapes & GFR4, NFR4 & Using different people’s hands to test the accuracy of the string “a”, “”b”, “c”, “d” & Able to translate a b c d everytime & Able to translate a b c d everytime & Pass
 \hline
 \caption{Tests for Motion Tracking Module}
 \end{longtable}
@@ -125,11 +126,11 @@ A14 & User testing for different hand sizes and shapes & MLF1, NFR4 & Using diff
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-B1 & Testing if different webcams or cameras impact coordinates at the same position & CFR1, CFR2 & Sign the sentence “how do you do” alphabet -ically through 5 different cameras & The same set of coordinates for all 5 & The same set of coordinates for all 5 & Pass\\ \hline
-B2 & Testing if the coordinates (x,y) of each joint is accurately recorded & MLFR2 & Repeatedly recording the gesture “a” at the center of the screen & The same set of coordinates should be written to CSV file every time the gesture is recorded & The same set of coordinates should be written to CSV file every time the gesture is recorded & Pass\\ \hline
-B3 & Testing if the coordinates (x,y) of each joint is accurately recorded for two handed gestures & MLFR3, MLFR2 & Repeatedly recording the gesture “F” at the center of the screen & The same set of coordinates should be written to CSV file every time the gesture is recorded & The same set of coordinates should be written to CSV file every time the gesture is recorded & Pass\\ \hline
-B4 & Testing for range normalization between [-1,1] & MLFR2 & Testing the joints at the edge of the frame & No coordinate recorded exceeds [-1, 1] & No coordinate recorded exceeds [-1, 1] & Pass\\ \hline
-B5 & Testing for scaling normalization for hand size to be consistent & MLFR2 & Testing using different sizes to hands & All coordinates recorded from each set of hands are generally the same & All coordinates recorded from each set of hands are generally the same & Pass
+B1 & Testing if different webcams or cameras impact coordinates at the same position & GFR1, GFR2 & Sign the sentence “how do you do” alphabet -ically through 5 different cameras & The same set of coordinates for all 5 & The same set of coordinates for all 5 & Pass\\ \hline
+B2 & Testing if the coordinates (x,y) of each joint is accurately recorded & GFR2, GFR4, GFR5 & Repeatedly recording the gesture “a” at the center of the screen & The same set of coordinates should be written to CSV file every time the gesture is recorded & The same set of coordinates should be written to CSV file every time the gesture is recorded & Pass\\ \hline
+B3 & Testing if the coordinates (x,y) of each joint is accurately recorded for two handed gestures & GFR2, GFR4, GFR5 & Repeatedly recording the gesture “F” at the center of the screen & The same set of coordinates should be written to CSV file every time the gesture is recorded & The same set of coordinates should be written to CSV file every time the gesture is recorded & Pass\\ \hline
+B4 & Testing for range normalization between [-1,1] & GFR2 & Testing the joints at the edge of the frame & No coordinate recorded exceeds [-1, 1] & No coordinate recorded exceeds [-1, 1] & Pass\\ \hline
+B5 & Testing for scaling normalization for hand size to be consistent & GFR2, NFR4 & Testing using different sizes to hands & All coordinates recorded from each set of hands are generally the same & All coordinates recorded from each set of hands are generally the same & Pass
 \hline
 \caption{Tests for Coordinate Normalization Module}
 \end{longtable}
@@ -142,9 +143,9 @@ B5 & Testing for scaling normalization for hand size to be consistent & MLFR2 & 
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-C1 & Testing if the relative coordinates (x,y) is written to the CSV file & RDP1, NFR5 & Hand gesture for “a” & Coordinates with identifier “0” (identifier for the letter “a”) are written to the CSV file & Coordinates with identifier “0” were written to the CSV file & Pass\\ \hline
-C2 & Testing if the point history coordinates (x,y) is written to the CSV file & RDP1, NFR5 & Hand gesture for “j” & Multiple coordinates with identifier “9” (identifier for the letter “j”) are written to the CSV file & Multiple coordinates with identifier “9” get written to the CSV file & Pass\\ \hline
-C3 & Testing to see if a coordinate for each hand joint is written to the CSV file & RDP1 & Hand gesture for “b” & 43 coordinates are written to the CSV file, first the identifier (for the gesture, ie ‘a’, ‘b’, etc.) followed by an x,y coordinate for each joint (21 * 2 + 1 = 43) & 43 coordinates are written to the CSV file every time a gesture is recorded & Pass
+C1 & Testing if the relative coordinates (x,y) is written to the CSV file & GFR8, NFR5 & Hand gesture for “a” & Coordinates with identifier “0” (identifier for the letter “a”) are written to the CSV file & Coordinates with identifier “0” were written to the CSV file & Pass\\ \hline
+C2 & Testing if the point history coordinates (x,y) is written to the CSV file & GFR8, NFR5 & Hand gesture for “j” & Multiple coordinates with identifier “9” (identifier for the letter “j”) are written to the CSV file & Multiple coordinates with identifier “9” get written to the CSV file & Pass\\ \hline
+C3 & Testing to see if a coordinate for each hand joint is written to the CSV file & GFR8 & Hand gesture for “b” & 43 coordinates are written to the CSV file, first the identifier (for the gesture, ie ‘a’, ‘b’, etc.) followed by an x,y coordinate for each joint (21 * 2 + 1 = 43) & 43 coordinates are written to the CSV file every time a gesture is recorded & Pass
 \hline
 \caption{Tests for Coordinate Export Module}
 \end{longtable}
@@ -157,17 +158,17 @@ C3 & Testing to see if a coordinate for each hand joint is written to the CSV fi
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-D1 & Testing hand detection for similar looking gestures & CFR1, RDP1 & Hand gesture for “m” & m & n & Fail\\ \hline
-D2 & Testing hand detection for motion (no input) & CFR1, RDP1 & Static hand gestures (no motions) & no output & z/d & Fail\\ \hline
-D3 & Testing hand detection for motion & CFR1, RDP1 & Hand motion for “z” & z & z & Pass\\ \hline
-D4 & Testing if gestures that require movement are able to be recognized (motion gestures) & MLFR4, MLFR6, RDP1 & Signing“j” and “z” & j z & j z & Pass\\ \hline
-D5 & Test model accuracy by signing different sequences of gestures / introducing variance into the system & MLFR4, NFR1, RDP1 & Sign letters in sequence of a,b,c,d then sign with d, f, z, j & a,b,c,d
+D1 & Testing hand detection for similar looking gestures & GFR1, GFR4, GFR5, GFR8 & Hand gesture for “m” & m & n & Fail\\ \hline
+D2 & Testing hand detection for motion (no input) & GFR1, GFR4, GFR5, GFR8 & Static hand gestures (no motions) & no output & z/d & Fail\\ \hline
+D3 & Testing hand detection for motion & GFR1, GFR8 & Hand motion for “z” & z & z & Pass\\ \hline
+D4 & Testing if gestures that require movement are able to be recognized (motion gestures) & GFR6, GFR7, GFR8 & Signing“j” and “z” & j z & j z & Pass\\ \hline
+D5 & Test model accuracy by signing different sequences of gestures / introducing variance into the system & GFR6, NFR1, GFR8 & Sign letters in sequence of a,b,c,d then sign with d, f, z, j & a,b,c,d
 d,f,z,j
 with 100\% accuracy
  & a,b,c,d
 d,f,z,j
  & Pass\\ \hline
-D6 & Testing gesture recognition between point history (movement gestures) and keypoint history (static gestures” & MLFR4 & Sign letters in sequence “a”, “b”, “j”, “c”, “z” & a b j c z & j a j z b c z & Fail
+D6 & Testing gesture recognition between point history (movement gestures) and keypoint history (static gestures” & GFR6 & Sign letters in sequence “a”, “b”, “j”, “c”, “z” & a b j c z & j a j z b c z & Fail
 \hline
 \caption{Tests for Machine Learning Module}
 \end{longtable}
@@ -180,10 +181,10 @@ D6 & Testing gesture recognition between point history (movement gestures) and k
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-E1 & Mode Selection & N/A & Program is in “Normal Mode”, press number “2” on keyboard & Program goes into “Training Mode” & Program goes into “Training Mode” & Pass\\ \hline
-E2 & Test if a .tflite file can be generated from the CSV files & MLFR5, NFR5 & A CSV file with data points from different ASL gestures & A .tflite file that can be used to  recognize the gestures that were recorded & A .tflite file that can be used to  recognize the gestures that were recorded & Pass\\ \hline
-E3 & Testing if retraining by adding new data points can change recognition & MLFR7, NFR1, NFR5 & Adding 50 accurate data points to the gesture “Hello” & The accuracy prediction increases & The accuracy prediction decrease from 60\% to 80\% & Pass\\ \hline
-E4 & Testing for gesture variation based on user habits through retraining & MLFR7, NFR1, NFR3, NFR7 & Retraining the model with a different method of signing “Hello” & Hello & Hello & Pass
+E1 & Mode Selection & MLFR1 & Program is in “Normal Mode”, press number “2” on keyboard & Program goes into “Training Mode” & Program goes into “Training Mode” & Pass\\ \hline
+E2 & Test if a .tflite file can be generated from the CSV files & GFR8, NFR5, MLFR2, MLFR5 & A CSV file with data points from different ASL gestures & A .tflite file that can be used to  recognize the gestures that were recorded & A .tflite file that can be used to  recognize the gestures that were recorded & Pass\\ \hline
+E3 & Testing if retraining by adding new data points can change recognition & MLFR1, MLFR2, MLFR3, MLFR4, NFR1, NFR5 & Adding 50 accurate data points to the gesture “Hello” & The accuracy prediction increases & The accuracy prediction decrease from 60\% to 80\% & Pass\\ \hline
+E4 & Testing for gesture variation based on user habits through retraining & MLFR1, MLFR2, MLFR3, MLFR4, NFR1, NFR3, NFR7 & Retraining the model with a different method of signing “Hello” & Hello & Hello & Pass
 \hline
 \caption{Tests for Training Module}
 \end{longtable}
@@ -196,12 +197,12 @@ E4 & Testing for gesture variation based on user habits through retraining & MLF
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-F1 & Text-to-speech in real-time for individual letters & RDP1, RDP2 & Hand gestures for “a”, “b” and “c”, then hand gesture for “Speak” & Audio output for letters “a”, “b” and “c” & Audio output for letters “a”, “b” and “c” & Pass\\ \hline
-F2 & Text-to-speech in real-time for sentence & RDP1, RDP2 & Hand gesture for “I love you”, then hand gesture for “Speak” & Audio output for “I love you” & Audio output for “I love you” & Pass\\ \hline
-F3 & Testing hand detection for a series of hand gestures (fast) & CFR1, RDP1, MLFR4 & A series of hand gestures performed in a very fast speed & Letters for correspond -ing hand gestures & Some letters are missing & Fail (need to increase fps)\\ \hline
+F1 & Text-to-speech in real-time for individual letters & UIFR1, UIFR2 & Hand gestures for “a”, “b” and “c”, then hand gesture for “Speak” & Audio output for letters “a”, “b” and “c” & Audio output for letters “a”, “b” and “c” & Pass\\ \hline
+F2 & Text-to-speech in real-time for sentence & UIFR1, UIFR2 & Hand gesture for “I love you”, then hand gesture for “Speak” & Audio output for “I love you” & Audio output for “I love you” & Pass\\ \hline
+F3 & Testing hand detection for a series of hand gestures (fast) & UIFR1, UIFR2, GFR6, GFR7 & A series of hand gestures performed in a very fast speed & Letters for correspond -ing hand gestures & Some letters are missing & Fail (need to increase fps)\\ \hline
 \newpage
 \hline
-F4 & Test if gesture for “Speak” does not work when in training mode & RDP2 & Program is started, in training mode, and gestures are performed, then gesture “Speak” is performed & No audio output & No audio output & Pass
+F4 & Test if gesture for “Speak” does not work when in training mode & GFR3, UIFR2 & Program is started, in training mode, and gestures are performed, then gesture “Speak” is performed & No audio output & No audio output & Pass
 \hline
 \caption{Tests for Text to Speech Module}
 \end{longtable}
@@ -214,9 +215,9 @@ F4 & Test if gesture for “Speak” does not work when in training mode & RDP2 
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-G1 & Camera is set up on the Raspberry Pi & CFR1 & Raspistill command to take a picture & A picture & A picture & Pass\\ \hline
-G2 & Test if the Raspberry Pi can capture the input from the camera and translate ASL in real time & NFR6 & Program is started on the Raspberry Pi & The Raspberry Pi should be able to use the camera to detect and translate ASL in real time & The Raspberry Pi camera does not display the video with an adequate frame rate, making translation undoable & Fail\\ \hline
-G3 & Real-time video is captured and displayed on screen & CFR1, CFR2 & Views in front of the camera & Views in front of the camera are displayed & Views in front of the camera are displayed & Pass
+G1 & Camera is set up on the Raspberry Pi & GFR1 & Raspistill command to take a picture & A picture & A picture & Pass\\ \hline
+G2 & Test if the Raspberry Pi can capture the input from the camera and translate ASL in real time & NFR2 & Program is started on the Raspberry Pi & The Raspberry Pi should be able to use the camera to detect and translate ASL in real time & The Raspberry Pi camera does not display the video with an adequate frame rate, making translation undoable & Fail\\ \hline
+G3 & Real-time video is captured and displayed on screen & GFR1, UIFR1 & Views in front of the camera & Views in front of the camera are displayed & Views in front of the camera are displayed & Pass
 \hline
 \caption{Tests for Hardware}
 \end{longtable}
@@ -229,15 +230,15 @@ G3 & Real-time video is captured and displayed on screen & CFR1, CFR2 & Views in
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
-H1 & Real-time text display for hand gestures (normal speed) & RDP1 & Hand gestures for “d” and “a” performed in a reasonable speed & Output the correspond -ing letters “d” and “a” besides user’s hand & Output the correspond -ing letters “d” and “a” besides user’s hand & Pass\\ \hline
-H2 & Real-time text display for hand gestures (super fast) & RDP1, MLFR4 & Hand gestures performed in a super fast speed & Letters for correspond -ing hand gestures & Some letters output are missing & Fail (need to increase fps)\\ \hline
-H3 & String display for one hand gesture & MLFR6, MLFR4, NFR1 & Hand gestures for “d” & “d” is displayed as string at the bottom of the screen & “d” is displayed as string at the bottom of the screen & Pass\\ \hline
-H4 & String display for a series of hand gestures (slow speed) & MLFR6, MLFR4, NFR1 & Hand gestures for “d” and “a” and “I love you” with a pause of 4 seconds & “d a I love you” is displayed as string at the bottom of the screen & “d d a a I love you I love you” is displayed as string at the bottom of the screen & Fail\\ \hline
-H5 & String display for a series of hand gestures (normal speed) & MLFR6, MLFR4, NFR1 & Hand gestures for “d” and “a” and “I love you” with a pause of 1 to 2 seconds & “d a I love you” is displayed as string at the bottom of the screen & “d a I love you” is displayed as string at the bottom of the screen
+H1 & Real-time text display for hand gestures (normal speed) & UIFR1, GFR6 & Hand gestures for “d” and “a” performed in a reasonable speed & Output the correspond -ing letters “d” and “a” besides user’s hand & Output the correspond -ing letters “d” and “a” besides user’s hand & Pass\\ \hline
+H2 & Real-time text display for hand gestures (super fast) & UIFR1, GFR6 & Hand gestures performed in a super fast speed & Letters for correspond -ing hand gestures & Some letters output are missing & Fail (need to increase fps)\\ \hline
+H3 & String display for one hand gesture & GFR7, GFR6, NFR1 & Hand gestures for “d” & “d” is displayed as string at the bottom of the screen & “d” is displayed as string at the bottom of the screen & Pass\\ \hline
+H4 & String display for a series of hand gestures (slow speed) & GFR7, GFR6, NFR1 & Hand gestures for “d” and “a” and “I love you” with a pause of 4 seconds & “d a I love you” is displayed as string at the bottom of the screen & “d d a a I love you I love you” is displayed as string at the bottom of the screen & Fail\\ \hline
+H5 & String display for a series of hand gestures (normal speed) & GFR7, GFR6, NFR1 & Hand gestures for “d” and “a” and “I love you” with a pause of 1 to 2 seconds & “d a I love you” is displayed as string at the bottom of the screen & “d a I love you” is displayed as string at the bottom of the screen
 & Pass\\ \hline
-H6 & String display for a series of hand gestures (fast speed) & MLFR6, MLFR4, NFR1 & Hand gestures for “d” and “a” and “I love you” without pause & “d a I love you” is displayed as string at the bottom of the screen & “d I love you” is displayed as string at the bottom of the screen & Fail\\ \hline
+H6 & String display for a series of hand gestures (fast speed) & GFR7, GFR6, NFR1 & Hand gestures for “d” and “a” and “I love you” without pause & “d a I love you” is displayed as string at the bottom of the screen & “d I love you” is displayed as string at the bottom of the screen & Fail\\ \hline
 H7 & Modifying string display & N/A & Pressing “Backspace” or “Space” & “Backspace” deletes a character in string, “Space” adds a space in string & “Backspace” deletes a character in string, “Space” adds a space in string & Pass\\ \hline
-H8 & String display is cleared after audio output & RDP1, RDP2 & Hand gestures are performed, and then perform hand gesture for “Speak” & Current string is cleared & Current string is cleared & Pass\\ \hline
+H8 & String display is cleared after audio output & UIFR1, UIFR2 & Hand gestures are performed, and then perform hand gesture for “Speak” & Current string is cleared & Current string is cleared & Pass\\ \hline
 H9 & Test if gestures are not written to string when in training mode & N/A & Program is started, in training mode, and gestures are being performed & Nothing is being added to the string and nothing is displayed at the bottom & Nothing is added to the string and nothing is displayed at the bottom & Pass
 \hline
 \caption{Text and String Display}
@@ -265,24 +266,28 @@ I3 & Usability: the ease of use of a user without the knowledge of ASL & N/A & I
 \hline
 \textbf{Requirements} & \textbf{ID}\\
 \hline
-CFR1 & A2 A6 A7 A11 B1 D1 D2 D3 G1 G3\\ \hline
-CFR2 & B1 G3\\ \hline
-MLFR1 & A1 A3 A4 A5 A8 A10 A12 A13\\ \hline
-MLFR2 & B2 B3 B4 B5\\ \hline
-MLFR3 & A2 A4 A8 B3\\ \hline
-MLFR4 & D4 D5 D6\\ \hline
-MLFR5 & A1 A8 E2\\ \hline
-MLFR6 & A3 D4\\ \hline
-MLFR7 & E3 E4\\ \hline
-NFR1 & A5 A13 D5 E3 E4\\ \hline
-NFR2 & A1 A2 A4\\ \hline
+GFR1 & A1 A6 A7 A8 A11 A12 B1 D1 D2 D3 G1 G3\\ \hline
+GFR2 & A1 A3 A4 A12 B1 B2 B3 B4 B5\\ \hline
+GFR3 & A2 A6 A7 A11 F4\\ \hline
+GFR4 & A1 A2 A3 A4 A8 A12 A14 B2 B3 D1 D2\\ \hline
+GFR5 & A1 A2 A3 A4 A5 A7 A8 B2 B3 D1 D2\\ \hline
+GFR6 & A10 A11 A13 D4 D5 D6 F3 H1 H2 H3 H4 H5 H6\\ \hline
+GFR7 & A10 D3 H3 H4 H5 H6\\ \hline
+GFR8 & C1 C2 C3 D1 D2 D3 D4 D5 E2\\ \hline
+MLFR1 & E1 E3 E4\\ \hline
+MLFR2 & E2 E3 E4\\ \hline
+MLFR3 & E3 E4\\ \hline
+MLFR4 & E3 E4\\ \hline
+MLFR5 & E2\\ \hline
+UIFR1 & A9 F1 F2 F3 G3 H1 H2 H8\\ \hline
+UIFR2 & F1 F2 F3 F4 H8\\ \hline
+NFR1 & A5 A13 D5 E3 E4 H3 H4 H5 H6\\ \hline
+NFR2 & G2\\ \hline
 NFR3 & A5 E4\\ \hline
-NFR4 & A14 B 5\\ \hline
+NFR4 & A14\\ \hline
 NFR5 & C1 C2 E2 E3\\ \hline
 NFR6 & G2\\ \hline
-NFR7 & E4\\ \hline
-RDP1 & C1 C2 C3 D1 D2 D3 D4 D5\\ \hline
-RDP2 & H8
+NFR7 & E5 I2
 \hline
 \caption{Trace to Requirements}
 \end{longtable}
@@ -296,14 +301,15 @@ RDP2 & H8
 \label{Fig.Correlation} 
 \end{figure}
 
-The pictures above are some examples of our test for the robustness of the machine learning 
-module following a rigorous evaluation process.. We introduced various types of noise and 
-perturbations as our input for this test. This includes obscuring parts of the hand, changing
-the lighting, and a different orientation. We measured the robustness using these conditions
-and fine-tuned the model by retraining it using the perturbed data. Finally, we validated the
-performance by testing with a different set of users, as seen above in the images, with different
-hand sizes and gestures to help ensure that the model is robust and reliable for recognizing hand
-gestures in a wide range of real-world scenarios.
+The table above highlights the correlation between the addition of more data points and its effect 
+on the machine learning model’s accuracy that is provided for us at the end of retraining. 
+As shown above, when there are more data points to process, the machine learning model becomes 
+more accurate as it learns to generalize better, meaning it can better recognize and classify 
+the coordinates for “a” when the user performs the gesture again. It was also important to add 
+variation when signing to help the machine learning module learn to handle small differences. 
+This might cause a dip in the accuracy but adding more data points helps it analyze patterns better. 
+It should be important to note however that adding too much data can lead to overfitting, where the 
+model becomes too specialized to the training data and has a hard time recognizing new gestures.
 
 \newpage
 \section{Non-Functional Quality 2}
