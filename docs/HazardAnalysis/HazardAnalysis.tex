@@ -116,9 +116,9 @@ Below is the FMEA table for the project.
 \hline \endlastfoot
 
 \multirow[t]{5}{=}{Raspberry Pi}& Fail to output translated results           & The output is not properly displayed             & a. Code execution failure due to improper flashing to board & a. Board will not POST and power LED should be on. Reboot the board and ensure that the correct software and dependencies are loaded. & a. SR2 & H1-1 \\ \cline{2-7}
-                                & \multirow[t]{4}{=}{Hardware failure (board)}& \multirow[t]{4}{=}{Raspberry Pi cannot function} & a. The board is not powered due to faulty power supply & a. LEDs on the board will not appear to powered indicating power failure. The raspberry pi is equipped with a polyfuse to prevent over-current. If the board does not power on after 24 hours, the fuse should be replaced. & a. HR1 & \multirow[t]{3}{=}{H1-2}\\ \cline{4-6}
+                                & \multirow[t]{4}{=}{Hardware failure (board)}& \multirow[t]{4}{=}{Raspberry Pi cannot function} & a. The board is not powered due to faulty power supply & a. LEDs on the board will not appear to powered indicating power failure. The raspberry pi is equipped with a polyfuse to prevent over-current. If the board does not power on after 24 hours, the fuse should be replaced. & a. HR1, HR3 & \multirow[t]{3}{=}{H1-2}\\ \cline{4-6}
                                 &                                             &                                                  & b. The software is corrupted & b. Refer to H1-1a. The board shall not boot into the OS indicating that the OS installation is corrupt. The board may also return errors when attempting to run programs indicating that a reinstallation of software is needed. & b. HR1 & \\ \cline{4-6}
-                                &                                             &                                                  & c. The board is faulty or defective & c. Refer to H1-1a. The board may not function as intended during operation indicating either loose connections between peripherals and the board or damage to the board. & c. HR1 & \\ \cline{4-6}
+                                &                                             &                                                  & c. The board is faulty or defective & c. Refer to H1-1a. The board may not function as intended during operation indicating either loose connections between peripherals and the board or damage to the board. & c. HR1, HR3 & \\ \cline{4-6}
                                 &                                             &                                                  & d. The microSD card cannot be read & d. Same as H1-2b & d. HR1 & \multirow[t]{1}{=}{H1-2}\\ \hline
 \multirow[t]{4}{=}{Camera}      & \multirow[t]{2}{=}{Failing to detect motion}& \multirow[t]{4}{=}{Device is unable to detect or translate sign language} & a. Poor lighting conditions & a. The system will not recognize hand gestures and relayed video capture will be too dark to differentiate objects. & a. ER1 & \multirow[t]{1}{=}{H2-1}\\ \cline{4-6}
                                 &                                             &                                                  & b. Unclear hand gestures by the user & b. The system will incorrectly classify hand gestures which indicates that there is an issue with the received input. &            & \\ \cline{2-2} \cline{4-7}
@@ -135,7 +135,8 @@ Below is the FMEA table for the project.
 \section{Requirements}
 \subsection{Hardware Requirement}
 HR1: The Raspberry Pi board should be checked and tested before using it in the project.\\
-HR2: The camera should be checked before each use to ensure the lenses are clean and working properly.
+HR2: The camera should be checked before each use to ensure the lenses are clean and working properly.\\
+HR3: The power supply shall be checked before usage to ensure that there is no risk of electric shock
 \subsection{Environment Requirement}
 ER1: The camera shall be mounted in a manner that prevents obstructions from hindering its operation.
 \subsection{Machine Learning Requirement}
