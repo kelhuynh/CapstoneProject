@@ -1,9 +1,12 @@
 hello
-please
+i
 milk
+no
 noinput
-want
-time
-what
-me
+speak
+store
 thanks
+time
+want
+what
+yes
