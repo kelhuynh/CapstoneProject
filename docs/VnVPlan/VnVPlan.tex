@@ -53,7 +53,8 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 November 02, 2022 & 1.0 Everyone\\
-Date 2 & 1.1 & Notes\\
+March 22, 2023 & 1.1 & Updating Test Cases\\
+April 5, 2023 & 1.2 & Corrected Traceability Matrix\\
 \bottomrule
 \end{tabularx}
 
@@ -418,7 +419,7 @@ How test will be performed: The test will be performed by letting users perform 
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-Requirement IDs CFR1, CFR2, MLFR1, MLFR2, MLFR3, MLFR4, MLFR5, MLFR6, MLFR7, RDP1, RDP2 NFR1, NFR2, NFR3, NFR4, NFR5, NFR6, NFR7 can be found in the \emph{SRS} \citep{SRS} documentation\\
+Requirement IDs GFR1-8, MLFR1-5, UIFR1-2, CRF1-8, NFR1-6  can be found in the \emph{SRS} \citep{SRS} documentation\\
 ~\\
 
 \renewcommand{\arraystretch}{1.2}
@@ -426,20 +427,20 @@ Requirement IDs CFR1, CFR2, MLFR1, MLFR2, MLFR3, MLFR4, MLFR5, MLFR6, MLFR7, RDP
 \toprule
 \textbf{Test Case ID} & \textbf{Requirement ID} & \textbf{Requirement Description}\\
 \midrule
-TC-CFR1 & CFR1, CFR2, NFR2 & The camera detects hand gestures and capture images\\ \hline
-TC-CFR2 & N/A & The Raspberry Pi will receive the translated text from the algorithm and play out the translation in English\\ \hline
-TC-MLFR1 & CFR1, MLFR1, MLFR5 & The system recognizes joints of the user’s hand\\ \hline
-TC-MLFR2 & MLFR2, MLFR6, NFR5 & The system recognizes x, y, z coordinates of each joint relative to the camera\\ \hline
-TC-MLFR3 & MLFR3 & The system identifies and separates two hands from each other\\ \hline
-TC-MLFR4 & MLFR1, MLFR3 & The system identifies more than two hands and notifies users\\ \hline
-TC-MLFR5 & MLFR7 & The model updates the database in learning mode\\ \hline
-TC-RDP1 & MLFR4, MLFR5, RDP1 & The model processes data in real-time according to user’s continuous input\\ \hline
-TC-RDP2 & MLFR6, RDP2 & The system provides text-to-speech translation in real-time\\ \hline
-TC-NFR1 & NFR1 & The system provides results that have acceptable accuracy\\ \hline
-TC-NFR2 & NFR3 & New users quickly understands how to use the device\\ \hline
-TC-NFR3 & NFR4 & Instructions are easily understandable\\ \hline
-TC-NFR4 & NFR6 & The device is small and portable\\ \hline
-TC-NFR5 & NFR7 & The system has the ability of translating different forms of sign languages\\
+TC-CFR1 & GFR1, GFR3 CFR2 & The camera detects hand gestures and capture images\\ \hline
+TC-CFR2 & UIFR2 & The Raspberry Pi will receive the translated text from the algorithm and play out the translation in English\\ \hline
+TC-MLFR1 & GFR4,  & The system recognizes joints of the user’s hand\\ \hline
+TC-MLFR2 & GFR2, MLFR2, MLFR3 & The system recognizes x, y, z coordinates of each joint relative to the camera\\ \hline
+TC-MLFR3 & GFR5, MLFR3 & The system identifies and separates two hands from each other\\ \hline
+TC-MLFR4 & GFR5,  & The system identifies more than two hands and notifies users\\ \hline
+TC-MLFR5 & GFR8, MLFR1, MLFR4, NFR4 & The model updates the database in learning mode\\ \hline
+TC-RDP1 & GFR6, GFR7, UIFR1, RDP1, NFR1 & The model processes data in real-time according to user’s continuous input\\ \hline
+TC-RDP2 & RDP2, UIFR2 & The system provides text-to-speech translation in real-time\\ \hline
+TC-NFR1 & MLFR5 & The system provides results that have acceptable accuracy\\ \hline
+TC-NFR2 & NFR2 & New users quickly understands how to use the device\\ \hline
+TC-NFR3 & NFR3 & Instructions are easily understandable\\ \hline
+TC-NFR4 & NFR5 & The device is small and portable\\ \hline
+TC-NFR5 & NFR6 & The system has the ability of translating different forms of sign languages\\
 \bottomrule
 \end{tabularx}
 \captionof{table}{Traceability Between Test Cases and Requirements}
