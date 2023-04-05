@@ -49,6 +49,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 January 18, 2023 & 1.0 & Initial System Design Draft\\
+April 5, 2023 & 2.0 & Everyone - Rev 1\\
 
 \bottomrule
 \end{tabularx}
@@ -129,7 +130,7 @@ tell the user to retry. This would help prevent any incorrect data from being en
 
 \begin{figure}[H] 
 \centering
-\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{ComponentDiagram.jpg} 
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{ComponentDiagram.png} 
 \caption{Component Diagram} 
 \label{Fig.Component_Diagram} 
 \end{figure}
@@ -142,11 +143,29 @@ tell the user to retry. This would help prevent any incorrect data from being en
 \hline
 \textbf{Requirement ID} & \textbf{Design Decision}\\
 \hline
-CFR1
-& We used a Tensorflow machine learning algorithm already incorporated into the Mediapipe library to recognize hand shape and model its joints through the lens of any camera when it detects motion.\\
+GFR1
+& We integrated OpenCV to capture and process video data from a camera, enabling our system to analyze users' hand movements in real-time. This continuous input stream is then fed into our gesture recognition model, providing accurate, real-time ASL translations.\\
 \hline
-CFR2
-& The program normalizes the resolution of any camera lens to ensure that the coordinates detected from the camera can be used to classify the vision of a gesture to its corresponding word/phrase.\\
+GFR2
+& We integrated OpenCV and Mediapipe libraries to process input and extract hand and pose landmarks. Obtaining x, y, and z coordinates of each joint, we normalized and structured the data for our LSTM model, ensuring efficient learning and accurate predictions from dynamic user input.\\
+\hline
+GFR3
+& We employed an LSTM-based model trained on our dataset of hand and pose landmarks to identify gestures. This model processes the structured input data, utilizing its neural networks to accurately classify and recognize gestures in real-time, ensuring a seamless user experience.\\
+\hline
+GFR4
+& By leveraging Mediapipe's hand tracking capabilities, our program efficiently detects and recognizes user hand joints. This information is then used to compare and match the user's hand gestures to the corresponding ASL signs, ensuring accurate and reliable translations.\\
+\hline
+GFR5
+& Our system, utilizing Mediapipe's hand tracking capabilities, is designed to recognize up to two hands in the input. This accommodates the complexity of sign language, allowing for effective communication using both single and double-handed gestures, thereby covering a wider range of ASL signs.\\
+\hline
+GFR6
+& We optimized our ASL translator to process data in real-time by efficiently utilizing OpenCV, Mediapipe, and the LSTM model. This ensures translations are relayed promptly, maintaining conversation fluidity and enabling a seamless user experience.\\
+\hline
+GFR7
+& We incorporated an adaptive frame rate mechanism to calibrate the program to match the signer's speed. This ensures the translator can keep up with the user, reducing the likelihood of mistranslations and maintaining accurate real-time translations.\\
+\hline
+GFR8
+& The program is designed to store extracted landmarks into a database, enabling efficient management of data points for machine learning. This approach allows for querying, filtering, and updating data, ensuring accurate, consistent, and up-to-date gesture recognition by the ML model.\\
 \hline
 MLFR1
 & We used a Tensorflow machine learning algorithm already incorporated into Mediapipe to recognize a hand shape and model its joints. This allows the coordinates of each joint to be identified and recorded into a dataset for the system.\\
@@ -163,31 +182,22 @@ MLFR4
 MLFR5
 & Mediapipe’s built-in machine learning model classifies hand shapes within a specified confidence value between 0 and 1, of which a defaulted value of 0.5 is used. This means that if the model can confidently say with 50\% certainty that the video/image being recorded contains a hand, the hand and its joints will be displayed (subject to hand limit defined by MLFR3).\\
 \hline
-MLFR6
-& The Raspberry Pi board has the necessary hardware to process the hand gestures at a pace that is understandable to other people.\\
-\hline
-MLFR7
-& The program is set up with a training mode, where we can add data points for certain gestures to increase the accuracy of the model.\\
-\hline
 NFR1
 & The Keypoint Classifier Module checks the dataset for each gesture and is able to display its confidence as a percentage for an estimate of how often it will be able to classify the correct gesture to support testing.\\
 \hline
 NFR2
-& Mediapipe, an open-source library built from OpenCV for Python, is able to detect the user’s hands and highlight their joints accordingly to help the user focus on their hand gestures.\\
-\hline
-NFR3
 & The device is already preset with a dataset that contains many common phrases that can be translated, allowing for little set up.\\
 \hline
-NFR4
+NFR3
 & The user interface contains only written words and is clearly labeled for translating (normal operation), and can be further adapted into training the machine learning model as incorrect classifications indicate that the model must be retrained.\\
 \hline
-NFR5
+NFR4
 & The Motion Tracking module is equipped with the ability to snapshot hand positions as needed to train the relevant classifier label if retraining is needed. These coordinates are then stored into a .csv file which can be used in conjunction with the Keypoint Classifier module to retrain the model.\\
 \hline
-NFR6
+NFR5
 & We have chosen to implement our program onto a Raspberry Pi board. The board has a small form factor, making it easy to carry and very portable.\\
 \hline
-NFR7
+NFR6
 & The current design is using the universal training model for standard ASL gestures. And the machine learning function for the program will allow for the ease of training in different grammar and phonology in the future.\\
 \hline
 \caption{Requirements and Design Decisions}
@@ -198,14 +208,14 @@ NFR7
 \toprule
 \textbf{Module} & \textbf{Requirements}\\
 \midrule
-Motion Tracking
-& CFR1, CFR2, MLFR1, MLFR2, MLFR3, MLFR5, MLFR6, NFR2\\
+Gesture Detection
+& GFR1, GFR2, GFR3, GFR4, GFR5, GFR6, GFR7, GFR8, MLFR1, MLFR2, MLFR3, MLFR5\\
 \hline
-Keypoint Classifier
-& NFR1, NFR5\\
+Data Processing
+& NFR1, NFR4\\
 \hline
 Machine Learning
-& MLFR4, MLFR7\\
+& MLFR3, MLFR6\\
 \bottomrule
 \end{tabularx}
 \captionof{table}{Modules and Requirements}
@@ -305,15 +315,27 @@ N/A
 \toprule
 \textbf{Objective} & \textbf{Date to be completed by} & \textbf{Member(s) Responsible}\\
 \midrule
-Create an interface that lets the user switch between training and translating & Jan 20, 2023 & Runze Zhu and Jiahui Chen\\
+Create an interface that lets the user switch between training and translating & Jan 20, 2023 & Nafi Hasan\\
 \hline
-Add an expanded vocabulary of common phrases into the database & Jan 31, 2023 & Robert Zhu\\
+Add an expanded vocabulary of common phrases into the database (initial database) & Jan 31, 2023 & Robert Zhu and Jiahui Chen\\
 \hline
 Build and connect Raspberry Pi to OpenCV system to provide real-time translation & Feb 5, 2023 & Zifan Meng\\
 \hline
-Program a text-to-speech algorithm & Feb 5, 2023 & Nafi Hasan\\
+Hardware testing after constructing and connecting Raspberry Pi with the program & Feb 5, 2023 & Zifan Meng\\
 \hline
-Move OpenCV system and machine learning model onto Raspberry Pi & Feb 10, 2023 & Kelvin Huynh\\
+Program a text-to-speech algorithm & Feb 5, 2023 & Runze Zhu and Zifan Meng\\
+\hline
+Testing the whole program on computer & Feb 6, 2023 & Robert Zhu\\
+\hline
+Move OpenCV system and machine learning model onto Raspberry Pi & Feb 6, 2023 & v\\
+\hline
+Testing the Raspberry Pi with OpenCV system and machine learning model & Feb 06, 2023 & Kelvin Huynh and Robert Zhu\\
+\hline
+Software improvement and modification after testing & Feb 07, 2023 & All group members\\
+\hline
+Database implementation and testing to include more vocabularies and phrases & Feb 08, 2023 & Jiahui Chen and Robert Zhu\\
+\hline
+Rev 0 & Feb 09, 2023 & All group members\\
 \bottomrule
 \end{tabularx}
 \captionof{table}{Objectives Timeline}
