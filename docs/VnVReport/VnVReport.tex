@@ -38,7 +38,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 March 8, 2023 & 1.0 & Everyone - Initial VnV Report Draft\\
-April 4, 2023 & 2.0 & Everyone - Rev 1
+April 4, 2023 & 2.0 & Everyone - Rev 1\\
 \bottomrule
 \end{tabularx}
 
@@ -96,7 +96,7 @@ results of those tests.
 \centerline{Tests for Motion Tracking Module}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\noindent \begin{longtable}{|p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.10\linewidth}|}
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
@@ -122,7 +122,7 @@ A14 & User testing for different hand sizes and shapes & GFR4, NFR4 & Using diff
 \centerline{Tests for Coordinate Normalization Module}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\noindent \begin{longtable}{|p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.10\linewidth}|}
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
@@ -139,7 +139,7 @@ B5 & Testing for scaling normalization for hand size to be consistent & GFR2, NF
 \centerline{Tests for Coordinate Export Module}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\noindent \begin{longtable}{|p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.10\linewidth}|}
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
@@ -154,7 +154,7 @@ C3 & Testing to see if a coordinate for each hand joint is written to the CSV fi
 \centerline{Tests for Machine Learning Module}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\noindent \begin{longtable}{|p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}|}
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
@@ -177,7 +177,7 @@ D6 & Testing gesture recognition between point history (movement gestures) and k
 \centerline{Tests for Training Module}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\noindent \begin{longtable}{|p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.10\linewidth}|}
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
@@ -193,7 +193,7 @@ E4 & Testing for gesture variation based on user habits through retraining & MLF
 \centerline{Tests for Text to Speech Module}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\noindent \begin{longtable}{|p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}|}
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
@@ -211,7 +211,7 @@ F4 & Test if gesture for “Speak” does not work when in training mode & GFR3,
 \centerline{Tests for Hardware}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\noindent \begin{longtable}{|p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.10\linewidth}|}
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
@@ -226,7 +226,7 @@ G3 & Real-time video is captured and displayed on screen & GFR1, UIFR1 & Views i
 \centerline{Text and String Display}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\noindent \begin{longtable}{|p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}|}
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
@@ -248,7 +248,7 @@ H9 & Test if gestures are not written to string when in training mode & N/A & Pr
 \centerline{Tests for Nonfunctional Requirements accuracy, usability, portability, cultural}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.08\linewidth}}
+\noindent \begin{longtable}{|p{0.05\linewidth}|p{0.17\linewidth}|p{0.11\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.15\linewidth}|p{0.10\linewidth}|}
 \hline
 \textbf{ID} & \textbf{Description} & \textbf{Req Ref} & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result}\\
 \hline
@@ -262,7 +262,7 @@ I3 & Usability: the ease of use of a user without the knowledge of ASL & N/A & I
 \section{Trace to Requirements}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{p{0.22\linewidth}|p{0.6\linewidth}}
+\noindent \begin{longtable}{|p{0.22\linewidth}|p{0.6\linewidth}|}
 \hline
 \textbf{Requirements} & \textbf{ID}\\
 \hline
