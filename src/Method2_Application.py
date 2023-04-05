@@ -267,7 +267,7 @@ def textToSpeech(tts: str, text: str):
         a cleared text to speech string
     '''
 
-    if text == "speak":  # Read the current string and clear string
+    if text == "abc":  # Read the current string and clear string
         engine = pyttsx3.init()
         engine.setProperty('rate', 125)
         voices = engine.getProperty('voices')

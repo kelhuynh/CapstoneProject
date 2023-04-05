@@ -1,12 +1,8 @@
 hello
-i
 milk
-no
 noinput
-speak
-store
-thanks
-time
 want
 what
+i
 yes
+no
