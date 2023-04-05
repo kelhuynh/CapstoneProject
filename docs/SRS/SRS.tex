@@ -31,8 +31,8 @@
     urlcolor=cyan           % color of external links
 }
 
-\input{../Comments}
-\input{../Common}
+\input{Comments}
+\input{Common}
 
 % For easy change of table widths
 \newcommand{\colZwidth}{1.0\textwidth}
@@ -147,6 +147,7 @@
 \toprule {\bf Date  } & {\bf Version} & {\bf Notes}\\
 \midrule
 October 05, 2022 & 1.0 & Everyone -> Initial SRS Draft\\
+April 05, 2023 & 2.0 & Everyone -> Revised SRS\\
 
 \bottomrule
 \end{tabularx}
@@ -305,6 +306,9 @@ can also include various accessibility services for various companies, whether t
 individuals looking to learn sign language as the device can be used as a practice tool to validate their signing. Our project can benefit 
 anyone or anything that requires a sign language interpreter.\\
 
+\subsection{ASL Information}
+American Sign Language (ASL) is a visual language that uses a combination of handshapes, facial expressions, and body language to convey meaning and not sound or voice. One common misconception is that ASL is related to its spoken counterpart English, but it has independently developed its own grammar and linguistic rules. While spoken languages typically use a combination of subject, verb, and object to form sentences, ASL uses a topic-comment structure. This means that the topic of a sentence is introduced first, followed by the comment or information about the topic.
+
 \section{Project Constraints}
 \subsection{Constraints}
 The project is constrained by the following:
@@ -346,8 +350,12 @@ A2
 which could result in a mistranslation or inaccuracy\\
 \hline
 A3
-& The camera or the device containing the camera is portable
-& Since the ASL is invented to help daily activities, the camera that is used to detect the hand motion should be compact and light\\
+& The user will only sign using the available signs that the system was trained on
+& Since ASL is a form of language, the amount of words that the system can recognize will be limited to common phrases/words in this implementation\\
+\hline
+A4
+& The hand gestures of the users should be clear
+& In order for accurate translation by the ASL translator, the users should perform the sign language standardly and clearly\\
 \bottomrule
 \end{tabularx}
 
@@ -472,100 +480,146 @@ Variables above are monitor variables for the left hand, monitor variables for t
 \toprule
 \textbf{Variable} & \textbf{Description}\\
 \midrule
-WRIST\_CAL 
-& Calibration point for wrist on the camera screen. The x, y, z location of this point must align with the x, y, z location of variable "WRIST" for successful calibration\\
+tts 
+& This variable hotels text to be spoken out loud to the user\\
 \hline
-INDEX\_JOINT\_0\_CAL
-& Calibration point for MCP joint of the index finger on the camera screen. The x, y, z location of this point must align with the x, y, z location of variable "INDEX\_JOINT\_0" for successful calibration\\
+text
+& This variable holds text to be displayed on the screen to the user\\
 \hline
-LITTLE\_JOINT\_0\_CAL
-& Calibration point for MCP joint of the little finger on the camera screen. The x, y, z location of this point must align with the x, y, z location of variable "LITTLE\_JOINT\_0" for successful calibration\\
+num
+& This variable is used to hold the numerical value of the selected mode (0, 1, 2) and is used to display the current mode on the screen\\
+\hline
+mode
+& This variable holds the current operating mode (0 - dynamic operation, 1 - training dynamic mode, 2 - static operation, 3 - training static)\\
+\hline
+text\_string
+& This variable holds the current string of text that is benign built based on the user’s hand gesture. This string is displayed on the screen to the user in normal operation\\
+\hline
+sentence
+& A list that stores the predicted actions taken by the user where each action is represented as a string\\
+\bottomrule
+\end{tabularx}
+
+\subsubsection{Modules and Signals}
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{Modules and Signals.png} 
+\caption{Modules and Signals} 
+\label{Fig.Modules&Signals} 
+\end{figure}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.4\linewidth}|p{0.4\linewidth}}
+\toprule
+\textbf{Module} & \textbf{Description}\\
+\midrule
+User Interface 
+& This module is responsible for providing an interface to the user to input ASL hand gestures and view the corresponding English text output through text-to-speech\\
+\hline
+Gesture Detection
+& Responsible for detecting and tracking ASL hand gestures of joints and pose through a camera in real time and normalizing the user key points\\
+\hline
+Data Processing
+& Preprocessing the data collected into a format suitable as input for machine learning\\
+\hline
+Data Collection
+& Collecting ASL hand gesture data and gesture classification into the database\\
+\hline
+Machine Learning
+& Responsible for training the machine learning model and learns to classify it\\
 \bottomrule
 \end{tabularx}
 
 \section{Functional Requirements}
-\subsection{Camera Functional Requirements}
+\subsection{Gesture Detection Module Requirements}
 
 \renewcommand{\arraystretch}{1.2}
 \noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.4\linewidth}|p{0.4\linewidth}}
 \toprule
 \textbf{Identifier} & \textbf{Requirement} & \textbf{Rationale}\\
 \midrule
-CFR1 
-& User hand gestures should be recognized and converted into input for the system 
-& This is the primary and only way that the end user engages with the system. This is to ensure that 
-their signing is picked up by the camera within a certain degree of accuracy\\
+GFR1 
+& Capture and process video data from a camera 
+& Capturing video data from a camera will allow the module to analyze the movement of a user's hands in real-time\\
 \hline
-CFR2
-& The camera must be able to relay its vision back to the program
-& This enables validation and testing on the development end. In addition to understanding what needs 
-to be corrected to ensure accurate user input\\
+GFR2
+& Extract hand and pose landmarks of x, y, and z coordinates of each joint relative to the camera
+& This will enable system calibration and aid in enhancing predictive accuracy as the training data set will be primarily static images in contrast to the dynamic input from the end product\\
+\hline
+GFR3
+& Identify gestures using the trained machine learning model 
+& The trained model is able to determine the gesture through its neural networks to accurately classify them in real-time\\
+\hline
+GFR4
+& The program should be able to recognize user hand joints
+& This enables the detection model to compare and match user hand gestures to ASL\\
+\hline
+GFR5
+& The program should recognize up to two hands in the input
+& The complexity of sign language calls for two hands to enable effective communication. Tracking one hand should also be considered as there are words in sign language that require the use of a single hand\\
+\hline
+GFR6
+& The program should be able to process data in real-time
+& The translator should relay the relevant translation within a reasonable amount of time to ensure conversation fluidity\\
+\hline
+GFR7
+& The program should be calibrated to match the speed of the signer
+& The translator should be able to keep up with the user or the likelihood of a mistranslation will increase\\
+\hline
+GFR8
+& The program should be able to store landmarks into the database for machine learning
+& Data points can be queried, filtered, and updated to ensure that the machine learning is accurate, consistent and up-to-date\\
 \bottomrule
 \end{tabularx}
 
-\subsection{Machine Learning Functional Requirements}
+\subsection{Machine Learning Module Functional Requirements}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.4\linewidth}|p{0.4\linewidth}}
+\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.3\linewidth}|p{0.5\linewidth}}
 \toprule
 \textbf{Identifier} & \textbf{Requirement} & \textbf{Rationale}\\
 \midrule
 MLFR1 
-& The program should be able to recognize user hand joints
-& This enables the ML model to compare and match user hand gestures to ASL\\
+& The program should be easily trainable
+& This is how the ML model should learn sign language to use in processing. Making it easily trainable should enable expandability as well. In addition, this will enable the program to adapt to users’ specific signing habits and allow for manual correction for the future. This will prove beneficial as a cultural requirement to include variations of ASL and other sign languages in future updates\\
 \hline
 MLFR2 
-& The program should output the x, y, and z coordinates of each joint relative to the camera
-& This will enable system calibration and aid in enhancing predictive accuracy as the training 
-data set will be primarily static images in contrast to the dynamic input from the end product\\
+& The machine learning module must be able to collect training data for the ASL gestures from the database
+& The quality of the training data is crucial for the accuracy of the machine learning model. By collecting data from the database, the machine learning model can access a large set of relevant data points to learn from\\
 \hline
 MLFR3 
-& The program should recognize up to two hands in the input
-& The complexity of sign language calls for two hands to enable effective communication. 
-Tracking one hand should also be considered as there are words in sign language that require the 
-use of a single hand\\
+& The machine learning module must be able to prepare the collected key points into a format that can be used for training
+& The key points are in a csv file and may need to be preprocessed to remove noise or ensure consistency. Preparing the training data is important to ensure that the machine learning model can effectively learn from the data\\
 \hline
 MLFR4 
-& The program should be able to process data in real-time
-& The translator should relay the relevant translation within a reasonable amount of time to ensure 
-conversation fluidity\\
+& The machine learning module must be able to train a machine learning model using the prepared database
+& The machine learning model needs to be trained to be able to accurately classify ASL gestures. Training a machine learning model involves optimizing the model parameters based on the training data to minimize the prediction error\\
 \hline
 MLFR5 
-& The program must be able to calibrate the camera
-& This is to ensure that the image being processed is undistorted and recognizable to the program 
-to prevent inaccuracies and incorrect output from the ML model\\
-\hline
-MLFR6 
-& The program should be calibrated to match the speed of the signer
-& The translator should be able to keep up with the user or the likelihood of a mistranslation will increase\\
-\hline
-MLFR7 
-& The ML model should be easily trainable
-& This is how the ML model should learn sign language to use in processing. Making it easily trainable should 
-enable expandability as well. In addition, this will enable the program to adapt to users\textquotesingle \ specific signing 
-habits and allow for manual correction for the future\\
+& The machine learning module must be able to evaluate the trained model's performance
+& Evaluating the model's performance is important to assess its accuracy and identify areas for improvement. The evaluation results can also be used to tune the model's parameters or adjust the training data\\
 \bottomrule
 \end{tabularx}
 
-\subsection{Real-time Data Processing Requirements}
+\subsection{UI Functional Requirements}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.4\linewidth}|p{0.4\linewidth}}
+\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.3\linewidth}|p{0.5\linewidth}}
 \toprule
 \textbf{Identifier} & \textbf{Requirement} & \textbf{Rationale}\\
 \midrule
-RDP1
-& ML model should classify the gesture based on training data used and label the gesture accordingly in real-time
-& This ensures that the system can processes data and gives output in real-time, so that continuous translation can be achieved\\
+UIFR1
+& Convert translated English words or phrases into audible speech
+& This requirement is necessary in order to verbally communicate the translated English words or phrases. Converting the text into audible speech will allow the module to communicate the translation to the non-ASL user\\
 \hline
-RDP2
-& ML model should classify the gesture and label it. Then the system should put that label through a text-to-speech system to say the word out loud
-& This allows users to consume content more easily and without the need for visual aids, making written content more accessible to people with visual impairments, learning disabilities, or other conditions that make reading difficult.\\
+UIFR2
+& Pass the audible speech to a speaker or output device
+& Passing the audible speech to a speaker or output device will allow the non-ASL user to hear the translation\\
 \bottomrule
 \end{tabularx}
 
 \section{Functional Requirement Change Likelihood}
-\subsection{Camera Functional Requirements}
+\subsection{Gesture Detection Functional Requirements}
 
 \renewcommand{\arraystretch}{1.2}
 \noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.15\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}}
@@ -575,11 +629,41 @@ RDP2
 CFR1 
 & Unlikely
 & Input component of the system
-& Input may be changed to sensor instead of a camera\\
+& Input may be changed to sensors instead of a camera\\
 \hline
 CFR2
-& Very unlikely
+& Unlikely
+& Key processing component of the system
+& N/A\\
+\hline
+CFR3
+& Unlikely
+& Important part of the project
+& N/A\\
+\hline
+CFR4
+& Unlikely
+& Key processing component of the system
+& N/A\\
+\hline
+CFR5
+& Unlikely
 & Enables testing and validation for the system
+& N/A\\
+\hline
+CFR6
+& Unlikely
+& Key implementation aspect. Refer to Real-Time Translations
+& Data processing in real-time may be difficult and delays might have to be used to ensure translation is as accurate is possible\\
+\hline
+CFR7
+& Unlikely
+& Key implementation aspect. Refer to Customizable to User
+& Dependent on the processing speed of the program. The speed at which a user can input sign language might be reduced consequently\\
+\hline
+CFR8
+& Unlikely
+& Key processing component of the system
 & N/A\\
 \bottomrule
 \end{tabularx}
@@ -592,39 +676,48 @@ CFR2
 \textbf{Identifier} & \textbf{Likelihood of Change} & \textbf{Rationale} & \textbf{What May Be Changed}\\
 \midrule
 MLFR1 
-& Very unlikely
+& Unlikely
 & Key processing component of the system
 & N/A\\
 \hline
 MLFR2 
-& Very unlikely
-& Enables testing and validation for the system
+& Unlikely
+& Key processing component of the system
 & N/A\\
 \hline
 MLFR3 
 & Unlikely
-& Subject to time constraint. ML model accuracy may be sub-par for two hand input
-& Tracking might only be possible with one hand\\
-\hline
-MLFR4 
-& Unlikely
-& Subject to time constraint. Refer to \ref{sec_inScope}
-& Data processing in real-time may be difficult and delays might have to be used to ensure translation is as accurate is possible\\
-\hline
-MLFR5 
-& Very unlikely
 & Key processing component of the system
 & N/A\\
 \hline
-MLFR6 
+MLFR4 
 & Unlikely
-& Key implementation aspect. Refer to \ref{sec_inScope}
-& Dependent on the processing speed of the program. The speed at which a user can input sign language might be reduced consequently\\
+& Key implementation aspect
+& N/A\\
 \hline
-MLFR7 
-& Likely
-& Key implementation aspect. But expandability of the program is subject to time constraint and memory required
-& The ML model may only accommodate a subset of ASL for the sake of time constraint and space saving\\
+MLFR5 
+& Unlikely
+& Enables testing and validation for the system
+& N/A\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Machine Learning Functional Requirements}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.12\linewidth}|p{0.15\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}}
+\toprule
+\textbf{Identifier} & \textbf{Likelihood of Change} & \textbf{Rationale} & \textbf{What May Be Changed}\\
+\midrule
+UIFR1
+& Unlikely
+& Key processing component of the system
+& Change for another sign language for different sign language communities to communicate\\
+\hline
+UIFR2
+& Unlikely
+& Key processing component of the system
+& Change to visual translation only\\
 \bottomrule
 \end{tabularx}
 
@@ -639,10 +732,6 @@ MLFR7
 NFR1
 & The ASL translator should translate the sign language accurately 
 & Since this device is used to help people who have hearing problems to communicate in their daily lives, the accuracy of the translator must ensure the normal communication\\
-\hline
-NFR2
-&The hand gestures of the users should be clear
-&In order for accurate translation by the ASL translator, the users should perform the sign language standardly and clearly\\
 \bottomrule
 \end{tabularx}
 
@@ -653,15 +742,15 @@ NFR2
 \toprule
 \textbf{Identifier} & \textbf{Requirement} & \textbf{Rationale}\\
 \midrule
-NFR3
+NFR2
 & Ease of use 
 & SThe device should be easy-to-use by the users, they should be able to use the translator directly since everything is preset\\
 \hline
-NFR4
+NFR3
 & Understandability
 & The instructions of the ASL translator should be clear and understandable by all the users\\
 \hline
-NFR5
+NFR4
 & Update the database timely and easily
 & Since new English words appear every year, the database should be updated yearly within half an hour\\
 \bottomrule
@@ -674,7 +763,7 @@ NFR5
 \toprule
 \textbf{Identifier} & \textbf{Requirement} & \textbf{Rationale}\\
 \midrule
-NFR6
+NFR5
 & The size of the ASL translator should be portable
 & Since the ASL translator is used to support the daily communication of people who are hard of hearing, it should be carried easily by the users\\
 \bottomrule
@@ -687,7 +776,7 @@ NFR6
 \toprule
 \textbf{Identifier} & \textbf{Requirement} & \textbf{Rationale}\\
 \midrule
-NFR7
+NFR6
 & Cultural requirement
 & As with language there are a variety of different forms of sign language that start from a common language, but over time different groups of people 
 adapt to fit into their culture through variations of common English words. While it is unlikely to create a data set for every distinct variety of ASL for 
@@ -695,43 +784,90 @@ example, the machine learning function MLFR7 allows for easability in training f
 \bottomrule
 \end{tabularx}
 
-
-
-\section{Phase-in Plan}
-
+\section{Traceability Matrix}
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}}
+\noindent \begin{tabularx}{\textwidth}{p{0.2\linewidth}|p{0.35\linewidth}|p{0.35\linewidth}}
 \toprule
-\textbf{Date to be Completed by} & \textbf{Objective} & \textbf{Description}\\
+\textbf{Requirement} & \textbf{Dependent Requirements} & \textbf{Requirements this Depends on}\\
 \midrule
-Oct, 31, 2022
-& Get OpenCV to recognize Hands
-& In order for out project to work, first we 
-must be able to recognize the joints in the hand\\
+GFR1
+& GFR2 GFR6 GFR7 NFR5\\
 \hline
-Nov, 30, 2022
-& Build a machine learning model
-& In order to recognize the different hand motions
-of ASL, we will first need to build a machine learning
-model that can recognize ASL\\
+GFR2
+& GFR3 GFR4 GFR5 GFR6 GFR7 GFR8 MLFR1 MLFR2 MLFR3 MLFR4 NFR4 NFR5
+& GFR1\\
 \hline
-Dec, 31, 2022
-& Integrate the machine learning model and the OpenCV 
-system
-& With both a machine learning model and hand recognition,
-we can begin to interpret ASL hand motions into words\\
+GFR3
+& GFR6 GFR7 MLFR4 UIFR1 NFR1 NFR2
+& GFR2 MLFR1\\
 \hline
-Jan, 31, 2023
-& Build and connect Raspberry Pi to OpenCV system to 
-provide real-time translation
-& With a working ASL translation system in place, we 
-can begin to use text-to-speech to say the words\\
+GFR4
+& MLFR1
+& GFR2\\
 \hline
-Feb, 28, 2023
-& Move OpenCV system and machine learning model onto 
-Raspberry Pi
-& We can begin to try and make the entire system portable 
-by moving it entirely to the Raspberry Pi\\
+GFR5
+&
+& GFR2\\
+\hline
+GFR6
+&
+& GFR1 GFR2 GFR3\\
+\hline
+GFR7
+&
+& GFR1 GFR2 GFR3\\
+\hline
+GFR8
+& NFR4
+& GFR2\\
+\hline
+MLFR1
+& GFR3
+& GFR2 GFR4\\
+\hline
+MLFR2
+&
+& GFR2\\
+\hline
+MLFR3
+& MLFR4
+& GFR2\\
+\hline
+MLFR4
+& MLFR5 NFR1
+& GFR2 GFR3 MLFR3\\
+\hline
+MLFR5
+& NFR1
+& MLFR4\\
+\hline
+UIFR1
+& ULFR2
+& GFR3\\
+\hline
+UIFR2
+&
+& UIFR1\\
+\hline
+NFR1
+&
+& GFR3 MLFR4 MLFR5\\
+\hline
+NFR2
+&
+& GFR3\\
+\hline
+NFR3
+&
+& GFR3\\
+\hline
+NFR4
+&
+& GFR2 GFR8\\
+\hline
+NFR5
+&
+& GFR1 GFR2\\
 \bottomrule
 \end{tabularx}
 
@@ -801,6 +937,44 @@ Having a consistent integration and delivery process encourages all team members
 One approach to learn CI/CD is to find online courses and tutorials, since CI/CD is the fundamental cornerstone of DevOps, there are a lot of online resources and tools about it. 
 Another useful approach is communicating with software developers who are experienced with this coding philosophy, many professional programmers need to apply the idea of CI/CD when working in teams, so it would be easy to get help from them.
 We can combine the two approaches, and it is supposed to be easy and helpful to carry on.\\
+
+\section{Phase-in Plan}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|p{0.3\linewidth}|p{0.3\linewidth}}
+\toprule
+\textbf{Date to be Completed by} & \textbf{Objective} & \textbf{Description}\\
+\midrule
+Oct, 31, 2022
+& Get OpenCV to recognize Hands
+& In order for out project to work, first we 
+must be able to recognize the joints in the hand\\
+\hline
+Nov, 30, 2022
+& Build a machine learning model
+& In order to recognize the different hand motions
+of ASL, we will first need to build a machine learning
+model that can recognize ASL\\
+\hline
+Dec, 31, 2022
+& Integrate the machine learning model and the OpenCV 
+system
+& With both a machine learning model and hand recognition,
+we can begin to interpret ASL hand motions into words\\
+\hline
+Jan, 31, 2023
+& Build and connect Raspberry Pi to OpenCV system to 
+provide real-time translation
+& With a working ASL translation system in place, we 
+can begin to use text-to-speech to say the words\\
+\hline
+Feb, 28, 2023
+& Move OpenCV system and machine learning model onto 
+Raspberry Pi
+& We can begin to try and make the entire system portable 
+by moving it entirely to the Raspberry Pi\\
+\bottomrule
+\end{tabularx}
 
 
 \end{document}
