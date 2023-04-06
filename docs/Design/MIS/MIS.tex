@@ -385,7 +385,7 @@ None
 \end{itemize}
 
 ~\newpage
-\section{MIS of Dynamic Gesture Detection Module (M6)} \label{M10}
+\section{MIS of Dynamic Gesture Detection Module (M6)} \label{M6}
 
 \subsection{Module}
 
@@ -442,7 +442,7 @@ cap.read() used to read frames from the video capture device\\
 
 ~\newpage
 
-\section{MIS of Data Processing Module (M7)} \label{M6}
+\section{MIS of Data Processing Module (M7)} \label{M7}
 
 \subsection{Module}
 
@@ -487,7 +487,7 @@ None\\
 
 ~\newpage
 
-\section{MIS of Data Collection Module (M8)} \label{M9}
+\section{MIS of Data Collection Module (M8)} \label{M8}
 
 \subsection{Module}
 
@@ -536,7 +536,7 @@ UserInput(): Takes user input and returns a string “action” and checks if ac
 
 ~\newpage
 
-\section{MIS of Machine Learning Module (M9)} \label{M7}
+\section{MIS of Machine Learning Module (M9)} \label{M9}
 
 \subsection{Module}
 
@@ -576,7 +576,7 @@ None\\
 None\\
 
 \newpage
-\section{MIS of Dynamic Machine Learning Module (M10)} \label{M11}
+\section{MIS of Dynamic Machine Learning Module (M10)} \label{M10}
 
 \subsection{Module}
 
@@ -641,6 +641,86 @@ np.argmax(): gets the indices of the maximum values along an axis of a NumPy arr
 multilabel\_confusion\_matrix(): computes a confusion matrix for multiclass classification.\\
 \\
 model.save(): saves the trained machine learning model to a file.\\
+
+~\newpage
+
+\section{MIS of User Interface Module (M11)} \label{M11}
+
+\subsection{Module}
+
+UI Module\\
+
+\subsection{Uses}
+
+Video Capture, Text to Speech\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+Images & Video Capture & - & - \\
+\hline
+frames & Video Capture & - & - \\
+\hline
+mode & Key Input & - & - \\
+\hline
+text\_string & Machine Model & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Exported Access Programs}
+-
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+spot: a global variable that keeps track of the position in the text string where the line should be split into two lines. It is initially set to 0.\\
+\\
+short: a boolean variable that determines whether the second line of text should be displayed. It is initially set to True.\\
+\\
+text: a string that contains the FPS and resolution of the video input. It is constructed based on the image parameter.\\
+\\
+line1: a string that contains the first line of the text to be displayed on the UI.\\
+\\
+line2: a string that contains the second line of the text to be displayed on the UI.\\
+\\
+text\_size: a tuple that contains the size of the text to be displayed.\\
+\\
+text\_w: an integer that contains the width of the text to be displayed.\\
+\\
+text\_h: an integer that contains the height of the text to be displayed.\\
+\\
+multiplier: an integer that determines how many lines of text should be displayed. It is initially set to 1.\\
+
+
+\subsubsection{Environment Variables}
+
+None\\
+
+\subsubsection{Assumptions}
+
+None\\
+
+\subsubsection{Access Routine Semantics}
+
+None\\
+
+\newpage
+\section{MIS of Hardware Hiding Module (M12)} \label{M12}
+\subsection{Module}
+
+Hardware Hiding\\
+
+\subsection{Notes}
+
+This module implements hardware hiding by utilizing operating system abstraction. It is done by the operating system of the computer or Raspberry Pi.\\
 
 \newpage
 
