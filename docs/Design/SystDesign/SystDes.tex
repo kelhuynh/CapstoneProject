@@ -50,6 +50,7 @@
 \midrule
 January 18, 2023 & 1.0 & Initial System Design Draft\\
 April 5, 2023 & 2.0 & Everyone - Rev 1\\
+April 5, 2023 & 2.1 & Everyone - Rev 2\\
 
 \bottomrule
 \end{tabularx}
@@ -228,11 +229,15 @@ Machine Learning
 \toprule
 \textbf{Monitor Name} & \textbf{Monitor Type} & \textbf{Range} & \textbf{Description}\\
 \midrule
-mode & Integer & [0, 2] & Program operation mode (normal, keypoint training, point history/motion training)\\
+mode & Integer & [0, 2] & Program operation modes (0 = normal operation mode,1 = train keypoint mode and 2 = static mode )\\
 \hline
-num & Integer & [0,25] & Determines corresponding ASL classifier label to use\\
+num & Integer & [0,25] & Determines corresponding ASL classifier label to use based on the key pressed\\
 \hline
-landmark\_list & List & [-1.0,1.0] & Set of normalized coordinates to be paired with ASL classifier label\\
+frame\_count & Integer & minimum=0 & Count the number of frames\\
+\hline
+text & String & N/A & Store text to be append to tts\\
+\hline
+tts & String & N/A & Store text received from text and to be used in text-to-speech function\\
 \bottomrule
 \end{tabularx}
 \captionof{table}{Monitored Variables}
