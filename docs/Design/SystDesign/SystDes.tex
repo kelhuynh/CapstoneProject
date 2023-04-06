@@ -18,8 +18,8 @@
     urlcolor=blue
 }
 
-\input{Comments}
-\input{Common}
+\input{../../Comments}
+\input{../../Common}
 
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
@@ -167,6 +167,12 @@ GFR7
 GFR8
 & The program is designed to store extracted landmarks into a database, enabling efficient management of data points for machine learning. This approach allows for querying, filtering, and updating data, ensuring accurate, consistent, and up-to-date gesture recognition by the ML model.\\
 \hline
+UIFR1
+& A text-to-speech (TTS) engine was integrated into the system to fulfill the requirement of converting translated English words or phrases into audible speech. This implementation enables the module to verbally communicate the translations, allowing non-ASL users to understand the conveyed message effectively.\\
+\hline
+UIFR2
+& To address this requirement, the system was designed to transmit the generated audible speech from the text-to-speech engine to a speaker or output device. This implementation ensures that the non-ASL user can hear the translation, promoting smooth communication between users.\\
+\hline
 MLFR1
 & We used a Tensorflow machine learning algorithm already incorporated into Mediapipe to recognize a hand shape and model its joints. This allows the coordinates of each joint to be identified and recorded into a dataset for the system.\\
 \hline
@@ -214,17 +220,17 @@ NFR6
 \toprule
 \textbf{Module} & \textbf{Requirements}\\
 \midrule
-Gesture Detection
-& GFR1, GFR2, GFR3, GFR4, GFR5, GFR6, GFR7, MLFR1, MLFR2, MLFR3, MLFR5, NFR1, NFR6\\
+Gesture Detection (Static and Motion)
+& GFR1, GFR2, GFR3, GFR4, GFR5, GFR6, GFR7, MLFR1, MLFR2, MLFR3, NFR1\\
 \hline
-Data Processing
-& GFR8, MLFR4, NFR1, NFR4\\
+Data Collection and Processing
+& GFR8, MLFR2, MLFR3, MLFR4, MLFR5, NFR4, NFR6\\
 \hline
-Machine Learning
-& MLFR3, MLFR6\\
+Machine Learning (Static and Motion)
+& MLFR1, MLFR4, MLFR5\\
 \hline
 User Interface Module
-& NFR1, NFR2, NFR3, NFR6, UIFR1, UIFR2\\
+& UIFR1, UIFR2, NFR2, NFR3\\
 \bottomrule
 \end{tabularx}
 \captionof{table}{Modules and Requirements}
@@ -324,10 +330,10 @@ N/A
 \section{Timeline}
 
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{tabularx}{\textwidth}{p{0.3\linewidth}|p{0.3\linewidth}|p{0.35\linewidth}}
-\toprule
+\noindent \begin{longtable}{p{0.3\textwidth}|p{0.3\textwidth}|p{0.35\textwidth}}
+\hline
 \textbf{Objective} & \textbf{Date to be completed by} & \textbf{Member(s) Responsible}\\
-\midrule
+\hline
 Create an interface that lets the user switch between training and translating & Jan 20, 2023 & Nafi Hasan\\
 \hline
 Add an expanded vocabulary of common phrases into the database (initial database) & Jan 31, 2023 & Robert Zhu and Jiahui Chen\\
@@ -336,9 +342,9 @@ Build and connect Raspberry Pi to OpenCV system to provide real-time translation
 \hline
 Hardware testing after constructing and connecting Raspberry Pi with the program & Feb 5, 2023 & Robert Zhu and Nafi Hasan\\
 \hline
-Program a text-to-speech algorithm & Feb 5, 2023 & Runze Zhu and Zifan Meng\\
+Program a text-to-speech algorithm & Feb 5, 2023 & Zifan Meng\\
 \hline
-Unit testing and system testing on PC & Feb 6, 2023 & Robert Zhu\\
+Unit testing and system testing on PC & Feb 6, 2023 & Kelvin Huynh and Runze Zhu\\
 \hline
 Move OpenCV system and machine learning model onto Raspberry Pi & Feb 6, 2023 & Kelvin Huynh\\
 \hline
@@ -363,9 +369,23 @@ Static Image training & March 25, 2023 & Runze Zhu\\
 Code review and integration testing & March 30, 2023 & Kelvin Huynh\\
 \hline
 Rev 1 & April 5, 2023 & All group members\\
-\bottomrule
-\end{tabularx}
-\captionof{table}{Objectives Timeline}
+\hline
+\caption{Objectives Timeline}
+\end{longtable}
+
+\renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable}{p{0.2\textwidth}|p{0.75\textwidth}}
+\hline
+\textbf{Requirement ID} & \textbf{Design Decision}\\
+\hline
+GFR1
+& We integrated OpenCV to capture and process video data from a camera, enabling our system to analyze users' hand movements in real-time. This continuous input stream is then fed into our gesture recognition model, providing accurate, real-time ASL translations.\\
+\hline
+GFR2
+& Integration of OpenCV and Mediapipe libraries enabled the processing of input and extraction of hand and pose landmarks. By obtaining x, y, and z coordinates of each joint, the data was normalized and structured for the LSTM model, ensuring efficient learning and accurate predictions from dynamic user input.\\
+\hline
+\caption{Requirements and Design Decisions}
+\end{longtable}
 
 % \bibliographystyle {plainnat}
 % \bibliography{../../../refs/References}

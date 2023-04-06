@@ -161,9 +161,11 @@ change.
 \item[\refstepcounter{acnum} \actheacnum \label{acCoordE}:] The format of export normalized coordinates.
 \item[\refstepcounter{acnum} \actheacnum \label{acVideoC}:] Allow for static image input to enable training using larger datasets.
 \item[\refstepcounter{acnum} \actheacnum \label{acVideoA}:] Increase the area that the recognition boundary encloses for recognizing more complicated gestures.
+\item[\refstepcounter{acnum} \actheacnum \label{acMotionN}:] The implementation of a new advanced motion tracking algorithm so that dynamic motions can be captured.
 \item[\refstepcounter{acnum} \actheacnum \label{acKeyPointC}:] Modify keypoint classification to check multiple points instead of single point for more complex motion.
-\item[\refstepcounter{acnum} \actheacnum \label{acML}:] Change from static classifier set to a dynamic classifier set that is able to expand the number of gestures.
-\item[\refstepcounter{acnum} \actheacnum \label{acTraining}:] The implementation of a more suitable machine learning model for better performance.
+\item[\refstepcounter{acnum} \actheacnum \label{acCollect}:] Change from static classifier set to a dynamic classifier set that is able to expand the number of gestures.
+\item[\refstepcounter{acnum} \actheacnum \label{acML}:] The implementation of a more suitable machine learning model for better performance.
+\item[\refstepcounter{acnum} \actheacnum \label{acMLN}:] The implementation of a LSTM machine learning model for dynamic motions.
 \item[\refstepcounter{acnum} \actheacnum \label{acTextToSpeech}:] The implementation of reading a translated script into audio output through Raspberry Pi.
 \item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The hardware tracking devices on which the the software is running was replaced with a Raspberry Pi with the camera from a PC.
 
@@ -202,11 +204,13 @@ actually be implemented.
 \item [\refstepcounter{mnum} \mthemnum \label{m3}:] Coordinate Export Module
 \item [\refstepcounter{mnum} \mthemnum \label{m4}:] Video Capture Module
 \item [\refstepcounter{mnum} \mthemnum \label{m5}:] Video Analysis Module
-\item [\refstepcounter{mnum} \mthemnum \label{m6}:] Data Processing Module
-\item [\refstepcounter{mnum} \mthemnum \label{m7}:] Data Collection Module
-\item [\refstepcounter{mnum} \mthemnum \label{m8}:] Machine Learning Module
-\item [\refstepcounter{mnum} \mthemnum \label{m9}:] User Interface Module
-\item [\refstepcounter{mnum} \mthemnum \label{m10}:] Hardware Hiding Module
+\item [\refstepcounter{mnum} \mthemnum \label{m6}:] Dynamic Gesture Detection Module
+\item [\refstepcounter{mnum} \mthemnum \label{m7}:] Data Processing Module
+\item [\refstepcounter{mnum} \mthemnum \label{m8}:] Data Collection Module
+\item [\refstepcounter{mnum} \mthemnum \label{m9}:] Machine Learning Module
+\item [\refstepcounter{mnum} \mthemnum \label{m10}:] Dynamic Machine Learning Module
+\item [\refstepcounter{mnum} \mthemnum \label{m11}:] User Interface Module
+\item [\refstepcounter{mnum} \mthemnum \label{m12}:] Hardware Hiding Module
 \end{description}
 
 \begin{table}[h!]
@@ -223,9 +227,11 @@ actually be implemented.
 & Data Collection Module - Communicates with ML module to update dataset\\
 & Coordinate Export Module - Read data from video capture and stores into file\\
 & Gesture Detection Module - Controller (ties everything together)\\
+& Dynamic Gesture Detection Module\\
 \midrule
 \multirow{3}{0.3\textwidth}{Software Decision Module} & Video Analysis Module - requires data to be used\\
 & Machine Learning Module\\
+& Dynamic Machine Learning Module\\
 & Coordinate Normalization Module\\
 \bottomrule
 \end{tabular}
@@ -251,7 +257,7 @@ between requirements and modules is listed in Table \ref{TblRT}.
   \item[Implemented By:] TensorFlow
   \end{description}
 
-\subsection{Hardware Hiding Modules (\mref{m10})}
+\subsection{Hardware Hiding Modules (\mref{m12})}
 
 \begin{description}
   \item[Secrets:] The data structure and algorithm used to implement the virtual hardware
@@ -261,7 +267,7 @@ between requirements and modules is listed in Table \ref{TblRT}.
 
 \subsection{Behaviour-Hiding Module}
 
-\subsubsection{Motion Tracking Module (\mref{m1})}
+\subsubsection{Gesture Detection Module (\mref{m1})}
 
 \begin{description}
   \item[Secrets:] The algorithm by which the software detects the hand gestures performed in ASL
@@ -277,7 +283,15 @@ between requirements and modules is listed in Table \ref{TblRT}.
   \item[Implemented By:] Python
   \end{description}
 
-\subsubsection{Data Processing Module (\mref{m6})}
+\subsubsection{Dynamic Gesture Detection Module (\mref{m6})}
+
+\begin{description}
+  \item[Secrets:] The algorithm by which the software detects the hand gestures and body movements performed in ASL
+  \item[Services:] Receives the video from the camera as input, and locates the different hand joints as well as holistic joints to return the coordinates of the hand and limbs position
+  \item[Implemented By:] Python
+  \end{description}
+
+\subsubsection{Data Processing Module (\mref{m7})}
 
 \begin{description}
   \item[Secrets:] The algorithm used to return index/classifier closest to the normalized coordinates
@@ -285,7 +299,7 @@ between requirements and modules is listed in Table \ref{TblRT}.
   \item[Implemented By:] Python
   \end{description}
 
-\subsubsection{Data Collection Module (\mref{m7})}
+\subsubsection{Data Collection Module (\mref{m8})}
 
 \begin{description}
   \item[Secrets:] Gathers data points from the user and formats the structure into input for machine learning
@@ -293,7 +307,7 @@ between requirements and modules is listed in Table \ref{TblRT}.
   \item[Implemented By:] Python
   \end{description}
 
-\subsubsection{User Interface Module (\mref{m9})}
+\subsubsection{User Interface Module (\mref{m11})}
 
 \begin{description}
   \item[Secrets:] The algorithm and dataset used to translate text-to-speech
@@ -321,11 +335,19 @@ between requirements and modules is listed in Table \ref{TblRT}.
   \item[Implemented By:] Python
   \end{description}
 
-\subsubsection{Machine Learning Module (\mref{m8})}
+\subsubsection{Machine Learning Module (\mref{m9})}
 
 \begin{description}
   \item[Secrets:] The data structure in which classifier label data is paired with normalized coordinate data
   \item[Services:] Automates classification of sign language based on input coordinate data
+  \item[Implemented By:] Python
+  \end{description}
+
+\subsubsection{Dynamic Machine Learning Module (\mref{m10})}
+
+\begin{description}
+  \item[Secrets:] The specialized LSTM data structure that associates classifier labels with normalized coordinate data, analyzing variations in hand gestures and body movements
+  \item[Services:] Enables automated classification of dynamic sign language gestures by analyzing input coordinate data and tracking motion patterns throughout the gesture sequence
   \item[Implemented By:] Python
   \end{description}
   
@@ -343,25 +365,27 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-GFR1 & \mref{m1}, \mref{m4}\\
-GFR2 & \mref{m1}, \mref{m3}\\
-GFR3 & \mref{m1}, \mref{m5}\\
-GFR4 & \mref{m1}, \mref{m2}\\
-GFR5 & \mref{m1}, \mref{m2}\\
-GFR6 & \mref{m1}, \mref{m5}\\
-GFR7 & \mref{m1}, \mref{m4}, \mref{m5}\\
-GFR8 & \mref{m7}\\
-MLFR1 & \mref{m2}\\
-MLFR2 & \mref{m3}\\
-MLFR3 & \mref{m4}\\
-MLFR4 & \mref{m6}, \mref{m9}, \mref{m10}\\
-MLFR5 & \mref{m4}\\
-NFR1 & \mref{m5}, \mref{m6}, \mref{m8}\\
-NFR2 & \mref{m9}\\
-NFR3 & \mref{m9}\\
-NFR4 & \mref{m8}\\
-NFR5 & \mref{m10}\\
-NFR6 & \mref{m1}, \mref{m4}, \mref{m9}\\
+GFR1 & \mref{m1}, \mref{m4}, \mref{m6}\\
+GFR2 & \mref{m1}, \mref{m3}, \mref{m6}\\
+GFR3 & \mref{m1}, \mref{m5}, \mref{m6}\\
+GFR4 & \mref{m1}, \mref{m2}, \mref{m6}\\
+GFR5 & \mref{m1}, \mref{m2}, \mref{m6}\\
+GFR6 & \mref{m1}, \mref{m5}, \mref{m6}\\
+GFR7 & \mref{m1}, \mref{m4}, \mref{m5}, \mref{m6}\\
+GFR8 & \mref{m8}\\
+MLFR1 & \mref{m2}, \mref{m9}, \mref{m10}\\
+MLFR2 & \mref{m3}, \mref{m8}\\
+MLFR3 & \mref{m4}, \mref{m8}\\
+MLFR4 & \mref{m7}, \mref{m9}, \mref{m10}\\
+MLFR5 & \mref{m7}, \mref{m9}, \mref{m10}\\
+UIFR1 & \mref{m11}\\
+UIFR2 & \mref{m11}\\
+NFR1 & \mref{m2}\\
+NFR2 & \mref{m11}\\
+NFR3 & \mref{m11}\\
+NFR4 & \mref{m7}, \mref{m8}\\
+NFR5 & \mref{m12}\\
+NFR6 & \mref{m7}, \mref{m8}\\
 
 \bottomrule
 \end{tabular}
@@ -380,11 +404,13 @@ NFR6 & \mref{m1}, \mref{m4}, \mref{m9}\\
 \acref{acCoordE} & \mref{m3}\\
 \acref{acVideoC} & \mref{m4}\\
 \acref{acVideoA} & \mref{m5}\\
-\acref{acKeyPointC} & \mref{m6}\\
-\acref{acML} & \mref{m7}\\
-\acref{acTraining} & \mref{m8}\\
-\acref{acTextToSpeech} & \mref{m9}\\
-\acref{acHardware} & \mref{m10}\\
+\acref{acMotionN} & \mref{m6}\\
+\acref{acKeyPointC} & \mref{m7}\\
+\acref{acCollect} & \mref{m8}\\
+\acref{acML} & \mref{m9}\\
+\acref{acMLN} & \mref{m10}\\
+\acref{acTextToSpeech} & \mref{m11}\\
+\acref{acHardware} & \mref{m12}\\
 
 
 

@@ -81,10 +81,6 @@ who do not know sign language.\\
 and Module Guide.  The full documentation and implementation can be
 found at \url{https://github.com/kelhuynh/OpenASL/}.\\
 
-\section{Notation}
-
-N/A\\
-
 \section{Module Decomposition}
 
 The following table is taken directly from the Module Guide document for this project.
@@ -95,20 +91,21 @@ The following table is taken directly from the Module Guide document for this pr
 \toprule
 \textbf{Level 1} & \textbf{Level 2}\\
 \midrule
-
-{Hardware-Hiding Module} &  \\
+\multirow{2}{0.3\textwidth}{Hardware-Hiding Module} & Video Capture Module \\
+& Hardware Hiding Module\\
 \midrule
-
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Text-to-Speech Module\\
-& Key Point Classification Module - Communicates with ML module with data from coordinate normalization module\\
-& Training Module - Communicates with ML module to update dataset\\
+\multirow{5}{0.3\textwidth}{Behaviour-Hiding Module} & User Interface Module\\
+& Data Processing Module - Communicates with ML module with data from coordinate normalization module\\
+& Data Collection Module - Communicates with ML module to update dataset\\
 & Coordinate Export Module - Read data from video capture and stores into file\\
-& Motion Tracking Module - Controller (ties everything together)\\
+& Gesture Detection Module - Controller (ties everything together)\\
+& Dynamic Gesture Detection Module\\
 
 \midrule
 
 \multirow{3}{0.3\textwidth}{Software Decision Module} & Video Analysis Module - requires data to be used\\
 & Machine Learning Module\\
+& Dynamic Machine Learning Module\\
 & Coordinate Normalization Module\\
 \bottomrule
 
@@ -121,7 +118,7 @@ The following table is taken directly from the Module Guide document for this pr
 
 \newpage
 
-\section{MIS of Motion Tracking Module (M1)} \label{m1}
+\section{MIS of Gesture Detection Module (M1)} \label{m1}
 
 \subsection{Module}
 
@@ -129,7 +126,7 @@ motionTrack
 
 \subsection{Uses}
 
-Video Capture, Coordinate Normalization, Coordinate Export, Video Analysis, Keypoint Classification, TTS
+Video Capture, Coordinate Normalization, Coordinate Export, Video Analysis, Keypoint Classification, Text to Speech
 
 \subsection{Syntax}
 
@@ -388,212 +385,7 @@ None
 \end{itemize}
 
 ~\newpage
-
-\section{MIS of Keypoint Classification Module (M6)} \label{M6}
-
-\subsection{Module}
-
-Keypoint Classification\\
-
-\subsection{Uses}
-
-Coordinate Export, Machine Learning\\
-
-\subsection{Syntax}
-
-\subsubsection{Exported Constants}
-
-\begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-result\_index & landmark_list & R & ListIndexOutofRange \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-None\\
-
-\subsubsection{Environment Variables}
-
-None\\
-
-\subsubsection{Assumptions}
-
-None\\
-
-\subsubsection{Local Functions}
-\begin{itemize}
-\item \_\_call\_\_
-\end{itemize}
-
-~\newpage
-
-\section{MIS of Machine Learning Module (M7)} \label{M7}
-
-\subsection{Module}
-
-ML Train\\
-
-\subsection{Uses}
-
-Coordinate Export\\
-
-\subsection{Syntax}
-
-\subsubsection{Exported Constants}
-
-\begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-keypoint\_classifier.hdf5 & - & Hierarchical Data Format file & - \\
-keypoint\_classifier.tflite & - & ML model & - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-None\\
-
-\subsubsection{Environment Variables}
-
-None\\
-
-\subsubsection{Assumptions}
-
-None\\
-
-~\newpage
-
-\section{MIS of Training Module (M8)} \label{M8}
-
-\subsection{Module}
-
-UI Module\\
-
-\subsection{Uses}
-
-Video Capture, TTS\\
-
-\subsection{Syntax}
-
-\subsubsection{Exported Constants}
-
-\begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-images & Video Capture & - & - \\
-\hline
-frames & Video Capture & - & - \\
-\hline
-mode & Key Input & - & - \\
-\hline
-text\_string & Machine Model & - & - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsubsection{Exported Access Programs}
--
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-spot: a global variable that keeps track of the position in the text string where the line should be split into two lines. It is initially set to 0.\\
-\\
-short: a boolean variable that determines whether the second line of text should be displayed. It is initially set to True.\\
-\\
-text: a string that contains the FPS and resolution of the video input. It is constructed based on the image parameter.\\
-\\
-line1: a string that contains the first line of the text to be displayed on the UI.\\
-\\
-line2: a string that contains the second line of the text to be displayed on the UI.\\
-\\
-text\_size: a tuple that contains the size of the text to be displayed.\\
-\\
-text\_w: an integer that contains the width of the text to be displayed.\\
-\\
-text\_h: an integer that contains the height of the text to be displayed.\\
-\\
-multiplier: an integer that determines how many lines of text should be displayed. It is initially set to 1.\\
-
-\subsubsection{Environment Variables}
-
-None\\
-
-\subsubsection{Assumptions}
-
-None\\
-
-\subsubsection{Access Routine Semantics}
-
-None\\
-
-~\newpage
-
-\section{MIS of Data Collection Module (M9)} \label{M9}
-
-\subsection{Module}
-
-DataCollection\\
-
-\subsection{Uses}
-
-Coordinate Normalization, Coordinate Export\\
-
-\subsection{Syntax}
-
-\subsubsection{Exported Constants}
-
-\begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-actions & Number of Gestures & - & - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsubsection{Exported Access Programs}
--
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-No\_sequences: Represents the number of sequences to be recorded for each action
-
-\subsubsection{Environment Variables}
-
-Dirmax: Stores the highest amount of files within a gesture\\
-\\
-DATA\_PATH:  a list of directories where executable files are located\\
-
-\subsubsection{Assumptions}
-
-None\\
-
-\subsubsection{Access Routine Semantics}
-
-UserInput(): Takes user input and returns a string “action” and checks if action is present in the action list. If it is, it finds the max value of the directories present in the path and creates a directory with a name greater than the max value\\
-
-~\newpage
-
-\section{MIS of Dynamic Gesture Detection Module (M10)} \label{M10}
+\section{MIS of Dynamic Gesture Detection Module (M6)} \label{M10}
 
 \subsection{Module}
 
@@ -648,8 +440,143 @@ sel\_mode(): takes a key and mode as input to change between different modes of 
 \\
 cap.read() used to read frames from the video capture device\\
 
+~\newpage
+
+\section{MIS of Data Processing Module (M7)} \label{M6}
+
+\subsection{Module}
+
+Keypoint Classification\\
+
+\subsection{Uses}
+
+Coordinate Export, Machine Learning\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+result\_index & landmark_list & R & ListIndexOutofRange \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None\\
+
+\subsubsection{Environment Variables}
+
+None\\
+
+\subsubsection{Assumptions}
+
+None\\
+
+\subsubsection{Local Functions}
+\begin{itemize}
+\item \_\_call\_\_
+\end{itemize}
+
+~\newpage
+
+\section{MIS of Data Collection Module (M8)} \label{M9}
+
+\subsection{Module}
+
+DataCollection\\
+
+\subsection{Uses}
+
+Coordinate Normalization, Coordinate Export\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+actions & Number of Gestures & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Exported Access Programs}
+-
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+No\_sequences: Represents the number of sequences to be recorded for each action
+
+\subsubsection{Environment Variables}
+
+Dirmax: Stores the highest amount of files within a gesture\\
+\\
+DATA\_PATH:  a list of directories where executable files are located\\
+
+\subsubsection{Assumptions}
+
+None\\
+
+\subsubsection{Access Routine Semantics}
+
+UserInput(): Takes user input and returns a string “action” and checks if action is present in the action list. If it is, it finds the max value of the directories present in the path and creates a directory with a name greater than the max value\\
+
+~\newpage
+
+\section{MIS of Machine Learning Module (M9)} \label{M7}
+
+\subsection{Module}
+
+ML Train\\
+
+\subsection{Uses}
+
+Coordinate Export\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{center}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+keypoint\_classifier.hdf5 & - & Hierarchical Data Format file & - \\
+keypoint\_classifier.tflite & - & ML model & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None\\
+
+\subsubsection{Environment Variables}
+
+None\\
+
+\subsubsection{Assumptions}
+
+None\\
+
 \newpage
-\section{MIS of Dynamic Machine Learning Module (M11)} \label{M11}
+\section{MIS of Dynamic Machine Learning Module (M10)} \label{M11}
 
 \subsection{Module}
 
