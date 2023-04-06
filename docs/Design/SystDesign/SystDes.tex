@@ -18,8 +18,8 @@
     urlcolor=blue
 }
 
-\input{../../Comments}
-\input{../../Common}
+\input{Comments}
+\input{Common}
 
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
@@ -50,7 +50,6 @@
 \midrule
 January 18, 2023 & 1.0 & Initial System Design Draft\\
 April 5, 2023 & 2.0 & Everyone - Rev 1\\
-April 5, 2023 & 2.1 & Everyone - Rev 2\\
 
 \bottomrule
 \end{tabularx}
@@ -148,10 +147,10 @@ GFR1
 & We integrated OpenCV to capture and process video data from a camera, enabling our system to analyze users' hand movements in real-time. This continuous input stream is then fed into our gesture recognition model, providing accurate, real-time ASL translations.\\
 \hline
 GFR2
-& We integrated OpenCV and Mediapipe libraries to process input and extract hand and pose landmarks. Obtaining x, y, and z coordinates of each joint, we normalized and structured the data for our LSTM model, ensuring efficient learning and accurate predictions from dynamic user input.\\
+& Integration of OpenCV and Mediapipe libraries enabled the processing of input and extraction of hand and pose landmarks. By obtaining x, y, and z coordinates of each joint, the data was normalized and structured for the LSTM model, ensuring efficient learning and accurate predictions from dynamic user input.\\
 \hline
 GFR3
-& We employed an LSTM-based model trained on our dataset of hand and pose landmarks to identify gestures. This model processes the structured input data, utilizing its neural networks to accurately classify and recognize gestures in real-time, ensuring a seamless user experience.\\
+& An LSTM-based model, trained on a dataset of hand and pose landmarks, was employed to identify gestures. The model processes structured input data and utilizes its neural networks to accurately classify and recognize gestures in real-time, ensuring a seamless user experience.\\
 \hline
 GFR4
 & By leveraging Mediapipe's hand tracking capabilities, our program efficiently detects and recognizes user hand joints. This information is then used to compare and match the user's hand gestures to the corresponding ASL signs, ensuring accurate and reliable translations.\\
@@ -163,7 +162,7 @@ GFR6
 & We optimized our ASL translator to process data in real-time by efficiently utilizing OpenCV, Mediapipe, and the LSTM model. This ensures translations are relayed promptly, maintaining conversation fluidity and enabling a seamless user experience.\\
 \hline
 GFR7
-& We incorporated an adaptive frame rate mechanism to calibrate the program to match the signer's speed. This ensures the translator can keep up with the user, reducing the likelihood of mistranslations and maintaining accurate real-time translations.\\
+& An adaptive frame rate mechanism was incorporated to calibrate the program, matching the signer's speed. This ensures the translator keeps up with the user, reducing mistranslation likelihood and maintaining accurate real-time translations.\\
 \hline
 GFR8
 & The program is designed to store extracted landmarks into a database, enabling efficient management of data points for machine learning. This approach allows for querying, filtering, and updating data, ensuring accurate, consistent, and up-to-date gesture recognition by the ML model.\\
@@ -182,6 +181,12 @@ MLFR4
 \hline
 MLFR5
 & Mediapipe’s built-in machine learning model classifies hand shapes within a specified confidence value between 0 and 1, of which a defaulted value of 0.5 is used. This means that if the model can confidently say with 50\% certainty that the video/image being recorded contains a hand, the hand and its joints will be displayed (subject to hand limit defined by MLFR3).\\
+\hline
+UIFR1
+& A text-to-speech (TTS) engine was integrated into the system to convert translated English words or phrases into audible speech. This functionality enables the module to communicate the translation to non-ASL users effectively, bridging the communication gap between users with different language preferences.\\
+\hline
+UIFR2
+& The system has been designed to transmit the generated audible speech from the text-to-speech engine to a speaker or output device. This ensures that the non-ASL user can hear the translation, facilitating smooth communication between users.\\
 \hline
 NFR1
 & The Keypoint Classifier Module checks the dataset for each gesture and is able to display its confidence as a percentage for an estimate of how often it will be able to classify the correct gesture to support testing.\\
@@ -210,13 +215,16 @@ NFR6
 \textbf{Module} & \textbf{Requirements}\\
 \midrule
 Gesture Detection
-& GFR1, GFR2, GFR3, GFR4, GFR5, GFR6, GFR7, GFR8, MLFR1, MLFR2, MLFR3, MLFR5\\
+& GFR1, GFR2, GFR3, GFR4, GFR5, GFR6, GFR7, MLFR1, MLFR2, MLFR3, MLFR5, NFR1, NFR6\\
 \hline
 Data Processing
-& NFR1, NFR4\\
+& GFR8, MLFR4, NFR1, NFR4\\
 \hline
 Machine Learning
 & MLFR3, MLFR6\\
+\hline
+User Interface Module
+& NFR1, NFR2, NFR3, NFR6, UIFR1, UIFR2\\
 \bottomrule
 \end{tabularx}
 \captionof{table}{Modules and Requirements}
@@ -229,15 +237,11 @@ Machine Learning
 \toprule
 \textbf{Monitor Name} & \textbf{Monitor Type} & \textbf{Range} & \textbf{Description}\\
 \midrule
-mode & Integer & [0, 2] & Program operation modes (0 = normal operation mode,1 = train keypoint mode and 2 = static mode )\\
+mode & Integer & [0, 2] & Program operation mode (normal, keypoint training, point history/motion training)\\
 \hline
-num & Integer & [0,25] & Determines corresponding ASL classifier label to use based on the key pressed\\
+num & Integer & [0,25] & Determines corresponding ASL classifier label to use\\
 \hline
-frame\_count & Integer & minimum=0 & Count the number of frames\\
-\hline
-text & String & N/A & Store text to be append to tts\\
-\hline
-tts & String & N/A & Store text received from text and to be used in text-to-speech function\\
+landmark\_list & List & [-1.0,1.0] & Set of normalized coordinates to be paired with ASL classifier label\\
 \bottomrule
 \end{tabularx}
 \captionof{table}{Monitored Variables}
@@ -324,15 +328,15 @@ Create an interface that lets the user switch between training and translating &
 \hline
 Add an expanded vocabulary of common phrases into the database (initial database) & Jan 31, 2023 & Robert Zhu and Jiahui Chen\\
 \hline
-Build and connect Raspberry Pi to OpenCV system to provide real-time translation & Feb 5, 2023 & Zifan Meng\\
+Build and connect Raspberry Pi to OpenCV system to provide real-time translation & Feb 5, 2023 & Robert Zhu and Zifan Meng\\
 \hline
-Hardware testing after constructing and connecting Raspberry Pi with the program & Feb 5, 2023 & Zifan Meng\\
+Hardware testing after constructing and connecting Raspberry Pi with the program & Feb 5, 2023 & Robert Zhu and Nafi Hasan\\
 \hline
 Program a text-to-speech algorithm & Feb 5, 2023 & Runze Zhu and Zifan Meng\\
 \hline
-Testing the whole program on computer & Feb 6, 2023 & Robert Zhu\\
+Unit testing and system testing on PC & Feb 6, 2023 & Robert Zhu\\
 \hline
-Move OpenCV system and machine learning model onto Raspberry Pi & Feb 6, 2023 & v\\
+Move OpenCV system and machine learning model onto Raspberry Pi & Feb 6, 2023 & Kelvin Huynh\\
 \hline
 Testing the Raspberry Pi with OpenCV system and machine learning model & Feb 06, 2023 & Kelvin Huynh and Robert Zhu\\
 \hline
@@ -341,6 +345,20 @@ Software improvement and modification after testing & Feb 07, 2023 & All group m
 Database implementation and testing to include more vocabularies and phrases & Feb 08, 2023 & Jiahui Chen and Robert Zhu\\
 \hline
 Rev 0 & Feb 09, 2023 & All group members\\
+\hline
+Multithreading attempt for Raspberry Pi implementation & Feb 15, 2023 & Kelvin Huynh\\
+\hline
+New dynamic model implementation & March 01, 2023 & Robert Zhu and Nafi Hasan\\
+\hline
+Tuning and improvement of the new model & March 15, 2023 & All group members\\
+\hline
+Dynamic gestures training & March 20, 2023 & Zifan Meng\\
+\hline
+Static Image training & March 25, 2023 & Runze Zhu\\
+\hline
+Code review and integration testing & March 30, 2023 & Kelvin Huynh\\
+\hline
+Rev 1 & April 5, 2023 & All group members\\
 \bottomrule
 \end{tabularx}
 \captionof{table}{Objectives Timeline}
