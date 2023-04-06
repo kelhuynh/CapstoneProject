@@ -52,7 +52,6 @@ urlcolor=cyan          % color of external links
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 January 18, 2023 & 1.0 & Everyone - Initial MIS Draft\\
-April 05, 2023 & 2.0 & Everyone - Revised MIS\\
 \bottomrule
 \end{tabularx}
 
@@ -77,7 +76,7 @@ OpenASL, a device developed with the aim of translating sign language into text-
 with the purpose of helping members of the deaf and mute community communicate with those 
 who do not know sign language.\\
 
-\noindent Complementary documents include the System Requirement Specifications
+Complementary documents include the System Requirement Specifications
 and Module Guide.  The full documentation and implementation can be
 found at \url{https://github.com/kelhuynh/OpenASL/}.\\
 
@@ -96,7 +95,7 @@ The following table is taken directly from the Module Guide document for this pr
 \textbf{Level 1} & \textbf{Level 2}\\
 \midrule
 
-{Hardware-Hiding Module} &  \\
+{Hardware-Hiding Module} & Video Capture Module \\
 \midrule
 
 \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Text-to-Speech Module\\
@@ -118,6 +117,41 @@ The following table is taken directly from the Module Guide document for this pr
 \label{TblMH}
 \end{table}
 
+\section{Connection Between Requirements and Design} \label{SecConnection}
+
+The design of the system is intended to satisfy the requirements developed in
+the SRS. In this stage, the system is decomposed into modules. The connection
+between requirements and modules is listed in Table \ref{TblRT}.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+  \toprule
+  \textbf{Req.} & \textbf{Modules}\\
+  \midrule
+  CFR1 & \mref{M1}, \mref{M4}\\
+  CFR2 & \mref{M5}\\
+  MLFR1 & \mref{M2}\\
+  MLFR2 & \mref{M3}\\
+  MLFR3 & \mref{M4}\\
+  MLFR4 & \mref{M6}, \mref{M9}, \mref{M10}\\
+  MLFR5 & \mref{M4}\\
+  MLFR6 & \mref{M4}\\
+  MLFR7 & \mref{M7}, \mref{M8}\\
+  NFR1 & \mref{M5}, \mref{M6}, \mref{M7}\\
+  NFR2 & \mref{M1}, \mref{M4}\\
+  NFR3 & \mref{M9}\\
+  NFR4 & \mref{M9}\\
+  NFR5 & \mref{M7}\\
+  NFR6 & \mref{M10}\\
+  NFR7 & \mref{M1}, \mref{M4}, \mref{M9}\\
+  
+  \bottomrule
+  \end{tabular}
+  \caption{Trace Between Requirements and Modules}
+  \label{TblRT}
+  \end{table}
+
 
 \newpage
 
@@ -136,25 +170,13 @@ Video Capture, Coordinate Normalization, Coordinate Export, Video Analysis, Keyp
 \subsubsection{Exported Constants}
 
 \begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
 results & image & Object & - \\
 hand\_landmarks & - & Tuple of tuples & - \\
 handedness & - & \mathbb{R} & - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-motionTrack & - & - & cv2.error\\
 \hline
 \end{tabular}
 \end{center}
@@ -198,7 +220,7 @@ Video Capture
 \subsubsection{Exported Constants}
 
 \begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -251,7 +273,7 @@ Coordinate Normalization
 \subsubsection{Exported Constants}
 
 \begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -296,7 +318,7 @@ None
 \subsubsection{Exported Constants}
 
 \begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -337,7 +359,7 @@ Coordinate Normalization, Video Capture
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -404,11 +426,11 @@ Coordinate Export, Machine Learning\\
 \subsubsection{Exported Constants}
 
 \begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\begin{tabular}{p{3cm} p{3cm} p{2cm} p{4cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-result\_index & landmark_list & R & ListIndexOutofRange \\
+result_index & landmark_list & R & ListIndexOutofRange \\
 \hline
 \end{tabular}
 \end{center}
@@ -438,26 +460,17 @@ None\\
 
 \subsection{Module}
 
-ML Train\\
+Machine Learning\\
 
 \subsection{Uses}
 
-Coordinate Export\\
+Keypoint Classification, Coordinate Export, Coordinate Normalization, Training\\
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 
-\begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-keypoint\_classifier.hdf5 & - & Hierarchical Data Format file & - \\
-keypoint\_classifier.tflite & - & ML model & - \\
-\hline
-\end{tabular}
-\end{center}
+None\\
 
 \subsection{Semantics}
 
@@ -479,241 +492,69 @@ None\\
 
 \subsection{Module}
 
-UI Module\\
+ML Train\\
 
 \subsection{Uses}
 
-Video Capture, TTS\\
+Coordinate Export\\
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 
 \begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
+\begin{tabular}{p{5cm} p{1cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-images & Video Capture & - & - \\
+keypoint_classifier.hdf5 & - & Hierarchical Data Format file & - \\
 \hline
-frames & Video Capture & - & - \\
-\hline
-mode & Key Input & - & - \\
-\hline
-text\_string & Machine Model & - & - \\
+keypoint_classifier.tflite & - & ML model & - \\
 \hline
 \end{tabular}
 \end{center}
-
-\subsubsection{Exported Access Programs}
--
 
 \subsection{Semantics}
 
 \subsubsection{State Variables}
 
-spot: a global variable that keeps track of the position in the text string where the line should be split into two lines. It is initially set to 0.\\
-\\
-short: a boolean variable that determines whether the second line of text should be displayed. It is initially set to True.\\
-\\
-text: a string that contains the FPS and resolution of the video input. It is constructed based on the image parameter.\\
-\\
-line1: a string that contains the first line of the text to be displayed on the UI.\\
-\\
-line2: a string that contains the second line of the text to be displayed on the UI.\\
-\\
-text\_size: a tuple that contains the size of the text to be displayed.\\
-\\
-text\_w: an integer that contains the width of the text to be displayed.\\
-\\
-text\_h: an integer that contains the height of the text to be displayed.\\
-\\
-multiplier: an integer that determines how many lines of text should be displayed. It is initially set to 1.\\
+None\\
 
 \subsubsection{Environment Variables}
 
 None\\
 
 \subsubsection{Assumptions}
-
-None\\
-
-\subsubsection{Access Routine Semantics}
 
 None\\
 
 ~\newpage
 
-\section{MIS of Data Collection Module (M9)} \label{M9}
+\section{MIS of Text to Speech Module (M9)} \label{M9}
 
 \subsection{Module}
 
-DataCollection\\
+TTS\\
 
 \subsection{Uses}
 
-Coordinate Normalization, Coordinate Export\\
+Video Analysis, Keypoint Classification, Coordinate Normalization\\
 
-\subsection{Syntax}
+\subsection{Notes}
 
-\subsubsection{Exported Constants}
-
-\begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-actions & Number of Gestures & - & - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsubsection{Exported Access Programs}
--
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-No\_sequences: Represents the number of sequences to be recorded for each action
-
-\subsubsection{Environment Variables}
-
-Dirmax: Stores the highest amount of files within a gesture\\
-\\
-DATA\_PATH:  a list of directories where executable files are located\\
-
-\subsubsection{Assumptions}
-
-None\\
-
-\subsubsection{Access Routine Semantics}
-
-UserInput(): Takes user input and returns a string “action” and checks if action is present in the action list. If it is, it finds the max value of the directories present in the path and creates a directory with a name greater than the max value\\
+To be implemented\\
 
 ~\newpage
 
-\section{MIS of Dynamic Gesture Detection Module (M10)} \label{M10}
+\section{MIS of Hardware Hiding Module (M10)} \label{M10}
 
 \subsection{Module}
 
-Gesture Detection\\
+Hardware hiding\\
 
-\subsection{Uses}
+\subsection{Notes}
 
-Video Capture, Coordinate Normalization, Video Analysis\\
-
-\subsection{Syntax}
-
-\subsubsection{Exported Constants}
--
-
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{4cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-mediapipe_dection & 
-Image: frame from CV2
-
-Model: Mediapipe model that processes the image frame
- & Image: Processed Image frame
-
-Results: Processed Data from Mediapipe model
- & cv2.error \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-Image: refers to a single frame of a video, which is read from a cv2 object\\
-
-\subsubsection{Environment Variables}
-
-Cap: an instance of the cv2.VideoCapture class, which is used to capture video from a camera device connected to the system\\
-
-\subsubsection{Assumptions}
-
-None\\
-
-\subsubsection{Access Routine Semantics}
-
-mediapipe\_detection(): takes image frame and model as input and processes the image frame through the model, and returns the processed image frame and results to make detections in the video feed\\
-\\
-sel\_mode(): takes a key and mode as input to change between different modes of operation\\
-\\
-cap.read() used to read frames from the video capture device\\
-
-\newpage
-\section{MIS of Dynamic Machine Learning Module (M11)} \label{M11}
-
-\subsection{Module}
-
-machineLearning\\
-
-\subsection{Uses}
-
-Keypoint Classification, Coordinate Export, Coordinate Normalization, Training\\
-
-\subsection{Syntax}
-
-\subsubsection{Exported Constants}
--
-
-\subsubsection{Exported Access Programs}
--
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-X\_train: Numpy array containing the training data for the machine learning model.\\
-\\
-X\_test: Numpy array containing the testing data for the machine learning model.\\
-\\
-y\_train: Numpy array containing the labels for the training data.\\
-\\
-y\_test: Numpy array containing the labels for the testing data.\\
-\\
-model: Keras sequential model object representing the machine learning model. Its weights are updated during training.\\
-
-\subsubsection{Environment Variables}
-
-None\\
-
-\subsubsection{Assumptions}
-
-None\\
-
-\subsubsection{Access Routine Semantics}
-
-np.loadtxt(): loads gesture labels into an array.\\
-\\
-os.listdir(): lists the contents of a directory.\\
-\\
-np.load(): loads a NumPy array from a binary file.\\
-\\
-train\_test\_split(): splits the dataset into training and testing sets.\\
-\\
-Sequential(): initializes the machine learning model.\\
-\\
-model.add(): adds layers to the machine learning model.\\
-\\
-model.compile(): configures the machine learning model for training.\\
-\\
-model.fit(): trains the machine learning model on the dataset.\\
-\\
-model.predict(): uses the trained model to make predictions on the test set.\\
-\\
-np.argmax(): gets the indices of the maximum values along an axis of a NumPy array.\\
-\\
-multilabel\_confusion\_matrix(): computes a confusion matrix for multiclass classification.\\
-\\
-model.save(): saves the trained machine learning model to a file.\\
+To be implemented\\
 
 \newpage
 
