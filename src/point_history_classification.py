@@ -39,8 +39,8 @@ from sklearn.model_selection import train_test_split
 RANDOM_SEED = 51  # Set random seed for reproducible outputs
 
 # Define dataset and model file locations
-dataset = 'src\\model\\point_history_classifier\\point_history.csv'
-model_save_path = 'src\\model\\point_history_classifier\\point_history_classifier.hdf5'
+dataset = '\\model\\point_history_classifier\\point_history.csv'
+model_save_path = '\\model\\point_history_classifier\\point_history_classifier.hdf5'
 
 NUM_CLASSES = 26  # Number of labels
 TIME_STEPS = 16
