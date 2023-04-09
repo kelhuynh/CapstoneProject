@@ -6,3 +6,5 @@ what
 i
 yes
 no
+time
+speak

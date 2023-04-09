@@ -87,7 +87,7 @@ model.add(Dense(actions.shape[0], activation='softmax'))
 #es_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=20, mode='min', verbose=1)  # noqa: E265
 model.compile(optimizer='Nadam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 #model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback, cp_callback, es_callback])  # noqa: E265
-model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback])
+model.fit(X_train, y_train, epochs=100, callbacks=[tb_callback])
 
 # Create confusion matrix for analysis of model accuracy
 yhat = model.predict(X_test)
