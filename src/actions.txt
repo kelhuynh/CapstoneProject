@@ -8,3 +8,8 @@ yes
 no
 time
 speak
+goto
+store
+learn
+finish
+please
